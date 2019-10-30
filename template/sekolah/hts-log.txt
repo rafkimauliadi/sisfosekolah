@@ -1,0 +1,31 @@
+HTTrack3.49-2+htsswf+htsjava launched on Thu, 11 Jul 2019 16:27:55 at http://eliteadmin.themedesigner.in/demos/bt4/inverse/ +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar
+(winhttrack -qwC2%Ps2u1%s%uN0%I0p3DaK0H0%kf2A25000%f#f -F "Mozilla/4.5 (compatible; HTTrack 3.0x; Windows 98)" -%F "<!-- Mirrored from %s%s by HTTrack Website Copier/3.x [XR&CO'2014], %s -->" -%l "en, *" http://eliteadmin.themedesigner.in/demos/bt4/inverse/ -O1 "E:\template_download\sekolah" +*.png +*.gif +*.jpg +*.jpeg +*.css +*.js -ad.doubleclick.net/* -mime:application/foobar )
+
+Information, Warnings and Errors reported for this mirror:
+note:	the hts-log.txt file, and hts-cache folder, may contain sensitive information,
+	such as username/password authentication for websites mirrored in this project
+	do not share these files/folders if you want these information to remain private
+
+16:32:16	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/images/favicon.png (from eliteadmin.themedesigner.in/demos/bt4/inverse/)
+16:35:55	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/images/users/5.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/)
+16:35:55	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/images/users/6.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/)
+16:36:00	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/assets/images/users/1.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-list-media.html)
+16:36:00	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/assets/images/users/2.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-list-media.html)
+16:36:00	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/assets/images/users/3.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-list-media.html)
+16:36:00	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/assets/images/users/4.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-list-media.html)
+16:36:00	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/assets/images/big/img1.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-list-media.html)
+16:36:00	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/inverse/dist/css/pages/ribbon-page.css (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-ribbons.html)
+16:36:01	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/prism/prism.css (from eliteadmin.themedesigner.in/demos/bt4/inverse/ui-carousel.html)
+16:36:02	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/bt4/inverse/login.html (from eliteadmin.themedesigner.in/demos/bt4/inverse/form-layout.html)
+16:36:02	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/select2/dist/css/select2.min.css (from eliteadmin.themedesigner.in/demos/bt4/inverse/form-addons.html)
+16:36:07	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/bt4/inverse/cropped.jpg (from eliteadmin.themedesigner.in/demos/bt4/inverse/form-img-cropper.html)
+16:36:07	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/cropper/cropper.init.js (from eliteadmin.themedesigner.in/demos/bt4/inverse/form-img-cropper.html)
+16:36:07	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/sweetalert/sweetalert.min.js (from eliteadmin.themedesigner.in/demos/bt4/inverse/form-wizard.html)
+16:36:07	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css (from eliteadmin.themedesigner.in/demos/bt4/inverse/form-xeditable.html)
+16:36:10	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/datatables/media/js/dataTables.bootstrap.js (from eliteadmin.themedesigner.in/demos/bt4/inverse/table-editable-table.html)
+16:36:10	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/assets/node_modules/tiny-editable/mindmup-editabletable.js (from eliteadmin.themedesigner.in/demos/bt4/inverse/table-editable-table.html)
+16:36:13	Error: 	"Not Found" (404) at link eliteadmin.themedesigner.in/demos/bt4/inverse/www.youtube.com/watch?v=sK7riqg2mr4 (from eliteadmin.themedesigner.in/demos/bt4/inverse/pages-lightbox-popup.html)
+16:36:13	Warning: 	Retry after error -4 (No data (connection closed)) at link eliteadmin.themedesigner.in/demos/bt4/inverse/dist/css/pages/error-pages.css (from eliteadmin.themedesigner.in/demos/bt4/inverse/pages-error-400.html)
+
+HTTrack Website Copier/3.49-2 mirror complete in 8 minutes 35 seconds : 500 links scanned, 479 files written (24488457 bytes overall) [17710335 bytes received at 34389 bytes/sec], 10114101 bytes transferred using HTTP compression in 231 files, ratio 30%, 11.3 requests per connection
+(10 errors, 10 warnings, 0 messages)

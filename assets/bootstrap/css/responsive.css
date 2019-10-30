@@ -1,0 +1,36 @@
+.image {
+    background: #000;
+    float:left;
+    width: 50%;
+    overflow: hidden;
+    height: 100%;
+}
+.image img{
+    width:100%;
+}
+
+/*============  Media 768Px Start ============ */ 
+@media (min-width: 768px) and (max-width: 990px) {
+
+}
+
+/*============ Media 420Px Start ============ */
+@media (max-width: 767px) {
+    .image { width: 100%; height: auto;}  
+    .caption { width: 100%; height: auto;}  
+}
+
+/*============ Media 300Px Star ============ */
+@media (max-width: 480px) {
+    .image { height:auto;} 
+    .caption { height:auto;}   
+}
+/*============ Media 300Px Star ============ */
+@media (max-width: 400px) {
+  /* Main Grid */   
+}
+
+/*============  Media 940Px Start ============ */
+@media screen and (min-width: 991px) and (max-width: 1054px) {
+  
+}

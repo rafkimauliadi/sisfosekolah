@@ -1,0 +1,90 @@
+# RewriteEngine On
+
+# Options All -Indexes
+
+# RewriteCond %{HTTP} on
+# RewriteRule ^(.*)$ http://%{HOST_NAME}%{REQUEST_URI} [R=301]
+
+
+# RewriteCond %{HTTPS} off [OR]
+# RewriteCond %{HTTP_HOST} !^www\. [OR]
+# RewriteCond %{HTTP_HOST} ^cakrawaladigital\.com$ [NC]
+# RewriteRule ^ https://www.cakrawaladigital.com%{REQUEST_URI} [R=301,L,NE]
+# RewriteCond %{THE_REQUEST} ^[A-Z]+\ /index\.php(/[^\ ]*)?\ HTTP/
+# RewriteRule ^index\.php(/(.*))?$ cakrawaladigital.com/$2 [R=301,L]
+
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^(.*)$ index.php/$1 [L]
+
+# <IfModule mod_expires.c>
+# ExpiresActive On
+# ExpiresByType image/jpg "access 1 year"
+# ExpiresByType image/jpeg "access 1 year"
+# ExpiresByType image/gif "access 1 year"
+# ExpiresByType image/png "access 1 year"
+# ExpiresByType text/css "access 1 month"
+# ExpiresByType text/html "access 1 month"
+# ExpiresByType application/pdf "access 1 month"
+# ExpiresByType text/x-javascript "access 1 month"
+# ExpiresByType application/x-shockwave-flash "access 1 month"
+# ExpiresByType image/x-icon "access 1 year"
+# ExpiresDefault "access 1 month"
+# </IfModule>
+
+# <ifModule mod_gzip.c>
+#   mod_gzip_on Yes
+#   mod_gzip_dechunk Yes
+#   mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+#   mod_gzip_item_include handler ^cgi-script$
+#   mod_gzip_item_include mime ^text/.*
+#   mod_gzip_item_include mime ^application/x-javascript.*
+#   mod_gzip_item_exclude mime ^images/.*
+#   mod_gzip_item_exclude mime ^imgs/.*
+#   mod_gzip_item_exclude mime ^assets/.*
+#   mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+# </ifModule>
+
+RewriteEngine On
+
+Options All -Indexes
+#RewriteCond %{HTTPS} off
+RewriteCond %{REQUEST_URI} !^/\.well-known/cpanel-dcv/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+#RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R,L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/\.well-known/cpanel-dcv/[0-9a-zA-Z_-]+$
+RewriteCond %{REQUEST_URI} !^/\.well-known/pki-validation/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteRule ^(.*)$ index.php/$1 [L]
+
+php_value date.timezone Asia/Jakarta
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpg "access 1 year"
+ExpiresByType image/jpeg "access 1 year"
+ExpiresByType image/gif "access 1 year"
+ExpiresByType image/png "access 1 year"
+ExpiresByType text/css "access 1 month"
+ExpiresByType text/html "access 1 month"
+ExpiresByType application/pdf "access 1 month"
+ExpiresByType text/x-javascript "access 1 month"
+ExpiresByType application/x-shockwave-flash "access 1 month"
+ExpiresByType image/x-icon "access 1 year"
+ExpiresDefault "access 1 month"
+</IfModule>
+
+<ifModule mod_gzip.c>
+  mod_gzip_on Yes
+  mod_gzip_dechunk Yes
+  mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+  mod_gzip_item_include handler ^cgi-script$
+  mod_gzip_item_include mime ^text/.*
+  mod_gzip_item_include mime ^application/x-javascript.*
+  mod_gzip_item_exclude mime ^images/.*
+  mod_gzip_item_exclude mime ^imgs/.*
+  mod_gzip_item_exclude mime ^assets/.*
+  mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</ifModule>

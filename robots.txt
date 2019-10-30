@@ -1,0 +1,35 @@
+User-agent: Googlebot
+Disallow: /*.php$
+Disallow: /*.js$
+Disallow: /*.inc$
+Disallow: /*.css$
+Disallow: /*?*
+Disallow: /*?
+
+User-agent: *
+Disallow: /cgi-bin/
+Disallow: /management/
+Disallow: /album/
+Disallow: /lib/
+Disallow: /elfinder/
+Disallow: /assets/
+Disallow: /avatar/
+Disallow: /images/
+Disallow: /img/
+Disallow: /kcfinder/
+Disallow: /smiley/
+Disallow: /tinymcpuk/
+Disallow: /tmp/
+Disallow: /logs/
+Disallow: /images/
+Disallow: /application/
+Disallow: /mvc/
+Disallow: /system/
+
+User-agent: Mediapartners-Google
+Allow: /
+User-agent: Adsbot-Google
+Allow: /
+User-agent: Googlebot-Image
+Allow: /
+User-agent: Googlebot-Mobile

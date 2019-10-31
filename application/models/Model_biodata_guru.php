@@ -47,6 +47,9 @@ class Model_biodata_guru extends CI_Model
         }
     }
     
+
+    //1. Proses validasi data 
+
     public function validation_field()
     {
         $this->model_message->conv_validasi_to_indonesia();
@@ -58,8 +61,8 @@ class Model_biodata_guru extends CI_Model
 
         $tempat_lahir                   = $this->input->post('tempat_lahir');
         $tanggal_lahir                  = $this->input->post('tanggal_lahir');
-        $alamat_guru                  = $this->input->post('alamat_guru');
-        $mulai_mengajar                  = $this->input->post('mulai_mengajar');
+        $alamat                 = $this->input->post('alamat');
+        $tanggal_masuk                  = $this->input->post('tanggal_masuk');
 
 
         $this->session->set_flashdata('nip', $nip);
@@ -74,8 +77,8 @@ class Model_biodata_guru extends CI_Model
         $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap ', 'required');
         $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
         $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('alamat_guru', 'Alamat Guru', 'required');
-        $this->form_validation->set_rules('mulai_mengajar', 'Mulai Mengajar', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat Guru', 'required');
+        $this->form_validation->set_rules('tanggal_masuk', 'Tanggal Masuk', 'required');
     }
 
     public function exist_id($id)
@@ -420,6 +423,8 @@ class Model_biodata_guru extends CI_Model
             }
     }
 
+//1. Proses penambahan data ke database
+
     public function init_save()
     {
         date_default_timezone_set('Asia/Jakarta');
@@ -433,22 +438,33 @@ class Model_biodata_guru extends CI_Model
 
         $id_user        = $this->model_hook->init_online_exist();
 
-        $nip                            = $this->input->post('nip');
         $gelar_depan                   = $this->input->post('gelar_depan');
         $gelar_belakang                   = $this->input->post('gelar_belakang');
         $nama_lengkap                   = $this->input->post('nama_lengkap');
+        $nip                            = $this->input->post('nip');
 
         $tempat_lahir                   = $this->input->post('tempat_lahir');
         $tanggal_lahir                  = $this->input->post('tanggal_lahir');
-        $alamat_guru                  = $this->input->post('alamat_guru');
-        $mulai_mengajar                  = $this->input->post('mulai_mengajar');
+       
+        $jenis_kelamin                         = $this->input->post('jenis_kelamin');
+        $id_agama                          = $this->input->post('id_agama');
+
+
+        $alamat                  = $this->input->post('alamat');
+
+        $tanggal_masuk                  = $this->input->post('tanggal_masuk');
         
         
 
-        $gender                         = $this->input->post('gender');
-        $agama                          = $this->input->post('agama');
-        $id_jabatan_guru                          = $this->input->post('id_jabatan_guru');
-        $id_status_guru                          = $this->input->post('id_status_guru');
+        $id_jabatan                          = $this->input->post('id_jabatan');
+        $id_status_pegawai                          = $this->input->post('id_status_pegawai');
+
+        $status_guru                          = $this->input->post('status_guru');
+
+        $pendidikan                          = $this->input->post('pendidikan');
+        $jurusan                          = $this->input->post('jurusan');
+        $tamat                          = $this->input->post('tamat');
+        $unit_kerja                          = $this->input->post('unit_kerja');
 
         $file_name        = $_FILES['img']['name'];
         //$format         = $this->format_upload();
@@ -479,16 +495,21 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('nip',$nip);
                 $this->mydb1->set('tempat_lahir',$tempat_lahir);
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
-                $this->mydb1->set('jenis_kelamin',$gender);
-                $this->mydb1->set('id_agama',$agama);
-                $this->mydb1->set('alamat',$alamat_guru);
-                $this->mydb1->set('tanggal_masuk',$mulai_mengajar);
-                $this->mydb1->set('id_jabatan',$id_jabatan_guru);
-                $this->mydb1->set('id_jabatan',$id_jabatan_guru);
+                $this->mydb1->set('jenis_kelamin',$jenis_kelamin);
+                $this->mydb1->set('id_agama',$id_agama);
+                $this->mydb1->set('alamat',$alamat);
+                $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
+                $this->mydb1->set('id_jabatan',$id_jabatan);
+                $this->mydb1->set('id_status_pegawai',$id_status_pegawai);
                 $this->mydb1->set('foto',$foto);
                 $this->mydb1->set('created_date',$created_date);
                 $this->mydb1->set('created_modified',$created_date);
-                $this->mydb1->set('status_guru',$id_status_guru);
+                $this->mydb1->set('status_guru',$status_guru);
+                $this->mydb1->set('pendidikan',$pendidikan);
+                $this->mydb1->set('jurusan',$jurusan);
+                $this->mydb1->set('tamat',$tamat);
+                $this->mydb1->set('unit_kerja',$unit_kerja);
+
                 $this->mydb1->insert('master_guru');
 
                 $this->createThumbnailFoto($foto);
@@ -511,8 +532,8 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
                 $this->mydb1->set('jenis_kelamin',$gender);
                 $this->mydb1->set('id_agama',$agama);
-                $this->mydb1->set('alamat',$alamat_guru);
-                $this->mydb1->set('tanggal_masuk',$mulai_mengajar);
+                $this->mydb1->set('alamat',$alamat);
+                $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
                 $this->mydb1->set('id_jabatan',$id_jabatan_guru);
                 $this->mydb1->set('id_jabatan',$id_jabatan_guru);
                 $this->mydb1->set('created_date',$created_date);

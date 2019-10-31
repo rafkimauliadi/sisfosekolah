@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Jenis Kelamin</label>
-                                <select class="form-control select2 custom-select" name="gender" data-placeholder="Choose a Gender" tabindex="1">
+                                <select class="form-control select2 custom-select" name="jenis_kelamin" data-placeholder="Choose a Gender" tabindex="1">
                                 <?php 
                                     $id=0;
                                     $cb_gender = $CI->model_combo_r->init_cb_gender($id);
@@ -82,7 +82,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Agama</label>
-                                <select class="form-control select2 custom-select" name="agama" data-placeholder="Choose a Agama" tabindex="1">
+                                <select class="form-control select2 custom-select" name="id_agama" data-placeholder="Choose a Agama" tabindex="1">
                                 <?php 
                                     $id=0;
                                     $cb_agama = $CI->model_combo_r->init_cb_agama($id);
@@ -96,11 +96,26 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-12 has-success">
+                        <div class="col-md-6 has-success">
                             <div class="form-group">
                                 <label class="control-label">Alamat Guru</label>
-                                <input type="text" class="form-control" name="alamat_guru" id="alamat_guru" placeholder="Alamat Guru" value="<?php echo $this->session->flashdata('alamat_guru'); ?>">
+                                <input type="text" class="form-control" name="alamat" id="alamat" placeholder="Alamat Guru" value="<?php echo $this->session->flashdata('alamat'); ?>">
                             </div>
+                        </div>
+
+                        
+                        <div class="col-md-6 has-success">
+                            <div class="form-group">
+                                <label class="control-label">Status Pegawai</label>
+                                <select class="form-control select2 custom-select" name="id_status_pegawai" data-placeholder="Choose a Status" tabindex="1">
+                                <?php 
+                                    $id=0;
+                                    $cb_status_pegawai = $CI->model_combo_r->init_cb_status_pegawai($id);
+
+                                    foreach ($cb_status_pegawai->result() as $row) : ?>
+                                        <option value="<?php echo $row->id ?>"><?php echo $row->status_pegawai; ?></option>
+                                    <?php $cb_status_pegawai->free_result(); endforeach; ?>
+                                </select> </div>
                         </div>
                     </div>
 
@@ -120,7 +135,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Mulai Mengajar</label>
-                                <input type="date" class="form-control" name="mulai_mengajar" id="mulai_mengajar" placeholder="yyyy-mm-dd" value="<?php echo $this->session->flashdata('mulai_mengajar'); ?>">
+                                <input type="date" class="form-control" name="tanggal_masuk" id="tanggal_masuk" placeholder="yyyy-mm-dd" value="<?php echo $this->session->flashdata('tanggal_masuk'); ?>">
                             </div>
                         </div>
 
@@ -130,7 +145,7 @@
                         <div class="col-md-6 has-danger">
                             <div class="form-group">
                                 <label>Status Guru</label>
-                                <select name="id_status_guru" id="id_status_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Status Guru" tabindex="1">
+                                <select name="status_guru" id="id_status_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Status Guru" tabindex="1">
                                     <?php 
                                     $id=0;
                                     $cb_status_guru = $CI->model_combo_r->status_guru($id);
@@ -147,7 +162,7 @@
                         <div class="col-md-6 has-danger">
                             <div class="form-group">
                                 <label>Jabatan Guru</label>
-                                <select name="id_jabatan_guru" id="id_jabatan_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Status Siswa" tabindex="1">
+                                <select name="id_jabatan" id="id_jabatan_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Status Siswa" tabindex="1">
                                     <?php 
                                     $id=0;
                                     $cb_jabatan_guru = $CI->model_combo_r->jabatan_guru($id);
@@ -160,6 +175,39 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                                        <div class="col-md-6 has-success">
+                                            <div class="form-group">
+                                                <label class="control-label">Pendidikan Terakhir</label>
+                                                <input type="text" class="form-control" name="pendidikan" id="pendidikan" placeholder="Pendidikan Terakhir" value="<?php echo $this->session->flashdata('pendidikan'); ?>">
+                                            </div>
+                                        </div>
+       
+                                        <div class="col-md-6 has-success">
+                                            <div class="form-group">
+                                                <label class="control-label">Jurusan</label>
+                                                <input type="text" class="form-control" name="jurusan" id="jurusan" placeholder="Jurusan" value="<?php echo $this->session->flashdata('jurusan'); ?>">
+                                            </div>
+                                        </div>
+                </div>
+                <div class="row">
+                                        <div class="col-md-6 has-success">
+                                            <div class="form-group">
+                                                <label class="control-label">Tahun Tamat</label>
+                                                <input type="text" class="form-control" name="tamat" id="tamat" placeholder="Tahun Tamat" value="<?php echo $this->session->flashdata('tamat'); ?>">
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-md-6 has-success">
+                                            <div class="form-group">
+                                                <label class="control-label">Unit Kerja</label>
+                                                <input type="text" class="form-control" name="unit_kerja" id="unit_kerja" placeholder="Unit Kerja" value="<?php echo $this->session->flashdata('unit_kerja'); ?>">
+                                            </div>
+                                        </div>
+                </div>
+
+
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary" name="save" value='save' id="save">Simpan</button>
                     <button type="button" class="btn btn-inverse">Batal</button>

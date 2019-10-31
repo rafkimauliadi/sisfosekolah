@@ -134,6 +134,7 @@ class Biodata_guru extends CI_Controller {
 			$this->save();
 	}
 
+	//1. Proses pemanggilan form add data
 	public function init_add()
 	{
 		$this->session->set_flashdata('title', 'Add');
@@ -147,6 +148,7 @@ class Biodata_guru extends CI_Controller {
 		$this->templates('guru/biodata','add',$data);
 	}
 
+	//1. Proses Validasi dan Proses Penyimpanan data ke Model
 	public function save()
 	{
 		$ct = $this->model_biodata_guru->cek_exist();

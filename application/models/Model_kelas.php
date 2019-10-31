@@ -188,7 +188,7 @@ class Model_kelas extends CI_Model
 
     function init_status_kelas($id)
     {
-        $sql = "select id_status, nama_status from master_status_kelas where id_status !=?";
+        $sql = "select id, status_guru from status_guru where id !=?";
         $queryRec = $this->db->query($sql, array($id));
         return $queryRec;
     }
@@ -196,6 +196,13 @@ class Model_kelas extends CI_Model
     function init_jurusan($id)
     {
         $sql = "select id, nama_jurusan from master_jurusan where id !=?";
+        $queryRec = $this->db->query($sql, array($id));
+        return $queryRec;
+    }
+
+    function init_status_guru($id)
+    {
+        $sql = "select id, status_guru from status_guru where id !=?";
         $queryRec = $this->db->query($sql, array($id));
         return $queryRec;
     }

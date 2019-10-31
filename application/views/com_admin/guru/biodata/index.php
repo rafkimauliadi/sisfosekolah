@@ -108,9 +108,9 @@
                                                 <a class="confirm-edit dropdown-item" href="<?php echo site_url('biodata-guru/edit/'.$row->id); ?>">Edit</a>
                                             </li>
 
-                                            <!-- <li>
-                                                <a class="confirm-delete dropdown-item" href="<?php //echo site_url('biodata-guru/delete/'.$row->id); ?>">Delete</a>
-                                            </li> -->
+                                            <li>
+                                                <a class="confirm-delete dropdown-item" href="<?php echo site_url('biodata-guru/delete/'.$row->id); ?>">Delete</a>
+                                            </li>
 
                                             <li>
                                                 <a class="confirm-delete dropdown-item" href="<?php echo site_url('biodata-guru/gambar/'.$row->id); ?>">Hapus Gambar</a>

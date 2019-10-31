@@ -42,6 +42,18 @@ class Model_combo_r extends CI_Model
         return $data;
     }
 
+    public function init_cb_status_guru($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        status_guru
+                                    FROM 
+                                        status_guru
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
     public function init_cb_agama($id)
     {
         $data =$this->mydb1->query("SELECT 

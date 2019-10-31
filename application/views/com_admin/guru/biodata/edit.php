@@ -139,16 +139,17 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Status Guru</label>
-                                <select name="status_guru" id="id_status_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Guru" tabindex="1">
-                                    <option value="<?php echo $details->row()->status_guru; ?>"><?php echo $details->row()->status_guru ?></option>
-                                    <?php 
-                                    $id=$details->row()->id_status_guru;
-                                    $cb_status_guru = $CI->model_combo_r->status_guru($id);
+                                <select class="form-control select2 custom-select" name="status_guru" data-placeholder="Choose a Agama" tabindex="1">
+                                    <option value="<?php echo $details->row()->status_guru; ?>"><?php echo $details->row()->status_guru; ?></option>
+                                <?php 
+                                    $id=$details->row()->status_guru;
+                                    $cb_status_guru = $CI->model_combo_r->init_cb_status_guru($id);
 
                                     foreach ($cb_status_guru->result() as $row) : ?>
-                                        <option value="<?php echo $row->id_status ?>"><?php echo $row->nm_status; ?></option>
+                                        <option value="<?php echo $row->id ?>"><?php echo $row->status_guru; ?></option>
                                     <?php $cb_status_guru->free_result(); endforeach; ?>
                                 </select>
+                                
                             </div>
                         </div>
                         <div class="col-md-6">

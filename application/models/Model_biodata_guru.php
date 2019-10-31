@@ -93,48 +93,51 @@ class Model_biodata_guru extends CI_Model
             return false;
     }
 
+    // NUMROWS UNTUK PAGINATION
+
     public function num_rows()
     {
         $data=$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.tanggal_diterima,
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
+                                            a.foto,
+                                            a.created_modified,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-
-                                            f.nama_ayah, 
-                                            f.nama_ibu,
-                                            f.alamat as alamat_orang_tua
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN master_orangtua f on (a.id=f.id_siswa)");
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)");
         return $data->num_rows();
     }
+
+    // LIST UNTUK SEARCH
 
     public function search()
     {
@@ -150,6 +153,8 @@ class Model_biodata_guru extends CI_Model
         return $query->field_data();
     }
 
+    // VIEW DATA
+
     public function get_view($offset,$perpage)
     {
         $change_box = $this->input->post('change_box',TRUE);
@@ -157,106 +162,92 @@ class Model_biodata_guru extends CI_Model
         $this->session->set_flashdata('search_box', $search_box);
         
         if($search_box != NULL)
-    	   $data =$this->mydb1->query("SELECT 
+           $data =$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.tanggal_diterima,
-
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-
-                                            f.nama_ayah, 
-                                            f.nama_ibu,
-                                            f.alamat as alamat_orang_tua,
-
-                                            g.id_status,
-                                            g.nm_status as status_peserta_didik
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN master_orangtua f on (a.id=f.id_siswa)
-                                            LEFT JOIN _status_peserta_didik g on (a.id_status_peserta_didik=g.id_status)
-                                        
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
+
                                         where 
                                             (a.".$change_box." like '%$search_box%')
-                                        order by a.nisn desc
-                                        ");
+                                        order by a.nip desc");
         else
             $data =$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.tanggal_diterima,
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-
-                                            f.nama_ayah, 
-                                            f.nama_ibu,
-                                            f.alamat as alamat_orang_tua,
-
-                                            g.id_status,
-                                            g.nm_status as status_peserta_didik
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN master_orangtua f on (a.id=f.id_siswa)
-                                            LEFT JOIN _status_peserta_didik g on (a.id_status_peserta_didik=g.id_status)
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
                                         
-                                        order by a.nisn desc
+                                        order by a.nip desc
                                             limit ".$offset.",".$perpage);
         return $data;
-    }    	
+    } 	
+
+    // MENGAMBIL DATA
 
     public function get_data()
     {
@@ -264,56 +255,41 @@ class Model_biodata_guru extends CI_Model
         $data =$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.kelas_diterima,
-                                            a.tanggal_diterima,
-                                            a.anak_ke,
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
-                                            a.id_status_peserta_didik,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
-                                            b.alamat as alamat_orang_tua,
-                                            b.no_telepon as telp_orang_tua,
-                                            b.pekerjaan_ayah,
-                                            b.pekerjaan_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin as nm_jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-                                            c.no_telepon as telp_wali,
-                                            c.alamat as alamat_wali,
-                                            c.pekerjaan as pekerjaan_wali,
-
-
-                                            g.id_status,
-                                            g.nm_status as status_peserta_didik,
-
-                                            h.status_anak
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN _status_peserta_didik g on (a.id_status_peserta_didik=g.id_status)
-                                            LEFT JOIN _status_anak h on (a.status_dalam_keluarga=h.id_status_anak)
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
+
                                         WHERE 
                                             a.id='$id'");
         return $data;

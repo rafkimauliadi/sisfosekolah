@@ -27,7 +27,7 @@
               <label class="col-md-2 control-label" for="textinput">Status Pembayaran</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="status_pembayaran" id="status_pembayaran" placeholder="Status Pembayaran" title="status_pembayaran" value="<?php echo $this->session->flashdata('status_pembayaran'); ?>">
+                          <input type="text" class="form-control" name="status_bayar" id="status_bayar" placeholder="Status Pembayaran" title="status_bayar" value="<?php echo $this->session->flashdata('status_bayar'); ?>">
                       </div>
                 </div>
           </div>

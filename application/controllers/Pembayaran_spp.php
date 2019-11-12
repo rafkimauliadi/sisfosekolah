@@ -139,7 +139,7 @@ class Pembayaran_spp extends CI_Controller {
 	    $nis 				= $this->format_data->string($this->input->post('nis',TRUE));
 	    $jumlah_spp			= $this->format_data->string($this->input->post('jumlah_spp',TRUE));
 	    $created_modified	= $this->format_data->string($this->input->post('created_modified',TRUE));
-	    $status_pembayaran	= $this->format_data->string($this->input->post('status_pembayaran',TRUE));
+	    $status_bayar	= $this->format_data->string($this->input->post('status_bayar',TRUE));
 	    $bukti_pembayaran	= $this->format_data->string($this->input->post('bukti_pembayaran',TRUE));
 
 		$this->model_pembayaran_spp->validation_field('edit'); 

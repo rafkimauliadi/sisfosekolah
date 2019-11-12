@@ -15,27 +15,27 @@ class Model_pembayaran_spp extends CI_Model
 
         $nis                = $this->input->post('nis');
         $jumlah_spp         = $this->input->post('jumlah_spp');
-        $status_pembayaran  = $this->input->post('status_pembayaran');
+        $status_bayar  = $this->input->post('status_bayar');
         $bukti_pembayaran   = $this->input->post('bukti_pembayaran');
 
         if ($action=='simpan')
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
             $this->form_validation->set_rules('jumlah_spp', 'Jumlah Uang SPP Sekolah', 'required');
-            $this->form_validation->set_rules('status_pembayaran', 'urusan Izin', 'required');
+            $this->form_validation->set_rules('status_bayar', 'urusan Izin', 'required');
             $this->form_validation->set_rules('bukti_pembayaran', 'Status Izin', 'required');
         }
         else
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
             $this->form_validation->set_rules('jumlah_spp', 'Jumlah Uang SPP Sekolah', 'required');
-            $this->form_validation->set_rules('status_pembayaran', 'urusan Izin', 'required');
+            $this->form_validation->set_rules('status_bayar', 'urusan Izin', 'required');
             $this->form_validation->set_rules('bukti_pembayaran', 'Status Izin', 'required');
         }
 
         $this->session->set_flashdata('nis', $nis);
         $this->session->set_flashdata('jumlah_spp', $jumlah_spp);
-        $this->session->set_flashdata('status_pembayaran', $status_pembayaran);
+        $this->session->set_flashdata('status_bayar', $status_bayar);
         $this->session->set_flashdata('bukti_pembayaran', $bukti_pembayaran);
     }
 
@@ -54,7 +54,7 @@ class Model_pembayaran_spp extends CI_Model
 
         $nis                = $this->input->post('nis',TRUE);
         $jumlah_spp         = $this->input->post('jumlah_spp',TRUE);
-        $status_pembayaran  = $this->input->post('status_pembayaran',TRUE);
+        $status_bayar  = $this->input->post('status_bayar',TRUE);
         $bukti_pembayaran   = $this->input->post('bukti_pembayaran',TRUE);
 
         $url            = site_url('pembayaran-spp/edit/'.$id);
@@ -64,7 +64,7 @@ class Model_pembayaran_spp extends CI_Model
         $this->mydb1->set('jumlah_spp',$jumlah_spp);
         $this->mydb1->set('created_date',$created_date);
         $this->mydb1->set('created_modified',$created_date);
-        $this->mydb1->set('status_pembayaran',$status_pembayaran);
+        $this->mydb1->set('status_bayar',$status_bayar);
         $this->mydb1->set('bukti_pembayaran',$bukti_pembayaran);
         $this->mydb1->insert('pembayaran_spp');
 
@@ -134,7 +134,7 @@ class Model_pembayaran_spp extends CI_Model
             a.jumlah_spp,
             a.created_date,
             a.created_modified,
-            a.status_pembayaran,
+            a.status_bayar,
             a.bukti_pembayaran,
 
             b.nama_lengkap as nama_siswa 
@@ -163,7 +163,7 @@ class Model_pembayaran_spp extends CI_Model
         $id                     = $this->input->post('id',TRUE);
         $nis                    = $this->input->post('nis',TRUE);
         $jumlah_spp              = $this->input->post('jumlah_spp',TRUE);
-        $status_pembayaran           = $this->input->post('status_pembayaran',TRUE);
+        $status_bayar           = $this->input->post('status_bayar',TRUE);
         $bukti_pembayaran    = $this->input->post('bukti_pembayaran',TRUE);
 
         $url            = site_url('pembayaran_spp/edit/'.$id);
@@ -175,7 +175,7 @@ class Model_pembayaran_spp extends CI_Model
         $this->mydb1->set('nis',$nis);
         $this->mydb1->set('jumlah_spp',$jumlah_spp);
         $this->mydb1->set('created_modified',$created_modified);
-        $this->mydb1->set('status_pembayaran',$status_pembayaran);
+        $this->mydb1->set('status_bayar',$status_bayar);
         $this->mydb1->set('bukti_pembayaran',$bukti_pembayaran);
         $this->mydb1->where('id',$id);
         $this->mydb1->update('pembayaran_spp');

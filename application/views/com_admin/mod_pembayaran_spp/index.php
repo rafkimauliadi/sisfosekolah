@@ -32,7 +32,7 @@
                             <td><?php echo $row->nis; ?></td>
                             <td><?php echo $row->nama_siswa; ?></td>
                             <td><?php echo $row->jumlah_spp; ?></td>
-                            <td><?php echo $row->status_pembayaran; ?></td>
+                            <td><?php echo $row->status_bayar; ?></td>
                             <td><?php echo $row->bukti_pembayaran; ?></td>
                             <td>
                 <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>

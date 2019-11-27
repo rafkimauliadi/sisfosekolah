@@ -9,6 +9,8 @@ class Legalisir_ijazah extends CI_Controller {
     {
         parent::__construct();
         $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir'));
+        		error_reporting(0);
+
         $this->load->library(array('form_validation','encryption'));
     }
 
@@ -141,6 +143,7 @@ class Legalisir_ijazah extends CI_Controller {
 	    $tahun_ijazah			= $this->format_data->string($this->input->post('tahun_ijazah',TRUE));
 	    $tgl_masuk_legalisir	= $this->format_data->string($this->input->post('tgl_masuk_legalisir',TRUE));
 	    $tgl_selesai_legalisir	= $this->format_data->string($this->input->post('tgl_selesai_legalisir',TRUE));
+	    $status_legalisir		= $this->format_data->string($this->input->post('status_legalisir',TRUE));
 
 		$this->model_legalisir->validation_field('edit'); 
 
@@ -190,5 +193,21 @@ class Legalisir_ijazah extends CI_Controller {
 			echo json_encode($result);
 		}
 	}
+ 
+	public function get_autocomplete(){
 
+		if (isset($_GET['term'])) {
+		  	$result = $this->model_legalisir->search_blog($_GET['term']);
+		   	if (count($result) > 0) {
+		    foreach ($result as $row)
+		     	$arr_result[] = array(
+					'label'			=> $row->nis,
+					'nama_lengkap'	=> $row->nama_lengkap,
+					'no_ijazah'		=> $row->no_ijazah,
+					'tahun_ijazah'	=> $row->tahun_ijazah,
+				);
+		     	echo json_encode($arr_result);
+		   	}
+		}
+	}
 }

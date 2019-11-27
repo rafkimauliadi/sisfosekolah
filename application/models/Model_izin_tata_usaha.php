@@ -13,65 +13,83 @@ class Model_izin_tata_usaha extends CI_Model
     {
         $this->model_message->conv_validasi_to_indonesia();
 
-        $nis              = $this->input->post('nis');
-        $nip_guru         = $this->input->post('nip_guru');
-        $tgl_izin         = $this->input->post('tgl_izin');
-        $urusan           = $this->input->post('urusan');
+        $nama             = $this->input->post('nama');
+        $asal             = $this->input->post('asal');
+        $keperluan        = $this->input->post('keperluan');
+        $tgl_urusan       = $this->input->post('tgl_urusan');
+        $jam_urusan       = $this->input->post('jam_urusan');
         $status_izin      = $this->input->post('status_izin');
 
         if ($action=='simpan')
         {
-            $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('nip_guru', 'NIP Guru yang bersangkutan', 'required');
-            $this->form_validation->set_rules('tgl_izin', 'Tanggal Izin', 'required');
-            $this->form_validation->set_rules('urusan', 'urusan Izin', 'required');
+            $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required');
+            $this->form_validation->set_rules('asal', 'Asal/Instansi yang bersangkutan', 'required');
+            $this->form_validation->set_rules('keperluan', 'Keperluan yang bersangkutan', 'required');
+            $this->form_validation->set_rules('tgl_urusan', 'Tanggal Urusan Izin', 'required');
+            $this->form_validation->set_rules('jam_urusan', 'Jam Urusan Izin', 'required');
             $this->form_validation->set_rules('status_izin', 'Status Izin', 'required');
         }
         else
         {
-            $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('nip_guru', 'NIP Guru yang bersangkutan', 'required');
-            $this->form_validation->set_rules('tgl_izin', 'Tanggal Izin', 'required');
-            $this->form_validation->set_rules('urusan', 'urusan Izin', 'required');
+            $this->form_validation->set_rules('nama', 'Nama Lengkap', 'required');
+            $this->form_validation->set_rules('asal', 'Asal/Instansi yang bersangkutan', 'required');
+            $this->form_validation->set_rules('keperluan', 'Keperluan yang bersangkutan', 'required');
+            $this->form_validation->set_rules('tgl_urusan', 'Tanggal Urusan Izin', 'required');
+            $this->form_validation->set_rules('jam_urusan', 'Jam Urusan Izin', 'required');
             $this->form_validation->set_rules('status_izin', 'Status Izin', 'required');
         }
 
-        $this->session->set_flashdata('nis', $nis);
-        $this->session->set_flashdata('nip_guru', $nip_guru);
-        $this->session->set_flashdata('tgl_izin', $tgl_izin);
-        $this->session->set_flashdata('urusan', $urusan);
+        $this->session->set_flashdata('nama', $nama);
+        $this->session->set_flashdata('asal', $asal);
+        $this->session->set_flashdata('keperluan', $keperluan);
+        $this->session->set_flashdata('tgl_urusan', $tgl_urusan);
+        $this->session->set_flashdata('jam_urusan', $jam_urusan);
         $this->session->set_flashdata('status_izin', $status_izin);
 
     }
 
     public function get_list_izin()
     {
-        $sql = "SELECT a.*,b.nama_lengkap as nama_siswa FROM izin_tata_usaha a 
-            LEFT JOIN master_siswa b on (a.nis = b.nis)";
+        $sql = "
+        SELECT 
+            a.id,
+            a.nama,
+            a.asal,
+            a.keperluan,
+            a.tgl_urusan,
+            a.jam_urusan,
+            b.status_izin as status_izin
+
+            FROM izin_tata_usaha a
+            LEFT JOIN _status_izin b on a.status_izin = b.id_status_izin
+            ORDER BY a.tgl_urusan DESC";
+
         $queryRec = $this->db->query($sql);
         return $queryRec;
     }
 
     public function init_save()
     {
-        // date_default_timezone_set('Asia/Jakarta');
-        // $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
+        date_default_timezone_set('Asia/Jakarta');
+        $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
-        $nis            = $this->input->post('nis',TRUE);
-        $nip_guru       = $this->input->post('nip_guru',TRUE);
-        $tgl_izin       = $this->input->post('tgl_izin',TRUE);
-        $urusan         = $this->input->post('urusan',TRUE);
+        $nama           = $this->input->post('nama',TRUE);
+        $asal           = $this->input->post('asal',TRUE);
+        $keperluan      = $this->input->post('keperluan',TRUE);
+        $tgl_urusan     = $this->input->post('tgl_urusan',TRUE);
+        $jam_urusan     = $this->input->post('jam_urusan',TRUE);
         $status_izin    = $this->input->post('status_izin',TRUE);
 
         $url            = site_url('izin-tata-usaha/edit/'.$id);
 
         $this->mydb1->trans_start();
-        $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('nip_guru',$nip_guru);
-        $this->mydb1->set('tgl_izin',$tgl_izin);
-        $this->mydb1->set('urusan',$urusan);
+        $this->mydb1->set('nama',$nama);
+        $this->mydb1->set('asal',$asal);
+        $this->mydb1->set('keperluan',$keperluan);
+        $this->mydb1->set('tgl_urusan',$tgl_urusan);
+        $this->mydb1->set('jam_urusan',$jam_urusan);
         $this->mydb1->set('status_izin',$status_izin);
-        // $this->mydb1->set('created_at',$created_time);
+        $this->mydb1->set('created_at',$created_time);
         $this->mydb1->insert('izin_tata_usaha');
 
         $this->mydb1->trans_complete();
@@ -136,17 +154,18 @@ class Model_izin_tata_usaha extends CI_Model
         $data =$this->mydb1->query("
             SELECT 
             a.id,
-            a.nis,
-            a.nip_guru,
-            a.tgl_izin,
-            a.urusan,
+            a.nama,
+            a.asal,
+            a.keperluan,
+            a.tgl_urusan,
+            a.jam_urusan,
             a.status_izin,
-
-            b.nama_lengkap as nama_siswa 
+            b.status_izin as status_izin
 
             FROM izin_tata_usaha a 
 
-            LEFT JOIN master_siswa b on a.nis = b.nis
+            LEFT JOIN _status_izin b on a.status_izin = b.id_status_izin
+
             WHERE a.id='$id'");
 
         return $data;
@@ -165,12 +184,13 @@ class Model_izin_tata_usaha extends CI_Model
     {
         $id_user        = $this->model_hook->init_online_exist();
 
-        $id                     = $this->input->post('id',TRUE);
-        $nis                    = $this->input->post('nis',TRUE);
-        $nip_guru              = $this->input->post('nip_guru',TRUE);
-        $tgl_izin           = $this->input->post('tgl_izin',TRUE);
-        $urusan    = $this->input->post('urusan',TRUE);
-        $status_izin  = $this->input->post('status_izin',TRUE);
+        $id             = $this->input->post('id',TRUE);
+        $nama           = $this->input->post('nama',TRUE);
+        $asal           = $this->input->post('asal',TRUE);
+        $keperluan      = $this->input->post('keperluan',TRUE);
+        $tgl_urusan     = $this->input->post('tgl_urusan',TRUE);
+        $jam_urusan     = $this->input->post('jam_urusan',TRUE);
+        $status_izin    = $this->input->post('status_izin',TRUE);
 
         $url            = site_url('izin_tata_usaha/edit/'.$id);
 
@@ -178,10 +198,11 @@ class Model_izin_tata_usaha extends CI_Model
         // $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
         $this->mydb1->trans_start();
-        $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('nip_guru',$nip_guru);
-        $this->mydb1->set('tgl_izin',$tgl_izin);
-        $this->mydb1->set('urusan',$urusan);
+        $this->mydb1->set('nama',$nama);
+        $this->mydb1->set('asal',$asal);
+        $this->mydb1->set('keperluan',$keperluan);
+        $this->mydb1->set('tgl_urusan',$tgl_urusan);
+        $this->mydb1->set('jam_urusan',$jam_urusan);
         $this->mydb1->set('status_izin',$status_izin);
         $this->mydb1->where('id',$id);
         $this->mydb1->update('izin_tata_usaha');
@@ -203,8 +224,15 @@ class Model_izin_tata_usaha extends CI_Model
 
     function cari_siswa($query)
     {
-        $sql = "SELECTs nis FROM izin_tata_usaha WHERE nis LIKE '%?%' ORDER BY nis DESC";
+        $sql = "SELECTs nama FROM izin_tata_usaha WHERE nama LIKE '%?%' ORDER BY nama DESC";
         $queryRec = $this->db->query($sql, array($query))->result_array();
+        return $queryRec;
+    }
+
+    function init_status_izin($id)
+    {
+        $sql = "SELECT id_status_izin, status_izin FROM _status_izin WHERE id_status_izin !=?";
+        $queryRec = $this->db->query($sql, array($id));
         return $queryRec;
     }
 

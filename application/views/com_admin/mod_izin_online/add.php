@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="<?php echo base_url().'assets/css/jquery-ui.css'?>">
+</head>
+<body>
+
 <div class="col-12">
   <div class="card">
     <div class="card-body">
@@ -15,10 +24,10 @@
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">NIP Guru</label>
+              <label class="col-md-2 control-label" for="textinput">Nama Lengkap</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nip_guru" id="nip_guru" placeholder="NIP Guru" title="nip_guru" value="<?php echo $this->session->flashdata('nip_guru'); ?>">
+                          <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap" placeholder="Nama Lengkap" title="nama_lengkap" value="<?php echo $this->session->flashdata('nama_lengkap'); ?>" readonly>
                       </div>
                 </div>
           </div>
@@ -36,16 +45,7 @@
               <label class="col-md-2 control-label" for="textinput">Alasan</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="alasan" id="alasan" placeholder="Alasan Izin" title="alasan" value="<?php echo $this->session->flashdata('alasan'); ?>">
-                      </div>
-                </div>
-          </div>
-
-          <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Status Izin</label>
-                  <div class="col-md-6">
-                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="status_izin" id="status_izin" placeholder="Status Izin" title="status_izin" value="<?php echo $this->session->flashdata('status_izin'); ?>">
+                          <textarea type="text" class="form-control" name="alasan" id="alasan" placeholder="Alasan Izin" title="alasan" value="<?php echo $this->session->flashdata('alasan'); ?>"></textarea>
                       </div>
                 </div>
           </div>
@@ -62,3 +62,20 @@
     </div>
   </div>
 </div>
+
+  <script src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>" type="text/javascript"></script>
+  <script src="<?php echo base_url().'assets/js/bootstrap.js'?>" type="text/javascript"></script>
+  <script src="<?php echo base_url().'assets/js/jquery-ui.js'?>" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#nis').autocomplete({
+                source: "<?php echo site_url('legalisir-ijazah/get_autocomplete');?>",
+     
+                select: function (event, ui) {
+                    $('[name="nis"]').val(ui.item.label); 
+                    $('[name="nama_lengkap"]').val(ui.item.nama_lengkap);
+                }
+            });
+
+    });
+</script>  

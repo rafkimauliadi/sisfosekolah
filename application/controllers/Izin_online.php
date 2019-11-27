@@ -137,10 +137,8 @@ class Izin_online extends CI_Controller {
     $url='';
 		$id 			= $this->format_data->string($this->input->post('id',TRUE));
 	    $nis 			= $this->format_data->string($this->input->post('nis',TRUE));
-	    $nip_guru		= $this->format_data->string($this->input->post('nip_guru',TRUE));
 	    $tgl_izin		= $this->format_data->string($this->input->post('tgl_izin',TRUE));
 	    $alasan			= $this->format_data->string($this->input->post('alasan',TRUE));
-	    $status_izin	= $this->format_data->string($this->input->post('status_izin',TRUE));
 
 		$this->model_izin->validation_field('edit'); 
 
@@ -151,18 +149,8 @@ class Izin_online extends CI_Controller {
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_izin->cek_exist_nama('izin_online','nis','id',$nis,$id);
-
-	    	if ($cek_nama > 0 )
-	    	{
-	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('izin-online/edit/'.$id));
-	    	}
-	    	else
-	    	{
-	    		$this->model_izin->init_update();
-	    		redirect(site_url('izin-online'));
-	    	}
+	    	$this->model_izin->init_update();
+	    	redirect(site_url('izin-online'));
 	    }
 	}
 
@@ -188,6 +176,21 @@ class Izin_online extends CI_Controller {
 		}else{
 			// Encode ke format JSON.
 			echo json_encode($result);
+		}
+	}
+
+	public function get_autocomplete(){
+
+		if (isset($_GET['term'])) {
+		  	$result = $this->model_legalisir->search_blog($_GET['term']);
+		   	if (count($result) > 0) {
+		    foreach ($result as $row)
+		     	$arr_result[] = array(
+					'label'			=> $row->nis,
+					'nama_lengkap'	=> $row->nama_lengkap,
+				);
+		     	echo json_encode($arr_result);
+		   	}
 		}
 	}
 

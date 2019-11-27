@@ -136,10 +136,11 @@ class Izin_kepala_sekolah extends CI_Controller {
 	{
     $url='';
 		$id 			= $this->format_data->string($this->input->post('id',TRUE));
-	    $nis 			= $this->format_data->string($this->input->post('nis',TRUE));
-	    $nip_guru		= $this->format_data->string($this->input->post('nip_guru',TRUE));
-	    $tgl_izin		= $this->format_data->string($this->input->post('tgl_izin',TRUE));
-	    $urusan			= $this->format_data->string($this->input->post('urusan',TRUE));
+	    $nama 			= $this->format_data->string($this->input->post('nama',TRUE));
+	    $asal			= $this->format_data->string($this->input->post('asal',TRUE));
+	    $keperluan		= $this->format_data->string($this->input->post('keperluan',TRUE));
+	    $tgl_urusan		= $this->format_data->string($this->input->post('tgl_urusan',TRUE));
+	    $jam_urusan		= $this->format_data->string($this->input->post('jam_urusan',TRUE));
 	    $status_izin	= $this->format_data->string($this->input->post('status_izin',TRUE));
 
 		$this->model_izin_kepala_sekolah->validation_field('edit'); 
@@ -151,18 +152,8 @@ class Izin_kepala_sekolah extends CI_Controller {
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_izin_kepala_sekolah->cek_exist_nama('izin_kepala_sekolah','nis','id',$nis,$id);
-
-	    	if ($cek_nama > 0 )
-	    	{
-	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('izin-kepala-sekolah/edit/'.$id));
-	    	}
-	    	else
-	    	{
-	    		$this->model_izin_kepala_sekolah->init_update();
-	    		redirect(site_url('izin-kepala-sekolah'));
-	    	}
+	    	$this->model_izin_kepala_sekolah->init_update();
+	    	redirect(site_url('izin-kepala-sekolah'));
 	    }
 	}
 

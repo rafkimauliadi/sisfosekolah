@@ -18,6 +18,7 @@ class Model_legalisir extends CI_Model
         $tahun_ijazah           = $this->input->post('tahun_ijazah');
         $tgl_masuk_legalisir    = $this->input->post('tgl_masuk_legalisir');
         $tgl_selesai_legalisir  = $this->input->post('tgl_selesai_legalisir');
+        $status_legalisir       = $this->input->post('status_legalisir');
 
         if ($action=='simpan')
         {
@@ -26,6 +27,7 @@ class Model_legalisir extends CI_Model
             $this->form_validation->set_rules('tahun_ijazah', 'Tahun Ijazah', 'required');
             $this->form_validation->set_rules('tgl_masuk_legalisir', 'Tanggal Masuk Legalisir', 'required');
             $this->form_validation->set_rules('tgl_selesai_legalisir', 'Tanggal Jemput Legalisir', 'required');
+            $this->form_validation->set_rules('status_legalisir', 'Status Legalisir', 'required');
         }
         else
         {
@@ -34,6 +36,7 @@ class Model_legalisir extends CI_Model
             $this->form_validation->set_rules('tahun_ijazah', 'Tahun Ijazah', 'required');
             $this->form_validation->set_rules('tgl_masuk_legalisir', 'Tanggal Masuk Legalisir', 'required');
             $this->form_validation->set_rules('tgl_selesai_legalisir', 'Tanggal Jemput Legalisir', 'required');
+            $this->form_validation->set_rules('status_legalisir', 'Status Legalisir', 'required');
         }
 
         $this->session->set_flashdata('nis', $nis);
@@ -41,13 +44,28 @@ class Model_legalisir extends CI_Model
         $this->session->set_flashdata('tahun_ijazah', $tahun_ijazah);
         $this->session->set_flashdata('tgl_masuk_legalisir', $tgl_masuk_legalisir);
         $this->session->set_flashdata('tgl_selesai_legalisir', $tgl_selesai_legalisir);
+        $this->session->set_flashdata('status_legalisir', $status_legalisir);
 
     }
 
     public function get_list_legalisir()
     {
-        $sql = "SELECT a.*,b.nama_lengkap as nama_siswa FROM legalisir_ijazah a 
-            LEFT JOIN master_siswa b on (a.nis = b.nis)";
+        $sql = "SELECT 
+            a.id,
+            a.nis,
+            a.no_ijazah,
+            a.tahun_ijazah,
+            a.tgl_masuk_legalisir,
+            a.tgl_selesai_legalisir,
+
+            b.nama_lengkap as nama_siswa,
+            c.status_legalisir as status_legalisir
+
+            FROM legalisir_ijazah a 
+
+            LEFT JOIN master_siswa b on a.nis = b.nis
+            LEFT JOIN _status_legalisir c on a.status_legalisir = c.id_status_legalisir
+            ORDER BY a.tgl_masuk_legalisir DESC";
         $queryRec = $this->db->query($sql);
         return $queryRec;
     }
@@ -62,6 +80,7 @@ class Model_legalisir extends CI_Model
         $tahun_ijazah           = $this->input->post('tahun_ijazah',TRUE);
         $tgl_masuk_legalisir    = $this->input->post('tgl_masuk_legalisir',TRUE);
         $tgl_selesai_legalisir  = $this->input->post('tgl_selesai_legalisir',TRUE);
+        $status_legalisir       = $this->input->post('status_legalisir',TRUE);
 
         $url            = site_url('legalisir-ijazah/edit/'.$id);
 
@@ -71,6 +90,7 @@ class Model_legalisir extends CI_Model
         $this->mydb1->set('tahun_ijazah',$tahun_ijazah);
         $this->mydb1->set('tgl_masuk_legalisir',$tgl_masuk_legalisir);
         $this->mydb1->set('tgl_selesai_legalisir',$tgl_selesai_legalisir);
+        $this->mydb1->set('status_legalisir',$status_legalisir);
         // $this->mydb1->set('created_at',$created_time);
         $this->mydb1->insert('legalisir_ijazah');
 
@@ -141,12 +161,15 @@ class Model_legalisir extends CI_Model
             a.tahun_ijazah,
             a.tgl_masuk_legalisir,
             a.tgl_selesai_legalisir,
+            a.status_legalisir,
 
-            b.nama_lengkap as nama_siswa 
+            b.nama_lengkap as nama_siswa,
+            c.status_legalisir as status_legalisir
 
             FROM legalisir_ijazah a 
 
             LEFT JOIN master_siswa b on a.nis = b.nis
+            LEFT JOIN _status_legalisir c on a.status_legalisir = c.id_status_legalisir
             WHERE a.id='$id'");
 
         return $data;
@@ -171,6 +194,7 @@ class Model_legalisir extends CI_Model
         $tahun_ijazah           = $this->input->post('tahun_ijazah',TRUE);
         $tgl_masuk_legalisir    = $this->input->post('tgl_masuk_legalisir',TRUE);
         $tgl_selesai_legalisir  = $this->input->post('tgl_selesai_legalisir',TRUE);
+        $status_legalisir       = $this->input->post('status_legalisir',TRUE);
 
         $url            = site_url('legalisir_ijazah/edit/'.$id);
 
@@ -183,6 +207,7 @@ class Model_legalisir extends CI_Model
         $this->mydb1->set('tahun_ijazah',$tahun_ijazah);
         $this->mydb1->set('tgl_masuk_legalisir',$tgl_masuk_legalisir);
         $this->mydb1->set('tgl_selesai_legalisir',$tgl_selesai_legalisir);
+        $this->mydb1->set('status_legalisir',$status_legalisir);
         $this->mydb1->where('id',$id);
         $this->mydb1->update('legalisir_ijazah');
 
@@ -206,6 +231,20 @@ class Model_legalisir extends CI_Model
         $sql = "SELECTs nis FROM legalisir_ijazah WHERE nis LIKE '%?%' ORDER BY nis DESC";
         $queryRec = $this->db->query($sql, array($query))->result_array();
         return $queryRec;
+    }
+
+    function init_status_legalisir($id)
+    {
+        $sql = "SELECT id_status_legalisir, status_legalisir FROM _status_legalisir WHERE id_status_legalisir !=?";
+        $queryRec = $this->db->query($sql, array($id));
+        return $queryRec;
+    }
+  
+    function search_blog($nis){
+        $this->db->like('nis', $nis , 'both');
+        $this->db->order_by('nis', 'ASC');
+        $this->db->limit(10);
+        return $this->db->get('master_siswa')->result();
     }
 
 }

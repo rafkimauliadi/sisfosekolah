@@ -15,12 +15,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>NIS</th>
-                            <th>Nama Siswa</th>
-                            <th>Nip Guru</th>
-                            <th>Tanggal Izin</th>
-                            <th>Urusan</th>
-                            <th>Status Izin</th>
+                            <th>Nama</th>
+                            <th>Instansi / Asal</th>
+                            <th>Keperluan</th>
+                            <th>Tanggal Urusan</th>
+                            <th>Jam Urusan</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -30,18 +30,18 @@
                       ?>
                         <tr>
                             <td><?php echo $no; ?></td>
-                            <td><?php echo $row->nis; ?></td>
-                            <td><?php echo $row->nama_siswa; ?></td>
-                            <td><?php echo $row->nip_guru; ?></td>
-                            <td><?php echo $row->tgl_izin; ?></td>
-                            <td><?php echo $row->urusan; ?></td>
+                            <td><?php echo $row->nama; ?></td>
+                            <td><?php echo $row->asal; ?></td>
+                            <td><?php echo $row->keperluan; ?></td>
+                            <td><?php echo $row->tgl_urusan; ?></td>
+                            <td><?php echo $row->jam_urusan; ?> WIB</td>
                             <td><?php echo $row->status_izin; ?></td>
                             <td>
                 <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
                 <a href="<?php echo site_url('izin_kepala_sekolah/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
                             </td>
                         </tr>
-            <?php }?>
+            <?php } ?>
                     </tbody>
                 </table>
             </div>

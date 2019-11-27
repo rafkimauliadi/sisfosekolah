@@ -160,11 +160,11 @@ class Model_pembayaran_spp extends CI_Model
     {
         $id_user        = $this->model_hook->init_online_exist();
 
-        $id                     = $this->input->post('id',TRUE);
-        $nis                    = $this->input->post('nis',TRUE);
-        $jumlah_spp              = $this->input->post('jumlah_spp',TRUE);
-        $status_bayar           = $this->input->post('status_bayar',TRUE);
-        $bukti_pembayaran    = $this->input->post('bukti_pembayaran',TRUE);
+        $id               = $this->input->post('id',TRUE);
+        $nis              = $this->input->post('nis',TRUE);
+        $jumlah_spp       = $this->input->post('jumlah_spp',TRUE);
+        $status_bayar     = $this->input->post('status_bayar',TRUE);
+        $bukti_pembayaran = $this->input->post('bukti_pembayaran',TRUE);
 
         $url            = site_url('pembayaran_spp/edit/'.$id);
 

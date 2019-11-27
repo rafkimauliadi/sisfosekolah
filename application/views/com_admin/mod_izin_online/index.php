@@ -17,10 +17,8 @@
                             <th>No</th>
                             <th>NIS</th>
                             <th>Nama Siswa</th>
-                            <th>Nip Guru</th>
                             <th>Tanggal Izin</th>
                             <th>Alasan Izin</th>
-                            <th>Status Izin</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -32,10 +30,8 @@
                             <td><?php echo $no; ?></td>
                             <td><?php echo $row->nis; ?></td>
                             <td><?php echo $row->nama_siswa; ?></td>
-                            <td><?php echo $row->nip_guru; ?></td>
                             <td><?php echo $row->tgl_izin; ?></td>
-                            <td><?php echo $row->alasan; ?></td>
-                            <td><?php echo $row->status_izin; ?></td>
+                            <td style="word-break:break-all;"><?php echo $row->alasan; ?></td>
                             <td>
                 <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
                 <a href="<?php echo site_url('izin_online/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>

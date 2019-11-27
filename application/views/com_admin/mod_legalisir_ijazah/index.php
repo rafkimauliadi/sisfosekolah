@@ -21,6 +21,7 @@
                             <th>Tahun Ijazah</th>
                             <th>Tanggal Masuk Legalisir</th>
                             <th>Tanggal Selesai Legalisir</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,9 +37,10 @@
                             <td><?php echo $row->tahun_ijazah; ?></td>
                             <td><?php echo $row->tgl_masuk_legalisir; ?></td>
                             <td><?php echo $row->tgl_selesai_legalisir; ?></td>
+                            <td><?php echo $row->status_legalisir; ?></td>
                             <td>
-                <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
-                <a href="<?php echo site_url('legalisir_ijazah/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
+                                <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
+                                <a href="<?php echo site_url('legalisir_ijazah/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
                             </td>
                         </tr>
             <?php }?>

@@ -36,7 +36,7 @@ class Izin_tata_usaha extends CI_Controller {
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
-
+		
 		$data['data'] 		= $this->model_izin_tata_usaha->get_list_izin();
 		// $data['data'] 		= $this->model_izin_tata_usaha->get_list_bk($this->model_hook->init_profile_user()->username);
 
@@ -136,10 +136,11 @@ class Izin_tata_usaha extends CI_Controller {
 	{
     $url='';
 		$id 			= $this->format_data->string($this->input->post('id',TRUE));
-	    $nis 			= $this->format_data->string($this->input->post('nis',TRUE));
-	    $nip_guru		= $this->format_data->string($this->input->post('nip_guru',TRUE));
-	    $tgl_izin		= $this->format_data->string($this->input->post('tgl_izin',TRUE));
-	    $urusan			= $this->format_data->string($this->input->post('urusan',TRUE));
+	    $nama 			= $this->format_data->string($this->input->post('nama',TRUE));
+	    $asal			= $this->format_data->string($this->input->post('asal',TRUE));
+	    $keperluan		= $this->format_data->string($this->input->post('keperluan',TRUE));
+	    $tgl_urusan		= $this->format_data->string($this->input->post('tgl_urusan',TRUE));
+	    $jam_urusan		= $this->format_data->string($this->input->post('jam_urusan',TRUE));
 	    $status_izin	= $this->format_data->string($this->input->post('status_izin',TRUE));
 
 		$this->model_izin_tata_usaha->validation_field('edit'); 
@@ -151,18 +152,8 @@ class Izin_tata_usaha extends CI_Controller {
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_izin_tata_usaha->cek_exist_nama('izin_tata_usaha','nis','id',$nis,$id);
-
-	    	if ($cek_nama > 0 )
-	    	{
-	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('izin-tata-usaha/edit/'.$id));
-	    	}
-	    	else
-	    	{
-	    		$this->model_izin_tata_usaha->init_update();
-	    		redirect(site_url('izin-tata-usaha'));
-	    	}
+	    	$this->model_izin_tata_usaha->init_update();
+	    	redirect(site_url('izin-tata-usaha'));
 	    }
 	}
 

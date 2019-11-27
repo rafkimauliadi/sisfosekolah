@@ -6,47 +6,62 @@
 
       <form class="form-horizontal" method="POST" action="<?php echo site_url('izin-kepala-sekolah/add'); ?>">
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">NIS</label>
+              <label class="col-md-2 control-label" for="textinput">Nama Lengkap</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nis" id="nis" placeholder="Nomor Induk Siswa" title="nis" value="<?php echo $this->session->flashdata('nis'); ?>">
+                          <input type="text" class="form-control" name="nama" id="nama" placeholder="Nama Tamu" title="nama" value="<?php echo $this->session->flashdata('nama'); ?>">
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">NIP Guru</label>
+              <label class="col-md-2 control-label" for="textinput">Instansi / Asal</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nip_guru" id="nip_guru" placeholder="NIP Guru" title="nip_guru" value="<?php echo $this->session->flashdata('nip_guru'); ?>">
+                          <input type="text" class="form-control" name="asal" id="asal" placeholder="Instansi atau Asal" title="asal" value="<?php echo $this->session->flashdata('asal'); ?>">
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Tanggal Izin</label>
+              <label class="col-md-2 control-label" for="textinput">Keperluan</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="date" class="form-control" name="tgl_izin" id="tgl_izin" placeholder="Tanggal Izin" title="tgl_izin" value="<?php echo $this->session->flashdata('tgl_izin'); ?>">
+                          <input type="text" class="form-control" name="keperluan" id="keperluan" placeholder="Keperluan" title="keperluan" value="<?php echo $this->session->flashdata('keperluan'); ?>">
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Urusan</label>
+              <label class="col-md-2 control-label" for="textinput">Tanggal Urusan Menemui</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="urusan" id="urusan" placeholder="urusan Izin" title="urusan" value="<?php echo $this->session->flashdata('urusan'); ?>">
+                          <input type="date" class="form-control" name="tgl_urusan" id="tgl_urusan" placeholder="Tanggal Urusan Menemui" title="tgl_urusan" value="<?php echo $this->session->flashdata('tgl_urusan'); ?>">
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Status Izin</label>
+              <label class="col-md-2 control-label" for="textinput">Jam Urusan Menemui</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="status_izin" id="status_izin" placeholder="Status Izin" title="status_izin" value="<?php echo $this->session->flashdata('status_izin'); ?>">
+                          <input type="time" class="form-control" name="jam_urusan" id="jam_urusan" placeholder="Jam Urusan Menemui" title="jam_urusan" value="<?php echo $this->session->flashdata('jam_urusan'); ?>">
                       </div>
+                </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput">Status</label>
+                  <div class="col-md-6">
+                      <select class="form-control select-single" name="status_izin">
+                          <?php
+                          $id=0;
+                          $cb_status = $CI->model_izin_kepala_sekolah->init_status_izin($id);
+                          foreach ($cb_status->result() as $row) : 
+                          $CI->model_izin_kepala_sekolah->init_status_izin($id); ?>
+                              <option value="<?php echo $row->id_status_izin ?>"><?php echo $row->status_izin ?></option>
+                          <?php $cb_status->free_result(); endforeach; ?>  
+                      </select>
                 </div>
           </div>
 

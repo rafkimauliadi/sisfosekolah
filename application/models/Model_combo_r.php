@@ -146,5 +146,104 @@ class Model_combo_r extends CI_Model
         return $data;
     }
 
+    public function init_cb_guru($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        nama_lengkap,
+                                        nip
+                                    FROM 
+                                        master_guru
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
+    public function init_cb_jurusan($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        nama_jurusan
+                                    FROM 
+                                        master_jurusan
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
+    
+    public function init_cb_kelas2($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        a.id_kelas as id,
+                                        a.nama_kelas,
+                                        a.id_jurusan,
+                                        b.nama_jurusan
+                                    FROM 
+                                        master_kelas a
+                                        Left join master_jurusan b 
+                                        on a.id_jurusan=b.id
+                                    WHERE 
+                                        a.id_kelas <> '$id'
+                                    AND 
+                                        status='1'
+                                    ");
+        return $data;
+    }
+    
+    public function init_cb_siswa($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        nama_lengkap,
+                                        nis
+                                    FROM 
+                                        master_siswa
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
+    
+    public function init_cb_tahun_ajaran($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        tahun
+                                    FROM 
+                                        tahun_ajaran
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
+    public function init_cb_mapel($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id_mata_pelajaran as id,
+                                        nama_mapel
+                                    FROM 
+                                        master_mata_pelajaran
+                                    WHERE 
+                                        id_mata_pelajaran <> '$id'
+                                    ");
+        return $data;
+    }
+
+    public function init_cb_siswa2($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        a.id,
+                                        f.nama_lengkap,
+                                        f.nis
+                                    FROM 
+                                        master_siswa_kelas a
+                                        LEFT JOIN master_siswa f on (a.id_siswa=f.id)
+
+                                    WHERE 
+                                        a.id <> '$id'
+                                    ");
+        return $data;
+    }
     
 }

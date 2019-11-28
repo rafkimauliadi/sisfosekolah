@@ -6,13 +6,13 @@
                 $temp = str_replace("_", " ", $value);
                 $label = ucfirst($temp);
             ?>      
-            <h4 class="card-title">Biodata Guru</h4>
-            <h6 class="card-subtitle">Identitas Seluruh Guru</h6>
+            <h4 class="card-title">Bahan Ajar Siswa</h4>
+            <h6 class="card-subtitle">Semua Kelas</h6>
             <p><?php echo $this->session->flashdata('pesan'); ?></p>
-            <a title="Tambah Data" href="<?php echo site_url('biodata-guru/add')?>" class="btn btn-primary btn-rounded m-t-10 float-right"><i class="fa fa-plus"></i> Tambah Guru</a>
+            <a title="Tambah Data" href="<?php echo site_url('bahan-ajar/add')?>" class="btn btn-primary btn-rounded m-t-10 float-right"><i class="fa fa-plus"></i> Tambah Guru</a>
 
             <div class="page-header">
-                <form class="form-inline" method="POST" action="<?php echo site_url('biodata-guru/search'); ?>" >
+                <form class="form-inline" method="POST" action="<?php echo site_url('bahan-ajar/search'); ?>" >
                     <div class="form-group">
                         <label class="sr-only" for="exampleInputEmail3">Filter by</label>
                         <select id="change_box" name="change_box" class="form-control select-single">
@@ -32,25 +32,25 @@
                     <input type="text" class="form-control" name="search_box" value="<?php echo $this->session->flashdata('search_box'); ?>">
                     </div>
                     <button type="submit" class="btn btn-success">Filter/Cari</button>
-                        <a class="btn btn-danger" href="<?php echo site_url('biodata-guru')?>" ><i class="fa fa-refresh"></i> Refresh</a>
+                        <a class="btn btn-danger" href="<?php echo site_url('bahan-ajar')?>" ><i class="fa fa-refresh"></i> Refresh</a>
                 </form>   
             </div> 
             <hr/>
             <div class="table-responsive">
-                <table id="tree" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+                <!-- <table id="tree" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%"> -->
+                <table id="data-mobil-table" class="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size="7">
+
                     <!-- VIEW -->
+                   
+               
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Nip</th>
                             <th>Nama Guru</th>
-                            <th>Tempat/Tanggal Lahir</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Agama</th>
-                            <th>Alamat</th>
-                            <th>Foto</th>
-                            <th>Status Guru</th>
-                            <th>Jabatan</th>
-                            <th>Status Pegawai</th>
+                            <th>Nama Kelas</th>
+                            <th>Nama Jurusan</th>
+                            <th>File Bahan Ajar</th>
                             <th>Action</th>
                             <th>#ID</th>
                         </tr>
@@ -58,16 +58,12 @@
                  
                     <tfoot>
                         <tr>
-                            <th width="5%">No</th>
+                        <th>No</th>
+                            <th>Nip</th>
                             <th>Nama Guru</th>
-                            <th>Tempat/Tanggal Lahir</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Agama</th>
-                            <th>Alamat</th>
-                            <th>Foto</th>
-                            <th>Status Guru</th>
-                            <th>Jabatan</th>
-                            <th>Status Pegawai</th>
+                            <th>Nama Kelas</th>
+                            <th>Nama Jurusan</th>
+                            <th>File Bahan Ajar</th>
                             <th>Action</th>
                             <th>#ID</th>
                         </tr>
@@ -85,19 +81,17 @@
                             ?>
                             <tr>
                                 <td><?php echo $no; ?></td>
-                                <td><a class="confirm-edit" href="<?php echo site_url('biodata-guru/edit/'.$row->id); ?>"><?php echo $row->gelar_depan; ?> <?php echo $row->nama_lengkap; ?>, <?php echo $row->gelar_belakang; ?></a>
-                                <p>NIP : <?php echo $row->nip; ?></p>
+                                <td><a class="confirm-edit" href="<?php echo site_url('bahan-ajar/edit/'.$row->id); ?>"><?php echo $row->nip; ?></a>
+                                <!-- <?php echo $row->nip; ?> -->
                                 </td>
-                                <td><?php echo $row->tempat_lahir; ?> / <?php echo $row->tanggal_lahir; ?></td>
-                                <td><?php echo $row->jenis_kelamin; ?> </td>
-                                <td><?php echo $row->nama_agama; ?> </td>
-                                <td><?php echo $row->alamat; ?> </td>
+                                <td><?php echo $row->nama_lengkap; ?></td>
+                                <td><?php echo $row->nama_kelas; ?> </td>
+                                <td><?php echo $row->nama_jurusan; ?> </td>
                                 <td>
-                                    <?php if ($gambar != "") {  ?> <center><img width="80px" class="img-thumbnail" src="<?php echo $dir; ?>"> <?php } ?></center>
+                                    <!-- <?php if ($gambar != "") {  ?> <center><img width="80px" class="img-thumbnail" src="<?php echo $dir; ?>"> <?php } ?></center> -->
+                                    <?php echo $row->foto; ?>
+
                                 </td>
-                                <td><?php echo $row->status_guru; ?> </td>
-                                <td><?php echo $row->nama_jabatan; ?> </td>
-                                <td><?php echo $row->status_pegawai; ?> </td>
                                 <td>
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -105,17 +99,17 @@
                                         </button>
                                         <ul class="dropdown-menu animated flipInX">
                                             <li>
-                                                <a class="confirm-edit dropdown-item" href="<?php echo site_url('biodata-guru/edit/'.$row->id); ?>">Edit</a>
+                                                <a class="confirm-edit dropdown-item" href="<?php echo site_url('bahan-ajar/edit/'.$row->id); ?>">Edit</a>
                                             </li>
 
                                             <li>
-                                                <!-- <a class="confirm-delete dropdown-item" href="<?php echo site_url('biodata-guru/delete/'.$row->id); ?>">Delete</a> -->
+                                                <!-- <a class="confirm-delete dropdown-item" href="<?php echo site_url('bahan-ajar/delete/'.$row->id); ?>">Delete</a> -->
                                                 <button id-mapel="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
 
                                             </li>
 
                                             <li>
-                                                <a class="confirm-delete dropdown-item" href="<?php echo site_url('biodata-guru/gambar/'.$row->id); ?>">Hapus Gambar</a>
+                                                <a class="confirm-delete dropdown-item" href="<?php echo site_url('bahan-ajar/gambar/'.$row->id); ?>">Hapus Gambar</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -153,7 +147,7 @@
                         confirmButtonText: 'Ya, Hapus!'
                 }).then((result) => {
                         if (result.value) {
-                            window.location.href = "<?php echo site_url(); ?>biodata-guru/delete/"+id_mapel;
+                            window.location.href = "<?php echo site_url(); ?>bahan-ajar/delete/"+id_mapel;
                         }
                 })
         });
@@ -179,7 +173,7 @@
 						confirmButtonText: 'Ya, Hapus!'
 				}).then((result) => {
 						if (result.value) {
-							window.location.href = "<?php echo site_url(); ?>biodata-guru/delete/"+id_mapel;
+							window.location.href = "<?php echo site_url(); ?>bahan-ajar/delete/"+id_mapel;
 						}
 				})
 		});

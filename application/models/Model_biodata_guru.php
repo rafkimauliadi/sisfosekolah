@@ -12,9 +12,9 @@ class Model_biodata_guru extends CI_Model
 
     public function cek_exist()
     {
-        $nis                            = $this->input->post('nis');
+        $nip                            = $this->input->post('nip');
 
-        $query = $this->mydb1->query("SELECT count(nis) as exist FROM master_siswa where nis='$nis'");
+        $query = $this->mydb1->query("SELECT count(nip) as exist FROM master_guru where nip='$nip'");
         $row=$query->row();
             if (isset($row))
                 return $row->exist;
@@ -24,9 +24,9 @@ class Model_biodata_guru extends CI_Model
     public function check_nik_by_change()
     {
         $id                            = $this->input->post('id');
-        $nis                            = $this->input->post('nis');
+        $nip                            = $this->input->post('nip');
 
-        $query = $this->mydb1->query("SELECT count(nis) as exist FROM master_siswa where nis='$nis' and id<>'$id'");
+        $query = $this->mydb1->query("SELECT count(nip) as exist FROM master_guru where nip='$nip' and id<>'$id'");
         $row=$query->row();
             if (isset($row))
                 return $row->exist;
@@ -108,7 +108,7 @@ class Model_biodata_guru extends CI_Model
                                             a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
-                                            a.jenis_kelamin,
+                                            a.id_gender,
                                             a.id_agama,
                                             a.alamat,
                                             a.tanggal_masuk,
@@ -116,25 +116,26 @@ class Model_biodata_guru extends CI_Model
                                             a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
-                                            a.status_guru,
+                                            a.id_status_guru,
                                             a.pendidikan,
                                             a.jurusan,
                                             a.tamat,
                                             a.unit_kerja,
 
                                             
-                                            b.jenis_kelamin,
+                                            b.id_gender,
 
                                             c.agama as nama_agama,
                                             d.status_guru,
+                                            d.id,
                                             e.nama_jabatan,
                                             f.status_pegawai
 
                                         from 
                                             master_guru a
-                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _gender b on (a.id_gender=b.id_gender)
                                             LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
-                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN status_guru d on (a.id_status_guru=d.id)
                                             LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
                                             LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)");
         return $data->num_rows();
@@ -145,13 +146,11 @@ class Model_biodata_guru extends CI_Model
     public function search()
     {
         $query =    $this->mydb1->query("SELECT 
-                                            a.nisn,
-                                            a.nis,
+                                            a.nip,
                                             a.nama_lengkap,
-                                            a.alamat,
-                                            a.asal_sekolah
+                                            a.alamat
                                         from 
-                                            siswa a
+                                            master_guru a
                                         ");
         return $query->field_data();
     }
@@ -166,14 +165,14 @@ class Model_biodata_guru extends CI_Model
         
         if($search_box != NULL)
            $data =$this->mydb1->query("SELECT 
-                                            a.id,
+                                            a.id as id,
                                             a.nama_lengkap,
                                             a.gelar_depan,
                                             a.gelar_belakang,
                                             a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
-                                            a.jenis_kelamin,
+                                            a.id_gender,
                                             a.id_agama,
                                             a.alamat,
                                             a.tanggal_masuk,
@@ -181,25 +180,27 @@ class Model_biodata_guru extends CI_Model
                                             a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
-                                            a.status_guru,
+                                            a.id_status_guru,
                                             a.pendidikan,
                                             a.jurusan,
                                             a.tamat,
                                             a.unit_kerja,
 
                                             
-                                            b.jenis_kelamin,
+                                            b.id_gender,
+                                            b.jenis_kelamin as jenis_kelamin,
 
                                             c.agama as nama_agama,
                                             d.status_guru,
+                                            
                                             e.nama_jabatan,
                                             f.status_pegawai
 
                                         from 
                                             master_guru a
-                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _gender b on (a.id_gender=b.id_gender)
                                             LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
-                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN status_guru d on (a.id_status_guru=d.id)
                                             LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
                                             LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
 
@@ -215,7 +216,7 @@ class Model_biodata_guru extends CI_Model
                                             a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
-                                            a.jenis_kelamin,
+                                            a.id_gender,
                                             a.id_agama,
                                             a.alamat,
                                             a.tanggal_masuk,
@@ -223,25 +224,27 @@ class Model_biodata_guru extends CI_Model
                                             a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
-                                            a.status_guru,
+                                            a.id_status_guru,
                                             a.pendidikan,
                                             a.jurusan,
                                             a.tamat,
                                             a.unit_kerja,
 
                                             
-                                            b.jenis_kelamin,
+                                            b.id_gender,
+                                            b.jenis_kelamin as jenis_kelamin,
 
                                             c.agama as nama_agama,
                                             d.status_guru,
+                                            d.id,
                                             e.nama_jabatan,
                                             f.status_pegawai
 
                                         from 
                                             master_guru a
-                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _gender b on (a.id_gender=b.id_gender)
                                             LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
-                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN status_guru d on (a.id_status_guru=d.id)
                                             LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
                                             LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
                                         
@@ -256,14 +259,14 @@ class Model_biodata_guru extends CI_Model
     {
         $id = $this->format_data->string($this->uri->segment(3,0));
         $data =$this->mydb1->query("SELECT 
-                                            a.id,
+                                            a.id as id,
                                             a.nama_lengkap,
                                             a.gelar_depan,
                                             a.gelar_belakang,
                                             a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
-                                            a.jenis_kelamin,
+                                            a.id_gender,
                                             a.id_agama,
                                             a.alamat,
                                             a.tanggal_masuk,
@@ -271,25 +274,27 @@ class Model_biodata_guru extends CI_Model
                                             a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
-                                            a.status_guru,
+                                            a.id_status_guru,
                                             a.pendidikan,
                                             a.jurusan,
                                             a.tamat,
                                             a.unit_kerja,
 
                                             
-                                            b.jenis_kelamin,
+                                            b.id_gender,
+                                            b.jenis_kelamin as jenis_kelamin,
 
                                             c.agama as nama_agama,
-                                            d.status_guru,
+                                            d.status_guru as status_guru,
+                                            
                                             e.nama_jabatan,
                                             f.status_pegawai
 
                                         from 
                                             master_guru a
-                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _gender b on (a.id_gender=b.id_gender)
                                             LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
-                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN status_guru d on (a.id_status_guru=d.id)
                                             LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
                                             LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
 
@@ -311,13 +316,13 @@ class Model_biodata_guru extends CI_Model
         $nip                            = $this->input->post('nip');
         $tempat_lahir                   = $this->input->post('tempat_lahir');
         $tanggal_lahir                  = $this->input->post('tanggal_lahir');
-        $jenis_kelamin                  = $this->input->post('jenis_kelamin');
+        $id_gender                  = $this->input->post('id_gender');
         $id_agama                       = $this->input->post('id_agama');
         $alamat                         = $this->input->post('alamat');
         $tanggal_masuk                  = $this->input->post('tanggal_masuk');
         $id_jabatan                     = $this->input->post('id_jabatan');
         $id_status_pegawai              = $this->input->post('id_status_pegawai');
-        $status_guru                    = $this->input->post('status_guru');
+        $id_status_guru                    = $this->input->post('id_status_guru');
         $pendidikan                     = $this->input->post('pendidikan');
         $jurusan                        = $this->input->post('jurusan');
         $tamat                          = $this->input->post('tamat');
@@ -325,11 +330,11 @@ class Model_biodata_guru extends CI_Model
 
         $file_name        = $_FILES['img']['name'];
 
-        $url            = site_url('biodata-siswa/edit/'.$id);
-        $directory      = $this->model_hook->objek('master_siswa','id','created_modified',$id);
+        $url            = site_url('biodata-guru/edit/'.$id);
+        $directory      = $this->model_hook->objek('master_guru','id','created_modified',$id);
         $year           = substr($directory,0,4);
         $month          = substr($directory,5,2);
-        $ct             = $this->model_hook->objek('master_siswa','id','foto',$id);
+        $ct             = $this->model_hook->objek('master_guru','id','foto',$id);
         
         $ct_exist       = $ct;
 
@@ -358,13 +363,13 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('nip',$nip);
                 $this->mydb1->set('tempat_lahir',$tempat_lahir);
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
-                $this->mydb1->set('jenis_kelamin',$jenis_kelamin);
+                $this->mydb1->set('id_gender',$id_gender);
                 $this->mydb1->set('id_agama',$id_agama);
                 $this->mydb1->set('alamat',$alamat);
                 $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
                 $this->mydb1->set('id_jabatan',$id_jabatan);
                 $this->mydb1->set('id_status_pegawai',$id_status_pegawai);
-                $this->mydb1->set('status_guru',$status_guru);
+                $this->mydb1->set('id_status_guru',$id_status_guru);
                 $this->mydb1->set('pendidikan',$pendidikan);
                 $this->mydb1->set('jurusan',$jurusan);
                 $this->mydb1->set('tamat',$tamat);
@@ -382,7 +387,7 @@ class Model_biodata_guru extends CI_Model
             else 
             {
                 $this->model_message->messege_proses('gagal upload...','delete',$url,'fa-check-square-o','warning');
-                redirect('biodata-siswa/edit/'.$id);
+                redirect('biodata-guru/edit/'.$id);
                 return FALSE;
             }
         }
@@ -394,13 +399,13 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('nip',$nip);
                 $this->mydb1->set('tempat_lahir',$tempat_lahir);
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
-                $this->mydb1->set('jenis_kelamin',$jenis_kelamin);
+                $this->mydb1->set('id_gender',$id_gender);
                 $this->mydb1->set('id_agama',$id_agama);
                 $this->mydb1->set('alamat',$alamat);
                 $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
                 $this->mydb1->set('id_jabatan',$id_jabatan);
                 $this->mydb1->set('id_status_pegawai',$id_status_pegawai);
-                $this->mydb1->set('status_guru',$status_guru);
+                $this->mydb1->set('id_status_guru',$id_status_guru);
                 $this->mydb1->set('pendidikan',$pendidikan);
                 $this->mydb1->set('jurusan',$jurusan);
                 $this->mydb1->set('tamat',$tamat);
@@ -450,7 +455,7 @@ class Model_biodata_guru extends CI_Model
         $tempat_lahir                   = $this->input->post('tempat_lahir');
         $tanggal_lahir                  = $this->input->post('tanggal_lahir');
        
-        $jenis_kelamin                         = $this->input->post('jenis_kelamin');
+        $id_gender                         = $this->input->post('id_gender');
         $id_agama                          = $this->input->post('id_agama');
 
 
@@ -463,7 +468,7 @@ class Model_biodata_guru extends CI_Model
         $id_jabatan                          = $this->input->post('id_jabatan');
         $id_status_pegawai                          = $this->input->post('id_status_pegawai');
 
-        $status_guru                          = $this->input->post('status_guru');
+        $id_status_guru                          = $this->input->post('id_status_guru');
 
         $pendidikan                          = $this->input->post('pendidikan');
         $jurusan                          = $this->input->post('jurusan');
@@ -499,7 +504,7 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('nip',$nip);
                 $this->mydb1->set('tempat_lahir',$tempat_lahir);
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
-                $this->mydb1->set('jenis_kelamin',$jenis_kelamin);
+                $this->mydb1->set('id_gender',$id_gender);
                 $this->mydb1->set('id_agama',$id_agama);
                 $this->mydb1->set('alamat',$alamat);
                 $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
@@ -508,7 +513,7 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('foto',$foto);
                 $this->mydb1->set('created_date',$created_date);
                 $this->mydb1->set('created_modified',$created_date);
-                $this->mydb1->set('status_guru',$status_guru);
+                $this->mydb1->set('id_status_guru',$id_status_guru);
                 $this->mydb1->set('pendidikan',$pendidikan);
                 $this->mydb1->set('jurusan',$jurusan);
                 $this->mydb1->set('tamat',$tamat);
@@ -534,7 +539,7 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('nip',$nip);
                 $this->mydb1->set('tempat_lahir',$tempat_lahir);
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
-                $this->mydb1->set('jenis_kelamin',$jenis_kelamin);
+                $this->mydb1->set('id_gender',$id_gender);
                 $this->mydb1->set('id_agama',$id_agama);
                 $this->mydb1->set('alamat',$alamat);
                 $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
@@ -542,7 +547,7 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('id_jabatan',$id_jabatan_guru);
                 $this->mydb1->set('created_date',$created_date);
                 $this->mydb1->set('created_modified',$created_date);
-                $this->mydb1->set('status_guru',$id_status_guru);
+                $this->mydb1->set('id_status_guru',$id_status_guru);
                 $this->mydb1->insert('master_guru');
         }
 
@@ -563,18 +568,15 @@ class Model_biodata_guru extends CI_Model
 
     public function init_delete()
     {
-        $url='';
+      
         $id = $this->format_data->string($this->uri->segment(3,0));
-
-        $directory      = $this->model_hook->objek('content','id_content','created_modified',$id);
-        $year           = substr($directory,0,4);
-        $month          = substr($directory,5,2);
-        $ct             = $this->model_hook->objek('content','id_content','gambar',$id);
-        $ct_exist       = $ct;
+        $url='';
 
         $this->mydb1->trans_start();
-        $this->mydb1->where('id_content',$id);
-        $this->mydb1->delete('content');
+
+        $this->mydb1->where('id',$id);
+        $this->mydb1->delete('master_guru');
+
         $this->mydb1->trans_complete();
 
         if ($this->mydb1->trans_status()==false)
@@ -586,11 +588,39 @@ class Model_biodata_guru extends CI_Model
         else
         {
             $this->mydb1->trans_commit();
-            $this->model_hook->images('images',$year,$month,$ct,$ct_exist);
-            $this->model_hook->thumbnail('images',$year,$month,'thumbnails/'.$ct,$ct_exist);
-            $this->model_message->messege_proses('Berhasil menghapus content.','delete',$url,'fa-check-square-o','success');
+            $this->model_message->messege_proses('Data Berhasil dihapus.','delete',$url,'fa-check-square-o','success');
             return TRUE;
         }
+    
+        // $url='';
+        // $id = $this->format_data->string($this->uri->segment(3,0));
+
+        // $directory      = $this->model_hook->objek('master_guru','id','created_modified',$id);
+        // $year           = substr($directory,0,4);
+        // $month          = substr($directory,5,2);
+        // $ct             = $this->model_hook->objek('master_guru','id','foto',$id);
+        
+        // $ct_exist = $ct;
+        
+        // $this->mydb1->trans_start();
+        // $this->mydb1->where('id',$id);
+        // $this->mydb1->update('master_guru');
+        // $this->mydb1->trans_complete();
+
+        // if ($this->mydb1->trans_status()==false)
+        // {
+        //     $this->mydb1->trans_rollback();
+        //     $this->error();
+        //     return FALSE;
+        // }
+        // else
+        // {
+        //     $this->mydb1->trans_commit();
+        //     $this->model_hook->images('images',$year,$month,$ct,$ct_exist);
+        //     $this->model_hook->thumbnail('images',$year,$month,'thumbnails/'.$ct,$ct_exist);
+        //     $this->model_message->messege_proses('Berhasil menghapus Foto.','delete',$url,'fa-check-square-o','success');
+        //     return TRUE;
+        // }
     }
 
     public function init_delete_gambar()
@@ -598,17 +628,17 @@ class Model_biodata_guru extends CI_Model
         $url='';
         $id = $this->format_data->string($this->uri->segment(3,0));
 
-        $directory      = $this->model_hook->objek('master_siswa','id','created_modified',$id);
+        $directory      = $this->model_hook->objek('master_guru','id','created_modified',$id);
         $year           = substr($directory,0,4);
         $month          = substr($directory,5,2);
-        $ct             = $this->model_hook->objek('master_siswa','id','foto',$id);
+        $ct             = $this->model_hook->objek('master_guru','id','foto',$id);
         
         $ct_exist = $ct;
         
         $this->mydb1->trans_start();
         $this->mydb1->set('foto','');
         $this->mydb1->where('id',$id);
-        $this->mydb1->update('master_siswa');
+        $this->mydb1->update('master_guru');
         $this->mydb1->trans_complete();
 
         if ($this->mydb1->trans_status()==false)

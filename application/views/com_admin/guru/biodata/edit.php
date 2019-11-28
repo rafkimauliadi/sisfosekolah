@@ -65,10 +65,10 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Jenis Kelamin</label>
-                                <select class="form-control select2 custom-select" name="jenis_kelamin" data-placeholder="Choose a Gender" tabindex="1">
-                                <option value="<?php echo $details->row()->jenis_kelamin ?>"><?php echo $details->row()->jenis_kelamin ?></option>
+                                <select class="form-control select2 custom-select" name="id_gender" data-placeholder="Choose a Gender" tabindex="1">
+                                <option value="<?php echo $details->row()->id_gender ?>"><?php echo $details->row()->jenis_kelamin ?></option>
                                 <?php 
-                                    $id=$details->row()->jenis_kelamin;
+                                    $id=$details->row()->id_gender;
                                     $cb_gender = $CI->model_combo_r->init_cb_gender($id);
 
                                     foreach ($cb_gender->result() as $row) : ?>
@@ -139,8 +139,8 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Status Guru</label>
-                                <select class="form-control select2 custom-select" name="status_guru" data-placeholder="Choose a Agama" tabindex="1">
-                                    <option value="<?php echo $details->row()->status_guru; ?>"><?php echo $details->row()->status_guru; ?></option>
+                                <select class="form-control select2 custom-select" name="id_status_guru" data-placeholder="Choose Status" tabindex="1">
+                                    <option value="<?php echo $details->row()->id_status_guru; ?>"><?php echo $details->row()->status_guru; ?></option>
                                 <?php 
                                     $id=$details->row()->status_guru;
                                     $cb_status_guru = $CI->model_combo_r->init_cb_status_guru($id);
@@ -152,6 +152,11 @@
                                 
                             </div>
                         </div>
+
+                        
+                     
+
+
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Jabatan Guru</label>

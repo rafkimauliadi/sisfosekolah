@@ -1,5 +1,5 @@
 <?php
-class Model_kelas extends CI_Model
+class Model_jam_pelajaran_kelas extends CI_Model
 {	
 
     public function __construct()
@@ -13,36 +13,44 @@ class Model_kelas extends CI_Model
     {
         $this->model_message->conv_validasi_to_indonesia();
 
-        $nama_kelas          = $this->input->post('nama_kelas');
-        $id_status          = $this->input->post('id_status');
-        $id_jurusan          = $this->input->post('id_jurusan');
+        $hari          = $this->input->post('hari');
+        $id_jam          = $this->input->post('id_jam');
+        $id_mapel_kelas          = $this->input->post('id_mapel_kelas');
 
         if ($action=='simpan')
         {
-            $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required');
-            $this->form_validation->set_rules('id_status', 'Status', 'required');
-            $this->form_validation->set_rules('id_jurusan', 'Jurusan', 'required');
+            $this->form_validation->set_rules('hari', 'Hari', 'required');
+            // $this->form_validation->set_rules('id_jam', 'Status', 'required');
+            // $this->form_validation->set_rules('id_mapel_kelas', 'Jurusan', 'required');
         }
         else
         {
-          $this->form_validation->set_rules('nama_kelas', 'Nama Kelas', 'required');
-          $this->form_validation->set_rules('id_status', 'Status', 'required');
-          $this->form_validation->set_rules('id_jurusan', 'Jurusan', 'required');
+            $this->form_validation->set_rules('hari', 'Hari', 'required');
+            // $this->form_validation->set_rules('id_jam', 'Status', 'required');
+            // $this->form_validation->set_rules('id_mapel_kelas', 'Jurusan', 'required');
         }
 
-        $this->session->set_flashdata('nama_kelas', $nama_kelas);
-        $this->session->set_flashdata('id_status', $id_status);
-        $this->session->set_flashdata('id_jurusan', $id_jurusan);
+        $this->session->set_flashdata('hari', $hari);
+        $this->session->set_flashdata('id_jam', $id_jam);
+        $this->session->set_flashdata('id_mapel_kelas', $id_mapel_kelas);
 
     }
 
-    public function get_data_kelas()
+    public function get_data_jam_pelajaran_kelas()
     {
-        $sql = "select a.*, b.nama_status,c.nama_jurusan from master_kelas a left join master_status_kelas b on a.status = b.id_status
-        left join master_jurusan c on a.id_jurusan = c.id";
+        $sql = "select a.*, b.jam,b.waktu_mulai,b.waktu_akhir,c.nama_kelas,d.nama_mapel from master_jam_pelajaran_kelas a left join master_jam b on a.id_jam = b.id
+        left join master_mapel_kelas c on a.id_mapel_kelas = c.id ";
         $queryRec = $this->db->query($sql);
         return $queryRec;
     }
+
+
+    select jam_pelajaran_kelas.hari, master_jam.jam,master_jam.waktu_mulai,master_jam.waktu_akhir,master_kelas.nama_kelas
+    from jam_pelajaran_kelas, master_jam, master_kelas, master_mapel_kelas
+    where jam_pelajaran_kelas.id_jam-master_jam.id AND jam_pelajaran_kelas.id_mapel_kelas=master_mapel_kelas.id AND master_mapel_kelas.id_kelas=master_kelas.id_kelas AND jam_pelajaran_kelas.id_jam=1 AND jam_pelajaran_kelas.id_mapel_kelas=2 AND master_mapel_kelas.id_kelas=1
+
+    SELECT jam_pelajaran_kelas.hari , master_jam.jam, master_jam.waktu_mulai,master_jam.waktu_akhir,master_mapel_kelas.id_kelas, master_kelas.nama_kelas, master_mata_pelajaran.nama_mapel 
+    FROM jam_pelajaran_kelas , master_jam , master_mapel_kelas,master_kelas,master_mata_pelajaran WHERE jam_pelajaran_kelas.id=1 AND jam_pelajaran_kelas.id_jam=master_jam.id AND jam_pelajaran_kelas.id_mapel_kelas=master_mapel_kelas.id AND master_mapel_kelas.id_kelas=master_kelas.id_kelas AND master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran
 
     public function init_save()
     {

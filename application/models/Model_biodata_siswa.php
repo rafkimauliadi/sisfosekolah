@@ -254,6 +254,8 @@ class Model_biodata_siswa extends CI_Model
                                             a.tanggal_diterima,
                                             a.foto,
                                             a.created_modified,
+                                            a.no_ijazah,
+                                            a.tahun_ijazah,
 
                                             b.nama_ayah,
                                             b.nama_ibu,

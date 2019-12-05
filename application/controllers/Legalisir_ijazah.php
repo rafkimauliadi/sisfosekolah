@@ -1,14 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Bimbingan_konseling extends CI_Controller {
+class Legalisir_ijazah extends CI_Controller {
 	
 	private $perpage = 10;
 
 	public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk'));
+        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir'));
+        		error_reporting(0);
+
         $this->load->library(array('form_validation','encryption'));
     }
 
@@ -30,18 +32,18 @@ class Bimbingan_konseling extends CI_Controller {
 
 		if(is_null($offset)==TRUE) $offset  = $this->uri->segment(3,0);
 
-		$this->session->set_flashdata('title', 'Bimbingan Konseling');
+		$this->session->set_flashdata('title', 'Legalisir Ijazah');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Bimbingan Konseling ', site_url('bimbingan-konseling'));
+		$this->breadcrumb->add('Legalisir Ijazah ', site_url('legalisir-ijazah'));
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$data['data'] 		= $this->model_bk->get_list_bk();
-		// $data['data'] 		= $this->model_bk->get_list_bk($this->model_hook->init_profile_user()->username);
+		$data['data'] 		= $this->model_legalisir->get_list_legalisir();
+		// $data['data'] 		= $this->model_legalisir->get_list_bk($this->model_hook->init_profile_user()->username);
 
 
-		$this->templates('mod_bimbingan_konseling','index',$data);
+		$this->templates('mod_legalisir_ijazah','index',$data);
 	}
 
   public function add()
@@ -56,8 +58,8 @@ class Bimbingan_konseling extends CI_Controller {
 	{
 		$this->session->set_flashdata('title', 'Add');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Bimbingan Konseling ', site_url('bimbingan-konseling'));
-		$this->breadcrumb->add('Add ', site_url('bimbingan-konseling/add'));
+		$this->breadcrumb->add('Legalisir Ijazah ', site_url('legalisir-ijazah'));
+		$this->breadcrumb->add('Add ', site_url('legalisir-ijazah/add'));
 
 		$data['cb_group'] 		= $this->model_combo->init_group();
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
@@ -65,22 +67,22 @@ class Bimbingan_konseling extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$this->templates('mod_bimbingan_konseling','add',$data);
+		$this->templates('mod_legalisir_ijazah','add',$data);
   }
   
   public function save()
 	{
-		$this->model_bk->validation_field('simpan'); 
+		$this->model_legalisir->validation_field('simpan'); 
 
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('bimbingan-konseling/add/'));         
+            redirect(site_url('legalisir-ijazah/add/'));         
         } 
 	    else 
 	    {
-	    	$this->model_bk->init_save();
-	    	redirect(site_url('bimbingan-konseling'));
+	    	$this->model_legalisir->init_save();
+	    	redirect(site_url('legalisir-ijazah'));
 	    }
   }
   
@@ -91,8 +93,8 @@ class Bimbingan_konseling extends CI_Controller {
 
 	private function init_delete()
 	{
-		$this->model_bk->init_delete();
-	    redirect(site_url('bimbingan_konseling'));
+		$this->model_legalisir->init_delete();
+	    redirect(site_url('legalisir_ijazah'));
   }
   
   public function edit()
@@ -108,16 +110,16 @@ class Bimbingan_konseling extends CI_Controller {
 
 		$id = $this->format_data->string($this->uri->segment(3,0));
 
-		$exist	= $this->model_bk->exist_id($id);
+		$exist	= $this->model_legalisir->exist_id($id);
 		if ($exist==0)
-			redirect(site_url('bimbingan-konseling'));
+			redirect(site_url('legalisir-ijazah'));
 		if ($id==NULL)
-			redirect(site_url('bimbingan-konseling'));
+			redirect(site_url('legalisir-ijazah'));
 
 		$this->session->set_flashdata('title', 'Edit');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Bimbingan Konseling ', site_url('bimbingan-konseling'));
-		$this->breadcrumb->add('Edit ', site_url('bimbingan-konseling/edit'));
+		$this->breadcrumb->add('Legalisir Ijazah ', site_url('legalisir-ijazah'));
+		$this->breadcrumb->add('Edit ', site_url('legalisir-ijazah/edit'));
 
 		
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
@@ -125,43 +127,44 @@ class Bimbingan_konseling extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$data['details']	= $this->model_bk->get_data();
+		$data['details']	= $this->model_legalisir->get_data();
 
 		//$data['cb_status']	= $this->model_combo->init_status($id);
 
-		$this->templates('mod_bimbingan_konseling','edit',$data);
+		$this->templates('mod_legalisir_ijazah','edit',$data);
   }
   
   public function update()
 	{
     $url='';
-		$id 			= $this->format_data->string($this->input->post('id',TRUE));
-	    $nis 			= $this->format_data->string($this->input->post('nis',TRUE));
-	    $nip_guru		= $this->format_data->string($this->input->post('nip_guru',TRUE));
-	    $date			= $this->format_data->string($this->input->post('date',TRUE));
-	    $permasalahan	= $this->format_data->string($this->input->post('permasalahan',TRUE));
-	    $penyelesaian	= $this->format_data->string($this->input->post('penyelesaian',TRUE));
+		$id 					= $this->format_data->string($this->input->post('id',TRUE));
+	    $nis 					= $this->format_data->string($this->input->post('nis',TRUE));
+	    $no_ijazah				= $this->format_data->string($this->input->post('no_ijazah',TRUE));
+	    $tahun_ijazah			= $this->format_data->string($this->input->post('tahun_ijazah',TRUE));
+	    $tgl_masuk_legalisir	= $this->format_data->string($this->input->post('tgl_masuk_legalisir',TRUE));
+	    $tgl_selesai_legalisir	= $this->format_data->string($this->input->post('tgl_selesai_legalisir',TRUE));
+	    $status_legalisir		= $this->format_data->string($this->input->post('status_legalisir',TRUE));
 
-		$this->model_bk->validation_field('edit'); 
+		$this->model_legalisir->validation_field('edit'); 
 
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('bimbingan-konseling/edit/'.$id));
+            redirect(site_url('legalisir-ijazah/edit/'.$id));
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_bk->cek_exist_nama('bimbingan_konseling','nis','id',$nis,$id);
+	    	$cek_nama = $this->model_legalisir->cek_exist_nama('legalisir_ijazah','nis','id',$nis,$id);
 
 	    	if ($cek_nama > 0 )
 	    	{
 	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('bimbingan-konseling/edit/'.$id));
+	    		redirect(site_url('legalisir-ijazah/edit/'.$id));
 	    	}
 	    	else
 	    	{
-	    		$this->model_bk->init_update();
-	    		redirect(site_url('bimbingan-konseling'));
+	    		$this->model_legalisir->init_update();
+	    		redirect(site_url('legalisir-ijazah'));
 	    	}
 	    }
 	}
@@ -172,7 +175,7 @@ class Bimbingan_konseling extends CI_Controller {
 		header("Content-Type: application/json; charset=UTF-8");
 		$query = $_GET["query"];
 
-		$result	= $this->model_bk->cari_siswa($query);
+		$result	= $this->model_legalisir->cari_siswa($query);
 
 		// Format bentuk data untuk autocomplete.
 		foreach($result as $data) {
@@ -190,5 +193,21 @@ class Bimbingan_konseling extends CI_Controller {
 			echo json_encode($result);
 		}
 	}
+ 
+	public function get_autocomplete(){
 
+		if (isset($_GET['term'])) {
+		  	$result = $this->model_legalisir->search_blog($_GET['term']);
+		   	if (count($result) > 0) {
+		    foreach ($result as $row)
+		     	$arr_result[] = array(
+					'label'			=> $row->nis,
+					'nama_lengkap'	=> $row->nama_lengkap,
+					'no_ijazah'		=> $row->no_ijazah,
+					'tahun_ijazah'	=> $row->tahun_ijazah,
+				);
+		     	echo json_encode($arr_result);
+		   	}
+		}
+	}
 }

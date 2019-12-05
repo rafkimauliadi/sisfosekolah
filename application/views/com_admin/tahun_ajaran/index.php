@@ -1,19 +1,16 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Master Kelas</h4>
+            <h4 class="card-title">Master Tahun Ajaran</h4>
             <p><?php echo $this->session->flashdata('pesan'); ?></p>
             <h6 class="card-subtitle"></h6>
-            <a title="Tambah Data" href="<?php echo site_url('master-kelas/add')?>" class="btn btn-primary btn-rounded m-t-10 float-right"><i class="fa fa-plus"></i> Add</a>
+            <a title="Tambah Data" href="<?php echo site_url('tahun-ajaran/add')?>" class="btn btn-primary btn-rounded m-t-10 float-right"><i class="fa fa-plus"></i> Add</a>
             <div class="table-responsive">
                 <table id="data-mobil-table" class="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size="7">
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Kelas</th>
-                            <th>Status Kelas</th>
-                            <th>Jurusan</th>
-                            <th>Created</th>
+                            <th>Tahun</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -23,16 +20,13 @@
 											?>
                         <tr>
                             <td><?php echo $no; ?></td>
-                            <td><?php echo $row->nama_kelas; ?></td>
-                            <td><?php echo $row->nama_status; ?></td>
-                            <td><?php echo $row->nama_jurusan; ?></td>
-                            <td><?php echo $row->created_at; ?></td>
+                            <td><?php echo $row->tahun; ?></td>
                             <td>
-								<button id-mapel="<?php echo $row->id_kelas; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
-								<a href="<?php echo site_url('master_kelas/edit/'.$row->id_kelas); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
+															<button id-mapel="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
+															<a href="<?php echo site_url('tahun_ajaran/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
 														</td>
                         </tr>
-						<?php }?>
+											<?php }?>
                     </tbody>
                 </table>
             </div>
@@ -56,7 +50,7 @@
 						confirmButtonText: 'Ya, Hapus!'
 				}).then((result) => {
 						if (result.value) {
-							window.location.href = "<?php echo site_url(); ?>master-kelas/delete/"+id_mapel;
+							window.location.href = "<?php echo site_url(); ?>tahun-ajaran/delete/"+id_mapel;
 						}
 				})
 		});

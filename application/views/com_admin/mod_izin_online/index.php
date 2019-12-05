@@ -1,13 +1,13 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Daftar Pelayanan Anda</h4>
+            <h4 class="card-title">Daftar Izin Online</h4>
             <p><?php echo $this->session->flashdata('pesan'); ?></p>
             <h6 class="card-subtitle"></h6>
             <div class="d-flex no-block align-items-center">
                 
                 <div class="ml-auto">
-                    <a href="<?php echo site_url('bimbingan-konseling/add')?>"><button class="pull-right btn btn-circle btn-success" data-toggle="modal" data-target="#myModal"><i class="ti-plus"></i></button></a>
+                    <a href="<?php echo site_url('izin-online/add')?>"><button class="pull-right btn btn-circle btn-success" data-toggle="modal" data-target="#myModal"><i class="ti-plus"></i></button></a>
                 </div>
             </div>
             <div class="table-responsive">
@@ -17,13 +17,12 @@
                             <th>No</th>
                             <th>NIS</th>
                             <th>Nama Siswa</th>
-                            <th>Tanggal</th>
-                            <th>Permasalahan</th>
-                            <th>Penyelesaian</th>
+                            <th>Tanggal Izin</th>
+                            <th>Alasan Izin</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="data_bk">
+                    <tbody id="data_izin">
                       <?php $no = 0; foreach ($data->result() as $row){
                         $no++;
                       ?>
@@ -31,12 +30,11 @@
                             <td><?php echo $no; ?></td>
                             <td><?php echo $row->nis; ?></td>
                             <td><?php echo $row->nama_siswa; ?></td>
-                            <td><?php echo $row->date; ?></td>
-                            <td><?php echo $row->permasalahan; ?></td>
-                            <td><?php echo $row->penyelesaian; ?></td>
+                            <td><?php echo $row->tgl_izin; ?></td>
+                            <td style="word-break:break-all;"><?php echo $row->alasan; ?></td>
                             <td>
-                <button id-mapel="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
-                <a href="<?php echo site_url('bimbingan_konseling/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
+                <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
+                <a href="<?php echo site_url('izin_online/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
                             </td>
                         </tr>
             <?php }?>
@@ -63,7 +61,7 @@
             confirmButtonText: 'Ya, Hapus!'
         }).then((result) => {
             if (result.value) {
-              window.location.href = "<?php echo site_url(); ?>bimbingan-konseling/delete/"+id;
+              window.location.href = "<?php echo site_url(); ?>izin-online/delete/"+id;
             }
         })
     });

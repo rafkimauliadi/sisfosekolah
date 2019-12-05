@@ -47,6 +47,9 @@ class Model_biodata_guru extends CI_Model
         }
     }
     
+
+    //1. Proses validasi data 
+
     public function validation_field()
     {
         $this->model_message->conv_validasi_to_indonesia();
@@ -58,8 +61,8 @@ class Model_biodata_guru extends CI_Model
 
         $tempat_lahir                   = $this->input->post('tempat_lahir');
         $tanggal_lahir                  = $this->input->post('tanggal_lahir');
-        $alamat_guru                  = $this->input->post('alamat_guru');
-        $mulai_mengajar                  = $this->input->post('mulai_mengajar');
+        $alamat                 = $this->input->post('alamat');
+        $tanggal_masuk                  = $this->input->post('tanggal_masuk');
 
 
         $this->session->set_flashdata('nip', $nip);
@@ -74,8 +77,8 @@ class Model_biodata_guru extends CI_Model
         $this->form_validation->set_rules('nama_lengkap', 'Nama Lengkap ', 'required');
         $this->form_validation->set_rules('tempat_lahir', 'Tempat Lahir', 'required');
         $this->form_validation->set_rules('tanggal_lahir', 'Tanggal Lahir', 'required');
-        $this->form_validation->set_rules('alamat_guru', 'Alamat Guru', 'required');
-        $this->form_validation->set_rules('mulai_mengajar', 'Mulai Mengajar', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat Guru', 'required');
+        $this->form_validation->set_rules('tanggal_masuk', 'Tanggal Masuk', 'required');
     }
 
     public function exist_id($id)
@@ -93,48 +96,51 @@ class Model_biodata_guru extends CI_Model
             return false;
     }
 
+    // NUMROWS UNTUK PAGINATION
+
     public function num_rows()
     {
         $data=$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.tanggal_diterima,
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
+                                            a.foto,
+                                            a.created_modified,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-
-                                            f.nama_ayah, 
-                                            f.nama_ibu,
-                                            f.alamat as alamat_orang_tua
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN master_orangtua f on (a.id=f.id_siswa)");
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)");
         return $data->num_rows();
     }
+
+    // LIST UNTUK SEARCH
 
     public function search()
     {
@@ -150,6 +156,8 @@ class Model_biodata_guru extends CI_Model
         return $query->field_data();
     }
 
+    // VIEW DATA
+
     public function get_view($offset,$perpage)
     {
         $change_box = $this->input->post('change_box',TRUE);
@@ -157,106 +165,92 @@ class Model_biodata_guru extends CI_Model
         $this->session->set_flashdata('search_box', $search_box);
         
         if($search_box != NULL)
-    	   $data =$this->mydb1->query("SELECT 
+           $data =$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.tanggal_diterima,
-
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-
-                                            f.nama_ayah, 
-                                            f.nama_ibu,
-                                            f.alamat as alamat_orang_tua,
-
-                                            g.id_status,
-                                            g.nm_status as status_peserta_didik
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN master_orangtua f on (a.id=f.id_siswa)
-                                            LEFT JOIN _status_peserta_didik g on (a.id_status_peserta_didik=g.id_status)
-                                        
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
+
                                         where 
                                             (a.".$change_box." like '%$search_box%')
-                                        order by a.nisn desc
-                                        ");
+                                        order by a.nip desc");
         else
             $data =$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.tanggal_diterima,
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-
-                                            f.nama_ayah, 
-                                            f.nama_ibu,
-                                            f.alamat as alamat_orang_tua,
-
-                                            g.id_status,
-                                            g.nm_status as status_peserta_didik
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN master_orangtua f on (a.id=f.id_siswa)
-                                            LEFT JOIN _status_peserta_didik g on (a.id_status_peserta_didik=g.id_status)
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
                                         
-                                        order by a.nisn desc
+                                        order by a.nip desc
                                             limit ".$offset.",".$perpage);
         return $data;
-    }    	
+    } 	
+
+    // MENGAMBIL DATA
 
     public function get_data()
     {
@@ -264,56 +258,41 @@ class Model_biodata_guru extends CI_Model
         $data =$this->mydb1->query("SELECT 
                                             a.id,
                                             a.nama_lengkap,
-                                            a.nis,
-                                            a.nisn,
+                                            a.gelar_depan,
+                                            a.gelar_belakang,
+                                            a.nip,
                                             a.tempat_lahir,
                                             a.tanggal_lahir,
                                             a.jenis_kelamin,
-                                            a.agama,
-                                            a.status_dalam_keluarga,
+                                            a.id_agama,
                                             a.alamat,
-                                            a.no_telepon,
-                                            a.asal_sekolah,
-                                            a.kelas_diterima,
-                                            a.tanggal_diterima,
-                                            a.anak_ke,
+                                            a.tanggal_masuk,
+                                            a.id_jabatan,
+                                            a.id_status_pegawai,
                                             a.foto,
                                             a.created_modified,
-                                            a.id_status_peserta_didik,
+                                            a.status_guru,
+                                            a.pendidikan,
+                                            a.jurusan,
+                                            a.tamat,
+                                            a.unit_kerja,
 
-                                            b.nama_ayah,
-                                            b.nama_ibu,
-                                            b.alamat as alamat_orang_tua,
-                                            b.no_telepon as telp_orang_tua,
-                                            b.pekerjaan_ayah,
-                                            b.pekerjaan_ibu,
+                                            
+                                            b.jenis_kelamin,
 
-                                            c.nama_wali,
-
-                                            d.jenis_kelamin as nm_jenis_kelamin,
-
-                                            e.agama as nama_agama,
-
-                                            c.nama_wali,
-                                            c.no_telepon as telp_wali,
-                                            c.alamat as alamat_wali,
-                                            c.pekerjaan as pekerjaan_wali,
-
-
-                                            g.id_status,
-                                            g.nm_status as status_peserta_didik,
-
-                                            h.status_anak
-
+                                            c.agama as nama_agama,
+                                            d.status_guru,
+                                            e.nama_jabatan,
+                                            f.status_pegawai
 
                                         from 
-                                            master_siswa a
-                                            LEFT JOIN master_orangtua b on (a.id=b.id_siswa)
-                                            LEFT JOIN master_wali c on (a.id=c.id_siswa)
-                                            LEFT JOIN _gender d on (a.jenis_kelamin=d.id_gender)
-                                            LEFT JOIN _agama e on (a.agama=e.kd_agama)
-                                            LEFT JOIN _status_peserta_didik g on (a.id_status_peserta_didik=g.id_status)
-                                            LEFT JOIN _status_anak h on (a.status_dalam_keluarga=h.id_status_anak)
+                                            master_guru a
+                                            LEFT JOIN _gender b on (a.jenis_kelamin=b.id_gender)
+                                            LEFT JOIN _agama c on (a.id_agama=c.kd_agama)
+                                            LEFT JOIN status_guru d on (a.status_guru=d.id)
+                                            LEFT JOIN master_jabatan_guru e on (a.id_jabatan=e.id)
+                                            LEFT JOIN master_status_pegawai f on (a.id_status_pegawai=f.id)
+
                                         WHERE 
                                             a.id='$id'");
         return $data;
@@ -444,6 +423,8 @@ class Model_biodata_guru extends CI_Model
             }
     }
 
+//1. Proses penambahan data ke database
+
     public function init_save()
     {
         date_default_timezone_set('Asia/Jakarta');
@@ -457,22 +438,33 @@ class Model_biodata_guru extends CI_Model
 
         $id_user        = $this->model_hook->init_online_exist();
 
-        $nip                            = $this->input->post('nip');
         $gelar_depan                   = $this->input->post('gelar_depan');
         $gelar_belakang                   = $this->input->post('gelar_belakang');
         $nama_lengkap                   = $this->input->post('nama_lengkap');
+        $nip                            = $this->input->post('nip');
 
         $tempat_lahir                   = $this->input->post('tempat_lahir');
         $tanggal_lahir                  = $this->input->post('tanggal_lahir');
-        $alamat_guru                  = $this->input->post('alamat_guru');
-        $mulai_mengajar                  = $this->input->post('mulai_mengajar');
+       
+        $jenis_kelamin                         = $this->input->post('jenis_kelamin');
+        $id_agama                          = $this->input->post('id_agama');
+
+
+        $alamat                  = $this->input->post('alamat');
+
+        $tanggal_masuk                  = $this->input->post('tanggal_masuk');
         
         
 
-        $gender                         = $this->input->post('gender');
-        $agama                          = $this->input->post('agama');
-        $id_jabatan_guru                          = $this->input->post('id_jabatan_guru');
-        $id_status_guru                          = $this->input->post('id_status_guru');
+        $id_jabatan                          = $this->input->post('id_jabatan');
+        $id_status_pegawai                          = $this->input->post('id_status_pegawai');
+
+        $status_guru                          = $this->input->post('status_guru');
+
+        $pendidikan                          = $this->input->post('pendidikan');
+        $jurusan                          = $this->input->post('jurusan');
+        $tamat                          = $this->input->post('tamat');
+        $unit_kerja                          = $this->input->post('unit_kerja');
 
         $file_name        = $_FILES['img']['name'];
         //$format         = $this->format_upload();
@@ -503,16 +495,21 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('nip',$nip);
                 $this->mydb1->set('tempat_lahir',$tempat_lahir);
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
-                $this->mydb1->set('jenis_kelamin',$gender);
-                $this->mydb1->set('id_agama',$agama);
-                $this->mydb1->set('alamat',$alamat_guru);
-                $this->mydb1->set('tanggal_masuk',$mulai_mengajar);
-                $this->mydb1->set('id_jabatan',$id_jabatan_guru);
-                $this->mydb1->set('id_jabatan',$id_jabatan_guru);
+                $this->mydb1->set('jenis_kelamin',$jenis_kelamin);
+                $this->mydb1->set('id_agama',$id_agama);
+                $this->mydb1->set('alamat',$alamat);
+                $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
+                $this->mydb1->set('id_jabatan',$id_jabatan);
+                $this->mydb1->set('id_status_pegawai',$id_status_pegawai);
                 $this->mydb1->set('foto',$foto);
                 $this->mydb1->set('created_date',$created_date);
                 $this->mydb1->set('created_modified',$created_date);
-                $this->mydb1->set('status_guru',$id_status_guru);
+                $this->mydb1->set('status_guru',$status_guru);
+                $this->mydb1->set('pendidikan',$pendidikan);
+                $this->mydb1->set('jurusan',$jurusan);
+                $this->mydb1->set('tamat',$tamat);
+                $this->mydb1->set('unit_kerja',$unit_kerja);
+
                 $this->mydb1->insert('master_guru');
 
                 $this->createThumbnailFoto($foto);
@@ -535,8 +532,8 @@ class Model_biodata_guru extends CI_Model
                 $this->mydb1->set('tanggal_lahir',$tanggal_lahir);
                 $this->mydb1->set('jenis_kelamin',$gender);
                 $this->mydb1->set('id_agama',$agama);
-                $this->mydb1->set('alamat',$alamat_guru);
-                $this->mydb1->set('tanggal_masuk',$mulai_mengajar);
+                $this->mydb1->set('alamat',$alamat);
+                $this->mydb1->set('tanggal_masuk',$tanggal_masuk);
                 $this->mydb1->set('id_jabatan',$id_jabatan_guru);
                 $this->mydb1->set('id_jabatan',$id_jabatan_guru);
                 $this->mydb1->set('created_date',$created_date);

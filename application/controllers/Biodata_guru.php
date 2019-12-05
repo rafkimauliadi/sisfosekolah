@@ -38,12 +38,10 @@ class Biodata_guru extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-
 		$data['data'] 		= $this->model_biodata_guru->get_view($offset,$this->perpage);
 		$data['search']		= $this->model_biodata_guru->search();
 		$data['pagination'] = $this->model_message->pagination(site_url('biodata-guru/index'),$this->model_biodata_guru->num_rows(),$this->perpage);
 		$data['offset'] 	= $offset;
-
 
 		$this->templates('guru/biodata','index',$data);
 	}
@@ -53,14 +51,13 @@ class Biodata_guru extends CI_Controller {
 
 		if(is_null($offset)==TRUE) $offset  = $this->uri->segment(3,0);
 
-		$this->session->set_flashdata('title', 'Data Siswa');
+		$this->session->set_flashdata('title', 'Data guru');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Biodata Siswa ', site_url('biodata-siswa'));
-		$this->breadcrumb->add('index ', site_url('biodata-siswa'));
+		$this->breadcrumb->add('Biodata guru ', site_url('biodata-guru'));
+		$this->breadcrumb->add('index ', site_url('biodata-guru'));
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
-
 
 		$data['data'] 		= $this->model_biodata_guru->get_view($offset,$this->perpage);
 		$data['search']		= $this->model_biodata_guru->search();
@@ -86,12 +83,12 @@ class Biodata_guru extends CI_Controller {
 
 		$exist	= $this->model_biodata_guru->exist_id($id);
 		if ($exist==0)
-			redirect(site_url('biodata-siswa'));
+			redirect(site_url('biodata-guru'));
 
 		$this->session->set_flashdata('title', 'Edit');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Biodata Siswa ', site_url('biodata-siswa'));
-		$this->breadcrumb->add('Edit ', site_url('biodata-siswa'));
+		$this->breadcrumb->add('Biodata guru ', site_url('biodata-guru'));
+		$this->breadcrumb->add('Edit ', site_url('biodata-guru'));
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
@@ -112,19 +109,19 @@ class Biodata_guru extends CI_Controller {
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('biodata-siswa/edit/'.$id));         
+            redirect(site_url('biodata-guru/edit/'.$id));         
         } 
 	    else 
 	    {
 	    	if ($cek_exist == "0")
 	    	{
 	    		$this->model_biodata_guru->init_update();
-	    		redirect(site_url('biodata-siswa'));
+	    		redirect(site_url('biodata-guru'));
 	    	}
 	    	else
 	    	{
 	    		$this->model_message->messege_proses('NIS '.$nis.' sudah digunakan','delete',$url,'fa-check-square-o','danger');
-	    		redirect(site_url('biodata-siswa/edit/'.$id));
+	    		redirect(site_url('biodata-guru/edit/'.$id));
 	    	}
 	    }
 	}
@@ -137,12 +134,13 @@ class Biodata_guru extends CI_Controller {
 			$this->save();
 	}
 
+	//1. Proses pemanggilan form add data
 	public function init_add()
 	{
 		$this->session->set_flashdata('title', 'Add');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
 		$this->breadcrumb->add('Biodata Guru ', site_url('biodata-guru'));
-		$this->breadcrumb->add('Add ', site_url('biodata-siswa'));
+		$this->breadcrumb->add('Add ', site_url('biodata-guru'));
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
@@ -150,6 +148,7 @@ class Biodata_guru extends CI_Controller {
 		$this->templates('guru/biodata','add',$data);
 	}
 
+	//1. Proses Validasi dan Proses Penyimpanan data ke Model
 	public function save()
 	{
 		$ct = $this->model_biodata_guru->cek_exist();
@@ -184,12 +183,12 @@ class Biodata_guru extends CI_Controller {
 	private function init_delete()
 	{
 		$this->model_biodata_guru->init_delete();
-	   	redirect(site_url('biodata-siswa'));
+	   	redirect(site_url('biodata-guru'));
 	}
 
 	public function gambar()
 	{
 		$this->model_biodata_guru->init_delete_gambar();
-        redirect(site_url('biodata-siswa'));
+        redirect(site_url('biodata-guru'));
 	}
 }

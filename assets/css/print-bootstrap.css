@@ -1,0 +1,25 @@
+@media print
+{
+    .noprint {
+        display:none;
+    }
+
+    .modal-footer, .modal-header {
+        display: none;
+       
+
+    }
+
+    .modal-dialog{
+        border: 0px;
+
+
+    }
+ 
+}
+
+@media screen
+{
+
+
+}

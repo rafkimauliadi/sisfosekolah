@@ -54,7 +54,18 @@ class Model_combo_r extends CI_Model
                                     ");
         return $data;
     }
-
+    public function init_cb_status_pegawai($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        status_pegawai
+                                    FROM 
+                                        master_status_pegawai
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
 
     public function init_cb_status_anak($id)
     {
@@ -123,5 +134,17 @@ class Model_combo_r extends CI_Model
         return $data;
     }
 
+public function init_cb_tahun_ajaran($id)
+    {
+        $data =$this->mydb1->query("SELECT 
+                                        id,
+                                        tahun
+                                    FROM 
+                                        tahun_ajaran
+                                    WHERE 
+                                        id <> '$id'
+                                    ");
+        return $data;
+    }
     
 }

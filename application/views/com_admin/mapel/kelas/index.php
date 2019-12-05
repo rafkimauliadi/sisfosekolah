@@ -1,18 +1,20 @@
 <div class="col-12">
     <div class="card">
         <div class="card-body">
-            <?php 
+        <p><?php $CI =& get_instance();  echo $this->session->flashdata('pesan'); ?></p>
+
+        <?php 
                 $value=$this->session->flashdata('change_box');
                 $temp = str_replace("_", " ", $value);
                 $label = ucfirst($temp);
             ?>      
-            <h4 class="card-title">Mata Pelajaran Kelas</h4>
+            <h4 class="card-title">Mata Pelajaran Per Kelas</h4>
             <p><?php echo $this->session->flashdata('pesan'); ?></p>
             <a title="Tambah Data" href="<?php echo site_url('mapel-kelas/add')?>" class="btn btn-primary btn-rounded m-t-10 float-right"><i class="fa fa-plus"></i> Add</a>
 
             <div class="page-header">
                 <form class="form-inline" method="POST" action="<?php echo site_url('mapel-kelas/search'); ?>" >
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="sr-only" for="exampleInputEmail3">Filter by</label>
                         <select id="change_box" name="change_box" class="form-control select-single">
                             <?php
@@ -26,14 +28,35 @@
                                 }
                             ?>
                         </select>
-                    </div>
-                    <div class="form-group">
+                    </div> -->
+                    <!-- <div class="form-group">
                     <input type="text" class="form-control" name="search_box" value="<?php echo $this->session->flashdata('search_box'); ?>">
-                    </div>
+                    </div> -->
+                         
+          <div class="form-group">
+              <label class="col-md-4 control-label" for="textinput">Kelas</label>
+                  <div class="col-md-4">
+                  <select class="form-control select-single" name="id_kelas">
+                  <option><-- Select Kelas --></option>
+                          <?php
+                          $id=0;
+                          $cb_status = $CI->model_jadwal_pelajaran->init_kelas($id);
+                          foreach ($cb_status->result() as $row) : 
+                          $CI->model_jadwal_pelajaran->init_kelas($id); ?>
+                              <option value="<?php echo $row->id_kelas ?>"><?php echo $row->nama_kelas ?> <?php echo $row->nama_jurusan ?> </option>
+                          <?php $cb_status->free_result(); endforeach; ?>  
+                      </select>
+                </div>
+          </div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
                     <button type="submit" class="btn btn-success">Filter/Cari</button>
                         <a class="btn btn-danger" href="<?php echo site_url('mapel-kelas')?>" ><i class="fa fa-refresh"></i> Refresh</a>
+             
+        
                 </form>   
-            </div> 
+            </div>
+            
             <hr/>
             <div class="table-responsive">
                 <table id="tree" class="table table-striped table-bordered table-hover" cellspacing="0" width="100%">

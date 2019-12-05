@@ -8,7 +8,7 @@ class Mapel_kelas extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('model_mapel_kelas','model_message','model_combo_r','model_combo','model_instansi'));
+        $this->load->model(array('model_mapel_kelas','model_message','model_combo_r','model_combo','model_instansi','model_jadwal_pelajaran'));
         $this->load->library(array('form_validation'));
     }
 
@@ -61,6 +61,8 @@ class Mapel_kelas extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
+		$data['cb_group'] 		= $this->model_combo->init_group();
+		$data['cb_parent']		= $this->model_instansi->cb_parent();
 
 		$data['data'] 		= $this->model_mapel_kelas->get_view($offset,$this->perpage);
 		$data['search']		= $this->model_mapel_kelas->search();

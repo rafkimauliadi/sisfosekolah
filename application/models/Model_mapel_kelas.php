@@ -22,48 +22,90 @@ class Model_mapel_kelas extends CI_Model
 
     public function get_view($offset,$perpage)
     {
-        $change_box = $this->input->post('change_box',TRUE);
-        $search_box = $this->input->post('search_box',TRUE);
-        $this->session->set_flashdata('search_box', $search_box);
+        // $change_box = $this->input->post('change_box',TRUE);
+        // $search_box = $this->input->post('search_box',TRUE);
+        // $this->session->set_flashdata('search_box', $search_box);
         
-        if($search_box != NULL)
-    	   $data =$this->mydb1->query("SELECT 
-                                            a.id,
-                                            a.id_kelas,
-                                            a.id_mata_pelajaran,
-                                            a.id_guru,
+        // if($search_box != NULL)
+    	//    $data =$this->mydb1->query("SELECT 
+        //                                     a.id,
+        //                                     a.id_kelas,
+        //                                     a.id_mata_pelajaran,
+        //                                     a.id_guru,
 
-                                            b.nama_kelas,
-                                            c.nama_mapel,
-                                            d.nama_lengkap as nama_guru
-                                        from 
-                                            master_mapel_kelas a
-                                            LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
-                                            LEFT JOIN master_mata_pelajaran c on (a.id_mata_pelajaran=c.id_mata_pelajaran)
-                                            LEFT JOIN master_guru d on (a.id_guru=d.id)
+        //                                     b.nama_kelas,
+        //                                     c.nama_mapel,
+        //                                     d.nama_lengkap as nama_guru
+        //                                 from 
+        //                                     master_mapel_kelas a
+        //                                     LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+        //                                     LEFT JOIN master_mata_pelajaran c on (a.id_mata_pelajaran=c.id_mata_pelajaran)
+        //                                     LEFT JOIN master_guru d on (a.id_guru=d.id)
                                             
-                                        where 
-                                            (b.".$change_box." like '%$search_box%')
-                                        order by a.id desc
-                                        ");
+        //                                 where 
+        //                                     (b.".$change_box." like '%$search_box%')
+        //                                 order by a.id desc
+        //                                 ");
+        // else
+        //     $data =$this->mydb1->query("SELECT 
+        //                                     a.id,
+        //                                     a.id_kelas,
+        //                                     a.id_mata_pelajaran,
+        //                                     a.id_guru,
+
+        //                                     b.nama_kelas,
+        //                                     c.nama_mapel,
+        //                                     d.nama_lengkap as nama_guru
+        //                                 from 
+        //                                     master_mapel_kelas a
+        //                                     LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+        //                                     LEFT JOIN master_mata_pelajaran c on (a.id_mata_pelajaran=c.id_mata_pelajaran)
+        //                                     LEFT JOIN master_guru d on (a.id_guru=d.id)
+                                            
+        //                                 order by a.id desc
+        //                                     limit ".$offset.",".$perpage);
+        // return $data;
+
+        $id_kelas = $this->input->post('id_kelas',TRUE);
+
+     
+
+        if($id_kelas != NULL)
+        $data =$this->mydb1->query("SELECT 
+        a.id,
+                                             a.id_kelas,
+                                             a.id_mata_pelajaran,
+                                             a.id_guru,
+
+                                             b.nama_kelas,
+                                            c.nama_mapel,
+                                             d.nama_lengkap as nama_guru
+                                         from 
+                                             master_mapel_kelas a
+                                             LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+                                             LEFT JOIN master_mata_pelajaran c on (a.id_mata_pelajaran=c.id_mata_pelajaran)
+                                             LEFT JOIN master_guru d on (a.id_guru=d.id)
+                                            where b.id_kelas='{$id_kelas}'
+                                            
+                                         order by a.id desc");
         else
             $data =$this->mydb1->query("SELECT 
-                                            a.id,
-                                            a.id_kelas,
-                                            a.id_mata_pelajaran,
-                                            a.id_guru,
+                                     a.id,
+                                             a.id_kelas,
+                                             a.id_mata_pelajaran,
+                                             a.id_guru,
 
-                                            b.nama_kelas,
+                                             b.nama_kelas,
                                             c.nama_mapel,
-                                            d.nama_lengkap as nama_guru
-                                        from 
-                                            master_mapel_kelas a
-                                            LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
-                                            LEFT JOIN master_mata_pelajaran c on (a.id_mata_pelajaran=c.id_mata_pelajaran)
-                                            LEFT JOIN master_guru d on (a.id_guru=d.id)
+                                             d.nama_lengkap as nama_guru
+                                         from 
+                                             master_mapel_kelas a
+                                             LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+                                             LEFT JOIN master_mata_pelajaran c on (a.id_mata_pelajaran=c.id_mata_pelajaran)
+                                             LEFT JOIN master_guru d on (a.id_guru=d.id)
                                             
-                                        order by a.id desc
-                                            limit ".$offset.",".$perpage);
+                                         order by a.id desc
+               limit ".$offset.",".$perpage);
         return $data;
     }    	
 

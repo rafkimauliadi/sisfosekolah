@@ -176,37 +176,95 @@ public function exist_id($id)
 
     public function get_view($offset,$perpage)
     {
-        $change_box = $this->input->post('change_box',TRUE);
-        $search_box = $this->input->post('search_box',TRUE);
-        $this->session->set_flashdata('search_box', $search_box);
+//         $change_box = $this->input->post('change_box',TRUE);
+//         $search_box = $this->input->post('search_box',TRUE);
+//         $this->session->set_flashdata('search_box', $search_box);
         
-        if($search_box != NULL)
-           $data =$this->mydb1->query("SELECT 
-                                                                                    a.id,
-                                            a.id_kelas,
-                                            a.id_mapel,
-                                            a.id_guru,
-                                            a.nilai_siswa,
-                                            a.id_siswa_kelas,
-                                            a.id_tahun_ajaran,                                            
-                                            b.nama_kelas,
-                                            c.nama_mapel,
-                                            d.nip,d.nama_lengkap,
-					    f.nama_lengkap as nama_siswa,
-g.tahun                                          
-                                        from 
-                                            master_nilai a
-                                            LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
-                                            LEFT JOIN master_mata_pelajaran c on (a.id_mapel=c.id_mata_pelajaran)
-                                            LEFT JOIN master_guru d on (a.id_guru=d.id)
-LEFT JOIN master_siswa_kelas e on (a.id_siswa_kelas=e.id)
-LEFT JOIN master_siswa f on (e.id_siswa=f.id)
-LEFT JOIN tahun_ajaran g on (a.id_tahun_ajaran=g.id)
-where
-                                            (b.".$change_box." like '%$search_box%')
-                                        order by a.id desc");
-        else
+//         if($search_box != NULL)
+//            $data =$this->mydb1->query("SELECT 
+//                                                                                     a.id,
+//                                             a.id_kelas,
+//                                             a.id_mapel,
+//                                             a.id_guru,
+//                                             a.nilai_siswa,
+//                                             a.id_siswa_kelas,
+//                                             a.id_tahun_ajaran,                                            
+//                                             b.nama_kelas,
+//                                             c.nama_mapel,
+//                                             d.nip,d.nama_lengkap,
+// 					    f.nama_lengkap as nama_siswa,
+// g.tahun                                          
+//                                         from 
+//                                             master_nilai a
+//                                             LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+//                                             LEFT JOIN master_mata_pelajaran c on (a.id_mapel=c.id_mata_pelajaran)
+//                                             LEFT JOIN master_guru d on (a.id_guru=d.id)
+// LEFT JOIN master_siswa_kelas e on (a.id_siswa_kelas=e.id)
+// LEFT JOIN master_siswa f on (e.id_siswa=f.id)
+// LEFT JOIN tahun_ajaran g on (a.id_tahun_ajaran=g.id)
+// where
+//                                             (b.".$change_box." like '%$search_box%')
+//                                         order by a.id desc");
+//         else
+//             $data =$this->mydb1->query("SELECT 
+//             a.id,
+//             a.id_kelas,
+//             a.id_mapel,
+//             a.id_guru,
+//             a.nilai_siswa,
+//             a.id_siswa_kelas,
+//             a.id_tahun_ajaran,                                            
+//             b.nama_kelas,
+//             c.nama_mapel,
+//             d.nip,d.nama_lengkap,
+//             f.nama_lengkap as nama_siswa,
+//             f.nis,
+//             g.tahun,
+//             h.nama_jurusan                                          
+//         from 
+//             master_nilai a
+//             LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+//             LEFT JOIN master_mata_pelajaran c on (a.id_mapel=c.id_mata_pelajaran)
+//             LEFT JOIN master_guru d on (a.id_guru=d.id)
+//             LEFT JOIN master_siswa_kelas e on (a.id_siswa_kelas=e.id)
+//             LEFT JOIN master_siswa f on (e.id_siswa=f.id)
+//             LEFT JOIN tahun_ajaran g on (a.id_tahun_ajaran=g.id)
+//             LEFT JOIN master_jurusan h on (b.id_jurusan=h.id)
+//                                           order by a.id_kelas desc
+//                                             limit ".$offset.",".$perpage);
+//         return $data;
+
+$id_kelas = $this->input->post('id_kelas',TRUE);
+if($id_kelas != NULL)
             $data =$this->mydb1->query("SELECT 
+            a.id,
+            a.id_kelas,
+            a.id_mapel,
+            a.id_guru,
+            a.nilai_siswa,
+            a.id_siswa_kelas,
+            a.id_tahun_ajaran,                                            
+            b.nama_kelas,
+            c.nama_mapel,
+            d.nip,d.nama_lengkap,
+            f.nama_lengkap as nama_siswa,
+            f.nis,
+            g.tahun,
+            h.nama_jurusan                                          
+        from 
+            master_nilai a
+            LEFT JOIN master_kelas b on (a.id_kelas=b.id_kelas)
+            LEFT JOIN master_mata_pelajaran c on (a.id_mapel=c.id_mata_pelajaran)
+            LEFT JOIN master_guru d on (a.id_guru=d.id)
+            LEFT JOIN master_siswa_kelas e on (a.id_siswa_kelas=e.id)
+            LEFT JOIN master_siswa f on (e.id_siswa=f.id)
+            LEFT JOIN tahun_ajaran g on (a.id_tahun_ajaran=g.id)
+            LEFT JOIN master_jurusan h on (b.id_jurusan=h.id)
+where b.id_kelas='{$id_kelas}'
+                                    
+                                 order by a.id desc");
+else
+                $data =$this->mydb1->query("SELECT 
             a.id,
             a.id_kelas,
             a.id_mapel,
@@ -232,7 +290,9 @@ where
             LEFT JOIN master_jurusan h on (b.id_jurusan=h.id)
                                           order by a.id_kelas desc
                                             limit ".$offset.",".$perpage);
-        return $data;
+
+return $data;
+
     } 	
 
     // MENGAMBIL DATA

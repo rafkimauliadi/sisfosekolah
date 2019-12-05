@@ -28,11 +28,11 @@
                             <td><?php echo $row->nama_jurusan; ?></td>
                             <td><?php echo $row->created_at; ?></td>
                             <td>
-															<button id-mapel="<?php echo $row->id_kelas; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
-															<a href="<?php echo site_url('master_kelas/edit/'.$row->id_kelas); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
+								<button id-mapel="<?php echo $row->id_kelas; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
+								<a href="<?php echo site_url('master_kelas/edit/'.$row->id_kelas); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>
 														</td>
                         </tr>
-											<?php }?>
+						<?php }?>
                     </tbody>
                 </table>
             </div>

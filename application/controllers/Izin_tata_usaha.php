@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Bimbingan_konseling extends CI_Controller {
+class Izin_tata_usaha extends CI_Controller {
 	
 	private $perpage = 10;
 
 	public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk'));
+        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir','model_izin_tata_usaha'));
         $this->load->library(array('form_validation','encryption'));
     }
 
@@ -30,18 +30,18 @@ class Bimbingan_konseling extends CI_Controller {
 
 		if(is_null($offset)==TRUE) $offset  = $this->uri->segment(3,0);
 
-		$this->session->set_flashdata('title', 'Bimbingan Konseling');
+		$this->session->set_flashdata('title', 'Izin Tata Usaha');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Bimbingan Konseling ', site_url('bimbingan-konseling'));
+		$this->breadcrumb->add('Izin Tata Usaha ', site_url('izin-tata-usaha'));
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
+		
+		$data['data'] 		= $this->model_izin_tata_usaha->get_list_izin();
+		// $data['data'] 		= $this->model_izin_tata_usaha->get_list_bk($this->model_hook->init_profile_user()->username);
 
-		$data['data'] 		= $this->model_bk->get_list_bk();
-		// $data['data'] 		= $this->model_bk->get_list_bk($this->model_hook->init_profile_user()->username);
 
-
-		$this->templates('mod_bimbingan_konseling','index',$data);
+		$this->templates('mod_izin_tata_usaha','index',$data);
 	}
 
   public function add()
@@ -56,8 +56,8 @@ class Bimbingan_konseling extends CI_Controller {
 	{
 		$this->session->set_flashdata('title', 'Add');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Bimbingan Konseling ', site_url('bimbingan-konseling'));
-		$this->breadcrumb->add('Add ', site_url('bimbingan-konseling/add'));
+		$this->breadcrumb->add('Izin Tata Usaha ', site_url('izin-tata-usaha'));
+		$this->breadcrumb->add('Add ', site_url('izin-tata-usaha/add'));
 
 		$data['cb_group'] 		= $this->model_combo->init_group();
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
@@ -65,22 +65,22 @@ class Bimbingan_konseling extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$this->templates('mod_bimbingan_konseling','add',$data);
+		$this->templates('mod_izin_tata_usaha','add',$data);
   }
   
   public function save()
 	{
-		$this->model_bk->validation_field('simpan'); 
+		$this->model_izin_tata_usaha->validation_field('simpan'); 
 
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('bimbingan-konseling/add/'));         
+            redirect(site_url('izin-tata-usaha/add/'));         
         } 
 	    else 
 	    {
-	    	$this->model_bk->init_save();
-	    	redirect(site_url('bimbingan-konseling'));
+	    	$this->model_izin_tata_usaha->init_save();
+	    	redirect(site_url('izin-tata-usaha'));
 	    }
   }
   
@@ -91,8 +91,8 @@ class Bimbingan_konseling extends CI_Controller {
 
 	private function init_delete()
 	{
-		$this->model_bk->init_delete();
-	    redirect(site_url('bimbingan_konseling'));
+		$this->model_izin_tata_usaha->init_delete();
+	    redirect(site_url('izin_tata_usaha'));
   }
   
   public function edit()
@@ -108,16 +108,16 @@ class Bimbingan_konseling extends CI_Controller {
 
 		$id = $this->format_data->string($this->uri->segment(3,0));
 
-		$exist	= $this->model_bk->exist_id($id);
+		$exist	= $this->model_izin_tata_usaha->exist_id($id);
 		if ($exist==0)
-			redirect(site_url('bimbingan-konseling'));
+			redirect(site_url('izin-tata-usaha'));
 		if ($id==NULL)
-			redirect(site_url('bimbingan-konseling'));
+			redirect(site_url('izin-tata-usaha'));
 
 		$this->session->set_flashdata('title', 'Edit');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Bimbingan Konseling ', site_url('bimbingan-konseling'));
-		$this->breadcrumb->add('Edit ', site_url('bimbingan-konseling/edit'));
+		$this->breadcrumb->add('Izin Tata Usaha ', site_url('izin-tata-usaha'));
+		$this->breadcrumb->add('Edit ', site_url('izin-tata-usaha/edit'));
 
 		
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
@@ -125,44 +125,35 @@ class Bimbingan_konseling extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$data['details']	= $this->model_bk->get_data();
+		$data['details']	= $this->model_izin_tata_usaha->get_data();
 
 		//$data['cb_status']	= $this->model_combo->init_status($id);
 
-		$this->templates('mod_bimbingan_konseling','edit',$data);
+		$this->templates('mod_izin_tata_usaha','edit',$data);
   }
   
   public function update()
 	{
     $url='';
 		$id 			= $this->format_data->string($this->input->post('id',TRUE));
-	    $nis 			= $this->format_data->string($this->input->post('nis',TRUE));
-	    $nip_guru		= $this->format_data->string($this->input->post('nip_guru',TRUE));
-	    $date			= $this->format_data->string($this->input->post('date',TRUE));
-	    $permasalahan	= $this->format_data->string($this->input->post('permasalahan',TRUE));
-	    $penyelesaian	= $this->format_data->string($this->input->post('penyelesaian',TRUE));
+	    $nama 			= $this->format_data->string($this->input->post('nama',TRUE));
+	    $asal			= $this->format_data->string($this->input->post('asal',TRUE));
+	    $keperluan		= $this->format_data->string($this->input->post('keperluan',TRUE));
+	    $tgl_urusan		= $this->format_data->string($this->input->post('tgl_urusan',TRUE));
+	    $jam_urusan		= $this->format_data->string($this->input->post('jam_urusan',TRUE));
+	    $status_izin	= $this->format_data->string($this->input->post('status_izin',TRUE));
 
-		$this->model_bk->validation_field('edit'); 
+		$this->model_izin_tata_usaha->validation_field('edit'); 
 
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('bimbingan-konseling/edit/'.$id));
+            redirect(site_url('izin-tata-usaha/edit/'.$id));
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_bk->cek_exist_nama('bimbingan_konseling','nis','id',$nis,$id);
-
-	    	if ($cek_nama > 0 )
-	    	{
-	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('bimbingan-konseling/edit/'.$id));
-	    	}
-	    	else
-	    	{
-	    		$this->model_bk->init_update();
-	    		redirect(site_url('bimbingan-konseling'));
-	    	}
+	    	$this->model_izin_tata_usaha->init_update();
+	    	redirect(site_url('izin-tata-usaha'));
 	    }
 	}
 
@@ -172,7 +163,7 @@ class Bimbingan_konseling extends CI_Controller {
 		header("Content-Type: application/json; charset=UTF-8");
 		$query = $_GET["query"];
 
-		$result	= $this->model_bk->cari_siswa($query);
+		$result	= $this->model_izin_tata_usaha->cari_siswa($query);
 
 		// Format bentuk data untuk autocomplete.
 		foreach($result as $data) {

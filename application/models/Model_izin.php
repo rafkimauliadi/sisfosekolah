@@ -1,5 +1,5 @@
 <?php
-class Model_bk extends CI_Model
+class Model_izin extends CI_Model
 {	
 
     public function __construct()
@@ -13,44 +13,41 @@ class Model_bk extends CI_Model
     {
         $this->model_message->conv_validasi_to_indonesia();
 
-        $nis            = $this->input->post('nis');
-        $nip_guru       = $this->input->post('nip_guru');
-        $date           = $this->input->post('date');
-        $permasalahan   = $this->input->post('permasalahan');
-        $penyelesaian   = $this->input->post('penyelesaian');
+        $nis              = $this->input->post('nis');
+        $tgl_izin         = $this->input->post('tgl_izin');
+        $alasan           = $this->input->post('alasan');
 
         if ($action=='simpan')
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('nip_guru', 'NIP Guru yang bersangkutan', 'required');
-            $this->form_validation->set_rules('date', 'Tanggal Kasus', 'required');
-            $this->form_validation->set_rules('permasalahan', 'Permasalahan yang terjadi', 'required');
-            $this->form_validation->set_rules('penyelesaian', 'Tata Cara Penyelesaian', 'required');
+            $this->form_validation->set_rules('tgl_izin', 'Tanggal Izin', 'required');
+            $this->form_validation->set_rules('alasan', 'Alasan Izin', 'required');
         }
         else
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('nip_guru', 'NIP Guru yang bersangkutan', 'required');
-            $this->form_validation->set_rules('date', 'Tanggal Kasus', 'required');
-            $this->form_validation->set_rules('permasalahan', 'Permasalahan yang terjadi', 'required');
-            $this->form_validation->set_rules('penyelesaian', 'Tata Cara Penyelesaian', 'required');
+            $this->form_validation->set_rules('tgl_izin', 'Tanggal Izin', 'required');
+            $this->form_validation->set_rules('alasan', 'Alasan Izin', 'required');
         }
 
         $this->session->set_flashdata('nis', $nis);
-        $this->session->set_flashdata('nip_guru', $nip_guru);
-        $this->session->set_flashdata('date', $date);
-        $this->session->set_flashdata('permasalahan', $permasalahan);
-        $this->session->set_flashdata('penyelesaian', $penyelesaian);
+        $this->session->set_flashdata('tgl_izin', $tgl_izin);
+        $this->session->set_flashdata('alasan', $alasan);
 
     }
 
-    public function get_list_bk()
+    public function get_list_izin()
     {
-        $sql = "SELECT a.*,
-                DATE_FORMAT(a.date, '%d %M %Y') as date,
-        b.nama_lengkap as nama_siswa 
-        FROM bimbingan_konseling a 
-            LEFT JOIN master_siswa b on (a.nis = b.nis)";
+        $sql = "
+            SELECT 
+                a.id,
+                a.nis,
+                a.tgl_izin,
+                a.alasan,
+                b.nama_lengkap as nama_siswa 
+                FROM izin_online a 
+                LEFT JOIN master_siswa b on (a.nis = b.nis)
+                ORDER BY a.tgl_izin DESC";
         $queryRec = $this->db->query($sql);
         return $queryRec;
     }
@@ -60,22 +57,18 @@ class Model_bk extends CI_Model
         // date_default_timezone_set('Asia/Jakarta');
         // $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
-        $nis                = $this->input->post('nis',TRUE);
-        $nip_guru           = $this->input->post('nip_guru',TRUE);
-        $date               = $this->input->post('date',TRUE);
-        $permasalahan       = $this->input->post('permasalahan',TRUE);
-        $penyelesaian       = $this->input->post('penyelesaian',TRUE);
+        $nis            = $this->input->post('nis',TRUE);
+        $tgl_izin       = $this->input->post('tgl_izin',TRUE);
+        $alasan         = $this->input->post('alasan',TRUE);
 
-        $url            = site_url('bimbingan-konseling/edit/'.$id);
+        $url            = site_url('izin-online/edit/'.$id);
 
         $this->mydb1->trans_start();
         $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('nip_guru',$nip_guru);
-        $this->mydb1->set('date',$date);
-        $this->mydb1->set('permasalahan',$permasalahan);
-        $this->mydb1->set('penyelesaian',$penyelesaian);
+        $this->mydb1->set('tgl_izin',$tgl_izin);
+        $this->mydb1->set('alasan',$alasan);
         // $this->mydb1->set('created_at',$created_time);
-        $this->mydb1->insert('bimbingan_konseling');
+        $this->mydb1->insert('izin_online');
 
         $this->mydb1->trans_complete();
         if ($this->mydb1->trans_status()==false)
@@ -100,7 +93,7 @@ class Model_bk extends CI_Model
         $this->mydb1->trans_start();
 
         $this->mydb1->where('id',$id);
-        $this->mydb1->delete('bimbingan_konseling');
+        $this->mydb1->delete('izin_online');
 
         $this->mydb1->trans_complete();
 
@@ -120,7 +113,7 @@ class Model_bk extends CI_Model
 
     public function exist_id($id)
     {
-        $query = $this->mydb1->query("SELECT count(id) as exist FROM bimbingan_konseling WHERE id = '$id'");
+        $query = $this->mydb1->query("SELECT count(id) as exist FROM izin_online WHERE id = '$id'");
         $cek = $query->row();
         if (is_null($cek)==false) 
         {
@@ -140,14 +133,12 @@ class Model_bk extends CI_Model
             SELECT 
             a.id,
             a.nis,
-            a.nip_guru,
-            a.date,
-            a.permasalahan,
-            a.penyelesaian,
+            a.tgl_izin,
+            a.alasan,
 
             b.nama_lengkap as nama_siswa 
 
-            FROM bimbingan_konseling a 
+            FROM izin_online a 
 
             LEFT JOIN master_siswa b on a.nis = b.nis
             WHERE a.id='$id'");
@@ -168,26 +159,22 @@ class Model_bk extends CI_Model
     {
         $id_user        = $this->model_hook->init_online_exist();
 
-        $id          = $this->input->post('id',TRUE);
-        $nis          = $this->input->post('nis',TRUE);
-        $nip_guru     = $this->input->post('nip_guru',TRUE);
-        $date         = $this->input->post('date',TRUE);
-        $permasalahan = $this->input->post('permasalahan',TRUE);
-        $penyelesaian = $this->input->post('penyelesaian',TRUE);
-
-        $url            = site_url('bimbingan_konseling/edit/'.$id);
+        $id        = $this->input->post('id',TRUE);
+        $nis       = $this->input->post('nis',TRUE);
+        $tgl_izin  = $this->input->post('tgl_izin',TRUE);
+        $alasan    = $this->input->post('alasan',TRUE);
+        
+        $url       = site_url('izin_online/edit/'.$id);
 
         // date_default_timezone_set('Asia/Jakarta');
         // $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
         $this->mydb1->trans_start();
         $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('nip_guru',$nip_guru);
-        $this->mydb1->set('date',$date);
-        $this->mydb1->set('permasalahan',$permasalahan);
-        $this->mydb1->set('penyelesaian',$penyelesaian);
+        $this->mydb1->set('tgl_izin',$tgl_izin);
+        $this->mydb1->set('alasan',$alasan);
         $this->mydb1->where('id',$id);
-        $this->mydb1->update('bimbingan_konseling');
+        $this->mydb1->update('izin_online');
 
         $this->mydb1->trans_complete();
         if ($this->mydb1->trans_status()==false)
@@ -206,9 +193,16 @@ class Model_bk extends CI_Model
 
     function cari_siswa($query)
     {
-        $sql = "SELECTs nis FROM bimbingan_konseling WHERE nis LIKE '%?%' ORDER BY nis DESC";
+        $sql = "SELECTs nis FROM izin_online WHERE nis LIKE '%?%' ORDER BY nis DESC";
         $queryRec = $this->db->query($sql, array($query))->result_array();
         return $queryRec;
+    }
+
+    function search_blog($nis){
+        $this->db->like('nis', $nis , 'both');
+        $this->db->order_by('nis', 'ASC');
+        $this->db->limit(10);
+        return $this->db->get('master_siswa')->result();
     }
 
 }

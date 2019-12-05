@@ -47,7 +47,10 @@
                 <th>Agama</th>
                 <th>Alamat Peserta Didik</th>
                 <th>Foto</th>
-                <th>Status Siswa</th>               
+                <th>Nomor Ijazah</th>
+                <th>Tahun Ijazah</th>
+                <th>Status Siswa</th>   
+
                 <th>Action</th>
                 <th>#ID</th>
             </tr>
@@ -62,6 +65,8 @@
                 <th>Agama</th>
                 <th>Alamat Peserta Didik</th>
                 <th>Foto</th>
+                <th>Nomor Ijazah</th>
+                <th>Tahun Ijazah</th>
                 <th>Status Siswa</th>               
                 <th>Action</th>
                 <th>#ID</th>
@@ -91,6 +96,9 @@
                     <td>
                         <?php if ($gambar != "") {  ?> <center><img width="80px" class="img-thumbnail" src="<?php echo $dir; ?>"> <?php } ?></center>
                     </td>
+                    <td><?php echo $row->no_ijazah; ?> </td>
+                    <td><?php echo $row->tahun_ijazah; ?> </td>
+
                     <td><?php echo $row->status_peserta_didik; ?></td>
                     <td>
                         <div class="btn-group">

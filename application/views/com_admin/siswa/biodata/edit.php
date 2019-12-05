@@ -59,7 +59,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Jenis Kelamin</label>
-                                <select class="form-control select2 custom-select" name="gender" data-placeholder="Choose a Gender" tabindex="1">
+                                <select class="form-control select2 custom-select" name="jenis_kelamin" data-placeholder="Choose a Gender" tabindex="1">
                                 <option value="<?php echo $details->row()->jenis_kelamin ?>"><?php echo $details->row()->nm_jenis_kelamin ?></option>
                                 <?php 
                                     $id=$details->row()->jenis_kelamin;
@@ -75,7 +75,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Agama</label>
-                                <select class="form-control select2 custom-select" name="agama" data-placeholder="Choose a Agama" tabindex="1">
+                                <select class="form-control select2 custom-select" name="id_agama" data-placeholder="Choose a Agama" tabindex="1">
                                     <option value="<?php echo $details->row()->agama; ?>"><?php echo $details->row()->nama_agama; ?></option>
                                 <?php 
                                     $id=$details->row()->agama;

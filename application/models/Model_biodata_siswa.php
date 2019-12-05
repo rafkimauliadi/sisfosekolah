@@ -244,7 +244,8 @@ class Model_biodata_siswa extends CI_Model
                                             a.nis,
                                             a.nisn,
                                             a.tempat_lahir,
-                                            a.tanggal_lahir,
+                                         
+                                            DATE_FORMAT(a.tanggal_lahir, '%d-%m-%Y') as tanggal_lahir,
                                             a.jenis_kelamin,
                                             a.agama,
                                             a.status_dalam_keluarga,
@@ -254,6 +255,8 @@ class Model_biodata_siswa extends CI_Model
                                             a.tanggal_diterima,
                                             a.foto,
                                             a.created_modified,
+                                            a.no_ijazah,
+                                            a.tahun_ijazah,
 
                                             b.nama_ayah,
                                             b.nama_ibu,
@@ -475,6 +478,55 @@ class Model_biodata_siswa extends CI_Model
                 return TRUE;
             }
     }
+
+    public function user()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
+
+        $max=$this->model_combo->id_max('id_user','_users');
+            if($max == 0) 
+                $id = 1;
+            else
+                $id = $max+1;
+
+        $id_user        = $this->model_hook->init_online_exist();
+        $nomor_identitas       = $this->input->post('nisn',TRUE);
+
+        $username       = $this->input->post('nisn',TRUE);
+        $v_password     = $this->input->post('tanggal_lahir',TRUE);
+        $password       = md5(sha1(strip_tags(addslashes(trim($v_password)))).'beye');
+      
+
+        $url            = site_url('biodata-siswa/edit/'.$id);
+
+        $this->mydb1->trans_start();
+        $this->mydb1->set('id_user',$id);
+        $this->mydb1->set('username',$username);
+        $this->mydb1->set('nomor_identitas',$nomor_identitas);
+
+        $this->mydb1->set('password',$password);
+        $this->mydb1->set('registerDate',$created_time);
+
+        $this->mydb1->insert('_users');
+
+        $this->mydb1->trans_complete();
+        if ($this->mydb1->trans_status()==false)
+        {
+            $this->mydb1->trans_rollback();
+            $this->error();
+            return FALSE;
+        }
+        else
+        {
+            // $this->model_login->update_password($id);
+            $this->mydb1->trans_commit();
+            // $this->model_message->messege_proses('Data Berhasil disimpan.','edit',$url,'fa-check-square-o','success');
+            return TRUE;
+        }
+    }
+
+
 
     public function init_save()
     {

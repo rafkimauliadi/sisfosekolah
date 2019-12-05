@@ -103,7 +103,7 @@ class Biodata_guru extends CI_Controller {
 		$url='';
 		$cek_exist = $this->model_biodata_guru->check_nik_by_change();
 		$id       = $this->format_data->string($this->input->post('id',TRUE));
-		$nis       = $this->format_data->string($this->input->post('nis',TRUE));
+		$nip       = $this->format_data->string($this->input->post('nip',TRUE));
 		$this->model_biodata_guru->validation_field(); 
 
 	    if ($this->form_validation->run() == FALSE)
@@ -120,7 +120,7 @@ class Biodata_guru extends CI_Controller {
 	    	}
 	    	else
 	    	{
-	    		$this->model_message->messege_proses('NIS '.$nis.' sudah digunakan','delete',$url,'fa-check-square-o','danger');
+	    		$this->model_message->messege_proses('NIP '.$nip.' sudah digunakan','delete',$url,'fa-check-square-o','danger');
 	    		redirect(site_url('biodata-guru/edit/'.$id));
 	    	}
 	    }

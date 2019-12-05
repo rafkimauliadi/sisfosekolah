@@ -108,9 +108,11 @@
                                                 <a class="confirm-edit dropdown-item" href="<?php echo site_url('biodata-guru/edit/'.$row->id); ?>">Edit</a>
                                             </li>
 
-                                            <!-- <li>
-                                                <a class="confirm-delete dropdown-item" href="<?php //echo site_url('biodata-guru/delete/'.$row->id); ?>">Delete</a>
-                                            </li> -->
+                                            <li>
+                                                <!-- <a class="confirm-delete dropdown-item" href="<?php echo site_url('biodata-guru/delete/'.$row->id); ?>">Delete</a> -->
+                                                <button id-mapel="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
+
+                                            </li>
 
                                             <li>
                                                 <a class="confirm-delete dropdown-item" href="<?php echo site_url('biodata-guru/gambar/'.$row->id); ?>">Hapus Gambar</a>
@@ -135,7 +137,7 @@
     </div>
 </div>
 
-<script>
+<!-- <script>
     $(function() {
         $('#data-mobil-table').DataTable();
         
@@ -151,11 +153,37 @@
                         confirmButtonText: 'Ya, Hapus!'
                 }).then((result) => {
                         if (result.value) {
-                            window.location.href = "<?php echo site_url(); ?>master-kelas/delete/"+id_mapel;
+                            window.location.href = "<?php echo site_url(); ?>biodata-guru/delete/"+id_mapel;
                         }
                 })
         });
 
     });
+
+</script> -->
+
+
+<script>
+	$(function() {
+		$('#data-mobil-table').DataTable();
+		
+		$(".button-delete").click(function () {
+				var id_mapel = $(this).attr('id-mapel');
+				Swal.fire({
+						title: 'Anda Yakin menghapus data ini?',
+						text: "data yang telah terhapus tidak dapat dikembalikan!",
+						type: 'warning',
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#d33',
+						confirmButtonText: 'Ya, Hapus!'
+				}).then((result) => {
+						if (result.value) {
+							window.location.href = "<?php echo site_url(); ?>biodata-guru/delete/"+id_mapel;
+						}
+				})
+		});
+
+	});
 
 </script>

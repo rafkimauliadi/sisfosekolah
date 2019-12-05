@@ -67,7 +67,7 @@
                         <div class="col-md-6">
                             <div class="form-group has-success">
                                 <label class="control-label">Jenis Kelamin</label>
-                                <select class="form-control select2 custom-select" name="jenis_kelamin" data-placeholder="Choose a Gender" tabindex="1">
+                                <select class="form-control select2 custom-select" name="id_gender" data-placeholder="Choose a Gender" tabindex="1">
                                 <?php 
                                     $id=0;
                                     $cb_gender = $CI->model_combo_r->init_cb_gender($id);
@@ -145,13 +145,13 @@
                         <div class="col-md-6 has-danger">
                             <div class="form-group">
                                 <label>Status Guru</label>
-                                <select name="status_guru" id="id_status_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Status Guru" tabindex="1">
+                                <select name="id_status_guru" id="id_status_guru" class="form-control select2 custom-select" data-placeholder="Choose a Status Status Guru" tabindex="1">
                                     <?php 
                                     $id=0;
-                                    $cb_status_guru = $CI->model_combo_r->status_guru($id);
+                                    $cb_status_guru = $CI->model_combo_r->init_cb_status_guru($id);
 
                                     foreach ($cb_status_guru->result() as $row) : ?>
-                                        <option value="<?php echo $row->id_status ?>"><?php echo $row->nm_status; ?></option>
+                                        <option value="<?php echo $row->id ?>"><?php echo $row->status_guru; ?></option>
                                     <?php $cb_status_guru->free_result(); endforeach; ?>
                                 </select>
                             </div>

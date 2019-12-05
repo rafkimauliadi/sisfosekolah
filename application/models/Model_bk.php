@@ -46,7 +46,10 @@ class Model_bk extends CI_Model
 
     public function get_list_bk()
     {
-        $sql = "SELECT a.*,b.nama_lengkap as nama_siswa FROM bimbingan_konseling a 
+        $sql = "SELECT a.*,
+                DATE_FORMAT(a.date, '%d %M %Y') as date,
+        b.nama_lengkap as nama_siswa 
+        FROM bimbingan_konseling a 
             LEFT JOIN master_siswa b on (a.nis = b.nis)";
         $queryRec = $this->db->query($sql);
         return $queryRec;

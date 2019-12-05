@@ -28,7 +28,7 @@
               <label class="col-md-2 control-label" for="textinput">Tanggal Konsultasi</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="datetime" class="form-control" name="date" id="date" placeholder="Tanggal Konsultasi" title="date" value="<?php echo $details->row()->date; ?>">
+                          <input type="date" class="form-control" name="date" id="date" placeholder="Tanggal Konsultasi" title="date" value="<?php echo $details->row()->date; ?>">
                       </div>
                 </div>
           </div>

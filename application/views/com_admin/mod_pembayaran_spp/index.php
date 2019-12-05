@@ -17,9 +17,11 @@
                             <th>No</th>
                             <th>NIS</th>
                             <th>Nama Siswa</th>
-                            <th>Biaya SPP</th>
-                            <th>Status Pembayaran</th>
-                            <th>Bukti Pembayaran</th>
+                            <th>Kelas</th>
+                            <th>Bulan</th>
+                            <th>Tahun</th>
+                            <th>Tanggal Pembayaran</th>
+                            <th>Total Pembayaran SPP</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -31,9 +33,11 @@
                             <td><?php echo $no; ?></td>
                             <td><?php echo $row->nis; ?></td>
                             <td><?php echo $row->nama_siswa; ?></td>
-                            <td><?php echo $row->jumlah_spp; ?></td>
-                            <td><?php echo $row->status_bayar; ?></td>
-                            <td><?php echo $row->bukti_pembayaran; ?></td>
+                            <td><?php echo $row->nama_kelas; ?></td>
+                            <td><?php echo $row->bulan; ?></td>
+                            <td><?php echo $row->tahun; ?></td>
+                            <td><?php echo $row->tanggal_input; ?></td>
+                            <td>Rp &nbsp; &nbsp; <?php echo number_format($row->total_bayar, 0, ',', '.') ?></td>
                             <td>
                 <button id="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
                 <a href="<?php echo site_url('pembayaran_spp/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>

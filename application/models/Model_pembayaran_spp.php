@@ -14,35 +14,52 @@ class Model_pembayaran_spp extends CI_Model
         $this->model_message->conv_validasi_to_indonesia();
 
         $nis                = $this->input->post('nis');
-        $jumlah_spp         = $this->input->post('jumlah_spp');
-        $status_bayar  = $this->input->post('status_bayar');
-        $bukti_pembayaran   = $this->input->post('bukti_pembayaran');
+        $id_kelas         = $this->input->post('id_kelas');
+        $bulan  = $this->input->post('bulan');
+        $tahun   = $this->input->post('tahun');
+        $total_bayar   = $this->input->post('total_bayar');
 
         if ($action=='simpan')
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('jumlah_spp', 'Jumlah Uang SPP Sekolah', 'required');
-            $this->form_validation->set_rules('status_bayar', 'urusan Izin', 'required');
-            $this->form_validation->set_rules('bukti_pembayaran', 'Status Izin', 'required');
+            $this->form_validation->set_rules('id_kelas', 'Kelas', 'required');
+            $this->form_validation->set_rules('bulan', 'Bulan', 'required');
+            $this->form_validation->set_rules('tahun', 'Tahun Izin', 'required');
+            $this->form_validation->set_rules('total_bayar', 'Total Uang SPP Perbulan', 'required');
         }
         else
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('jumlah_spp', 'Jumlah Uang SPP Sekolah', 'required');
-            $this->form_validation->set_rules('status_bayar', 'urusan Izin', 'required');
-            $this->form_validation->set_rules('bukti_pembayaran', 'Status Izin', 'required');
+            $this->form_validation->set_rules('id_kelas', 'Kelas', 'required');
+            $this->form_validation->set_rules('bulan', 'Bulan', 'required');
+            $this->form_validation->set_rules('tahun', 'Tahun Izin', 'required');
+            $this->form_validation->set_rules('total_bayar', 'Total Uang SPP Perbulan', 'required');
         }
 
         $this->session->set_flashdata('nis', $nis);
-        $this->session->set_flashdata('jumlah_spp', $jumlah_spp);
-        $this->session->set_flashdata('status_bayar', $status_bayar);
-        $this->session->set_flashdata('bukti_pembayaran', $bukti_pembayaran);
+        $this->session->set_flashdata('id_kelas', $id_kelas);
+        $this->session->set_flashdata('bulan', $bulan);
+        $this->session->set_flashdata('tahun', $tahun);
+        $this->session->set_flashdata('total_bayar', $total_bayar);
     }
 
     public function get_list_data()
     {
-        $sql = "SELECT a.*,b.nama_lengkap as nama_siswa FROM pembayaran_spp a 
-            LEFT JOIN master_siswa b on (a.nis = b.nis)";
+        $sql = "
+        SELECT 
+            a.id,
+            a.nis,
+            a.id_kelas,
+            a.bulan,
+            a.tahun,
+            a.total_bayar,
+            DATE_FORMAT(a.created_date, '%d-%M-%Y') as tanggal_input,
+            b.nama_lengkap as nama_siswa,
+            c.nama_kelas as nama_kelas
+
+            FROM pembayaran_spp a 
+            LEFT JOIN master_siswa b on a.nis = b.nis
+            LEFT JOIN master_kelas c on a.id_kelas = c.id_kelas";
         $queryRec = $this->db->query($sql);
         return $queryRec;
     }
@@ -52,20 +69,22 @@ class Model_pembayaran_spp extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
         $created_date       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
-        $nis                = $this->input->post('nis',TRUE);
-        $jumlah_spp         = $this->input->post('jumlah_spp',TRUE);
-        $status_bayar  = $this->input->post('status_bayar',TRUE);
-        $bukti_pembayaran   = $this->input->post('bukti_pembayaran',TRUE);
+        $nis                 = $this->input->post('nis',TRUE);
+        $id_kelas            = $this->input->post('id_kelas',TRUE);
+        $bulan               = $this->input->post('bulan',TRUE);
+        $tahun               = $this->input->post('tahun',TRUE);
+        $total_bayar         = $this->input->post('total_bayar',TRUE);
 
         $url            = site_url('pembayaran-spp/edit/'.$id);
 
         $this->mydb1->trans_start();
         $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('jumlah_spp',$jumlah_spp);
+        $this->mydb1->set('id_kelas',$id_kelas);
+        $this->mydb1->set('bulan',$bulan);
+        $this->mydb1->set('tahun',$tahun);
+        $this->mydb1->set('total_bayar',$total_bayar);
         $this->mydb1->set('created_date',$created_date);
         $this->mydb1->set('created_modified',$created_date);
-        $this->mydb1->set('status_bayar',$status_bayar);
-        $this->mydb1->set('bukti_pembayaran',$bukti_pembayaran);
         $this->mydb1->insert('pembayaran_spp');
 
         $this->mydb1->trans_complete();
@@ -131,17 +150,17 @@ class Model_pembayaran_spp extends CI_Model
             SELECT 
             a.id,
             a.nis,
-            a.jumlah_spp,
-            a.created_date,
-            a.created_modified,
-            a.status_bayar,
-            a.bukti_pembayaran,
-
-            b.nama_lengkap as nama_siswa 
+            a.id_kelas,
+            a.bulan,
+            a.tahun,
+            a.total_bayar,
+            b.nama_lengkap as nama_siswa,
+            c.nama_kelas as nama_kelas
 
             FROM pembayaran_spp a 
 
             LEFT JOIN master_siswa b on a.nis = b.nis
+            LEFT JOIN master_kelas c on a.id_kelas = c.id_kelas
             WHERE a.id='$id'");
 
         return $data;
@@ -160,11 +179,12 @@ class Model_pembayaran_spp extends CI_Model
     {
         $id_user        = $this->model_hook->init_online_exist();
 
-        $id               = $this->input->post('id',TRUE);
-        $nis              = $this->input->post('nis',TRUE);
-        $jumlah_spp       = $this->input->post('jumlah_spp',TRUE);
-        $status_bayar     = $this->input->post('status_bayar',TRUE);
-        $bukti_pembayaran = $this->input->post('bukti_pembayaran',TRUE);
+        $id              = $this->input->post('id',TRUE);
+        $nis             = $this->input->post('nis',TRUE);
+        $id_kelas       = $this->input->post('id_kelas',TRUE);
+        $bulan          = $this->input->post('bulan',TRUE);
+        $tahun          = $this->input->post('tahun',TRUE);
+        $total_bayar    = $this->input->post('total_bayar',TRUE);
 
         $url            = site_url('pembayaran_spp/edit/'.$id);
 
@@ -173,10 +193,11 @@ class Model_pembayaran_spp extends CI_Model
 
         $this->mydb1->trans_start();
         $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('jumlah_spp',$jumlah_spp);
+        $this->mydb1->set('id_kelas',$id_kelas);
+        $this->mydb1->set('bulan',$bulan);
+        $this->mydb1->set('tahun',$tahun);
+        $this->mydb1->set('total_bayar',$total_bayar);
         $this->mydb1->set('created_modified',$created_modified);
-        $this->mydb1->set('status_bayar',$status_bayar);
-        $this->mydb1->set('bukti_pembayaran',$bukti_pembayaran);
         $this->mydb1->where('id',$id);
         $this->mydb1->update('pembayaran_spp');
 
@@ -200,6 +221,13 @@ class Model_pembayaran_spp extends CI_Model
         $sql = "SELECTs nis FROM pembayaran_spp WHERE nis LIKE '%?%' ORDER BY nis DESC";
         $queryRec = $this->db->query($sql, array($query))->result_array();
         return $queryRec;
+    }
+
+    function search_blog($nis){
+        $this->db->like('nis', $nis , 'both');
+        $this->db->order_by('nis', 'ASC');
+        $this->db->limit(10);
+        return $this->db->get('master_siswa')->result();
     }
 
 }

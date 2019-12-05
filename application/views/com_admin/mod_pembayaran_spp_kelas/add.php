@@ -10,25 +10,30 @@
 <div class="col-12">
   <div class="card">
     <div class="card-body">
-      <h4 class="card-title">Edit Pembayaran SPP</h4>
+      <h4 class="card-title">Tambahkan Pembayaran SPP</h4>
       <p><?php $CI =& get_instance();  echo $this->session->flashdata('pesan'); ?></p>
 
-      <form class="form-horizontal" method="POST" action="<?php echo site_url('pembayaran-spp/edit'); ?>">
-          <input type="hidden" name="id" value="<?php echo $details->row()->id; ?>">
+      <form class="form-horizontal" method="POST" action="<?php echo site_url('pembayaran-spp-kelas/add'); ?>">
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">NIS</label>
+              <label class="col-md-2 control-label" for="textinput">Kelas</label>
                   <div class="col-md-6">
-                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nis" id="nis" placeholder="Nomor Induk Siswa" title="nis" value="<?php echo $details->row()->nis; ?>" readonly>
-                      </div>
+                      <select class="form-control select-single" name="id_kelas">
+                          <?php
+                          $id=0;
+                          $cb_status = $CI->model_pembayaran_spp_kelas->init_kelas($id);
+                          foreach ($cb_status->result() as $row) : 
+                          $CI->model_pembayaran_spp_kelas->init_kelas($id); ?>
+                              <option value="<?php echo $row->id_kelas ?>"><?php echo $row->nama_kelas ?></option>
+                          <?php $cb_status->free_result(); endforeach; ?>  
+                      </select>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Kelas</label>
+              <label class="col-md-2 control-label" for="textinput">Nama Guru</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="id_kelas" id="id_kelas" placeholder="Kelas" title="id_kelas" value="<?php echo $details->row()->id_kelas; ?>">
+                          <input type="text" class="form-control" name="id_guru" id="id_guru" placeholder="Nama Guru" title="id_guru" value="<?php echo $this->session->flashdata('id_guru'); ?>">
                       </div>
                 </div>
           </div>
@@ -38,7 +43,6 @@
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
                         <select class="form-control" name="bulan">
-                          <option value="<?php echo $details->row()->bulan; ?>"><?php echo $details->row()->bulan; ?></option>
                           <option value="Januari">Januari</option>
                           <option value="Februari">Februari</option>
                           <option value="Maret">Maret</option>
@@ -62,7 +66,6 @@
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
                         <select class="form-control" name="tahun">
-                          <option value="<?php echo $details->row()->tahun; ?>"><?php echo $details->row()->tahun; ?></option>
                           <option value="2019">2019</option>
                           <option value="2018">2018</option>
                           <option value="2017">2017</option>
@@ -76,21 +79,46 @@
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Uang SPP</label>
+              <label class="col-md-2 control-label" for="textinput">Jumlah yang sudah dibayar</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="total_bayar" id="total_bayar" placeholder="800000 (Rupiah)" title="total_bayar" value="<?php echo $details->row()->total_bayar; ?>">
+                          <input type="text" class="form-control" name="jml_bayar" id="jml_bayar" placeholder="800000 (Rupiah)" title="jml_bayar" value="<?php echo $this->session->flashdata('jml_bayar'); ?>">
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput">Total Dana Total Sebenarnya</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="jml_keseluruhan" id="jml_keseluruhan" placeholder="1000000 (Rupiah)" title="jml_keseluruhan" value="<?php echo $this->session->flashdata('jml_keseluruhan'); ?>">
+                      </div>
+                </div>
+          </div>
+
+          <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput">Status</label>
+                  <div class="col-md-6">
+                      <select class="form-control select-single" name="id_status_spp_kelas">
+                          <?php
+                          $id=0;
+                          $cb_status = $CI->model_pembayaran_spp_kelas->init_status_pembayaran($id);
+                          foreach ($cb_status->result() as $row) : 
+                          $CI->model_pembayaran_spp_kelas->init_status_pembayaran($id); ?>
+                              <option value="<?php echo $row->id_status_spp_kelas ?>"><?php echo $row->status_spp_kelas ?></option>
+                          <?php $cb_status->free_result(); endforeach; ?>  
+                      </select>
+                </div>
+          </div>
+
+          <div class="form-group">
               <div class="col-xs-offset-2 col-xs-10">
-                  <button type="submit" class="btn btn-primary" name="update" value='update' id="update">Update</button>
+                  <button type="submit" class="btn btn-primary" name="save" value='save' id="save">Save</button>
                   <button type="reset" class="btn btn-primary">Reset</button>
-                  <a href="<?php echo site_url('pembayaran-spp'); ?>" class="btn btn-primary">Back</a>
+                  <a href="<?php echo site_url('pembayaran-spp-kelas'); ?>" class="btn btn-primary">Back</a>
               </div>
           </div>
+
       </form>
     </div>
   </div>
@@ -106,7 +134,7 @@
      
                 select: function (event, ui) {
                     $('[name="nis"]').val(ui.item.label); 
-                    $('[name="nama_lengkap"]').val(ui.item.nama_lengkap); 
+                    $('[name="nama_lengkap"]').val(ui.item.nama_lengkap);
                 }
             });
 

@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pembayaran_spp extends CI_Controller {
+class Pembayaran_spp_kelas extends CI_Controller {
 	
 	private $perpage = 10;
 
 	public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir','model_pembayaran_spp'));
+        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir','model_pembayaran_spp_kelas'));
         $this->load->library(array('form_validation','encryption'));
     }
 
@@ -30,18 +30,18 @@ class Pembayaran_spp extends CI_Controller {
 
 		if(is_null($offset)==TRUE) $offset  = $this->uri->segment(3,0);
 
-		$this->session->set_flashdata('title', 'Pembayaran SPP');
+		$this->session->set_flashdata('title', 'Pembayaran SPP Kelas');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Pembayaran SPP ', site_url('pembayaran-spp'));
+		$this->breadcrumb->add('Pembayaran SPP ', site_url('pembayaran-spp-kelas'));
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$data['data'] 		= $this->model_pembayaran_spp->get_list_data();
-		// $data['data'] 		= $this->model_pembayaran_spp->get_list_bk($this->model_hook->init_profile_user()->username);
+		$data['data'] 		= $this->model_pembayaran_spp_kelas->get_list_data();
+		// $data['data'] 		= $this->model_pembayaran_spp_kelas->get_list_bk($this->model_hook->init_profile_user()->username);
 
 
-		$this->templates('mod_pembayaran_spp','index',$data);
+		$this->templates('mod_pembayaran_spp_kelas','index',$data);
 	}
 
   public function add()
@@ -56,8 +56,8 @@ class Pembayaran_spp extends CI_Controller {
 	{
 		$this->session->set_flashdata('title', 'Add');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Pembayaran SPP ', site_url('pembayaran-spp'));
-		$this->breadcrumb->add('Add ', site_url('pembayaran-spp/add'));
+		$this->breadcrumb->add('Pembayaran SPP ', site_url('pembayaran-spp-kelas'));
+		$this->breadcrumb->add('Add ', site_url('pembayaran-spp-kelas/add'));
 
 		$data['cb_group'] 		= $this->model_combo->init_group();
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
@@ -65,22 +65,22 @@ class Pembayaran_spp extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$this->templates('mod_pembayaran_spp','add',$data);
+		$this->templates('mod_pembayaran_spp_kelas','add',$data);
   }
   
   public function save()
 	{
-		$this->model_pembayaran_spp->validation_field('simpan'); 
+		$this->model_pembayaran_spp_kelas->validation_field('simpan'); 
 
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('pembayaran-spp/add/'));         
+            redirect(site_url('pembayaran-spp-kelas/add/'));         
         } 
 	    else 
 	    {
-	    	$this->model_pembayaran_spp->init_save();
-	    	redirect(site_url('pembayaran-spp'));
+	    	$this->model_pembayaran_spp_kelas->init_save();
+	    	redirect(site_url('pembayaran-spp-kelas'));
 	    }
   }
   
@@ -91,8 +91,8 @@ class Pembayaran_spp extends CI_Controller {
 
 	private function init_delete()
 	{
-		$this->model_pembayaran_spp->init_delete();
-	    redirect(site_url('pembayaran_spp'));
+		$this->model_pembayaran_spp_kelas->init_delete();
+	    redirect(site_url('pembayaran_spp_kelas'));
   }
   
   public function edit()
@@ -108,16 +108,16 @@ class Pembayaran_spp extends CI_Controller {
 
 		$id = $this->format_data->string($this->uri->segment(3,0));
 
-		$exist	= $this->model_pembayaran_spp->exist_id($id);
+		$exist	= $this->model_pembayaran_spp_kelas->exist_id($id);
 		if ($exist==0)
-			redirect(site_url('pembayaran-spp'));
+			redirect(site_url('pembayaran-spp-kelas'));
 		if ($id==NULL)
-			redirect(site_url('pembayaran-spp'));
+			redirect(site_url('pembayaran-spp-kelas'));
 
 		$this->session->set_flashdata('title', 'Edit');
 		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-		$this->breadcrumb->add('Pembayaran SPP ', site_url('pembayaran-spp'));
-		$this->breadcrumb->add('Edit ', site_url('pembayaran-spp/edit'));
+		$this->breadcrumb->add('Pembayaran SPP ', site_url('pembayaran-spp-kelas'));
+		$this->breadcrumb->add('Edit ', site_url('pembayaran-spp-kelas/edit'));
 
 		
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
@@ -125,45 +125,37 @@ class Pembayaran_spp extends CI_Controller {
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
-		$data['details']	= $this->model_pembayaran_spp->get_data();
+		$data['details']	= $this->model_pembayaran_spp_kelas->get_data();
 
 		//$data['cb_status']	= $this->model_combo->init_status($id);
 
-		$this->templates('mod_pembayaran_spp','edit',$data);
+		$this->templates('mod_pembayaran_spp_kelas','edit',$data);
   }
   
   public function update()
 	{
     $url='';
-		$id 				= $this->format_data->string($this->input->post('id',TRUE));
-	    $nis 				= $this->format_data->string($this->input->post('nis',TRUE));
-	    $id_kelas			= $this->format_data->string($this->input->post('id_kelas',TRUE));
-	    $bulan		= $this->format_data->string($this->input->post('bulan',TRUE));
-	    $tahun	= $this->format_data->string($this->input->post('tahun',TRUE));
-	    $total_bayar	= $this->format_data->string($this->input->post('total_bayar',TRUE));
-	    $created_modified	= $this->format_data->string($this->input->post('created_modified',TRUE));
+		$id 					= $this->format_data->string($this->input->post('id',TRUE));
+	    $id_kelas 				= $this->format_data->string($this->input->post('id_kelas',TRUE));
+	    $id_guru				= $this->format_data->string($this->input->post('id_guru',TRUE));
+	    $bulan					= $this->format_data->string($this->input->post('bulan',TRUE));
+	    $tahun					= $this->format_data->string($this->input->post('tahun',TRUE));
+	    $jml_bayar				= $this->format_data->string($this->input->post('jml_bayar',TRUE));
+	    $jml_keseluruhan		= $this->format_data->string($this->input->post('jml_keseluruhan',TRUE));
+	    $id_status_spp_kelas	= $this->format_data->string($this->input->post('id_status_spp_kelas',TRUE));
+	    $created_modified		= $this->format_data->string($this->input->post('created_modified',TRUE));
 
-		$this->model_pembayaran_spp->validation_field('edit'); 
+		$this->model_pembayaran_spp_kelas->validation_field('edit'); 
 
 	    if ($this->form_validation->run() == FALSE)
         {
             $this->model_message->validation_error();
-            redirect(site_url('pembayaran-spp/edit/'.$id));
+            redirect(site_url('pembayaran-spp-kelas/edit/'.$id));
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_pembayaran_spp->cek_exist_nama('pembayaran_spp','nis','id',$nis,$id);
-
-	    	if ($cek_nama > 0 )
-	    	{
-	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('pembayaran-spp/edit/'.$id));
-	    	}
-	    	else
-	    	{
-	    		$this->model_pembayaran_spp->init_update();
-	    		redirect(site_url('pembayaran-spp'));
-	    	}
+	    	$this->model_pembayaran_spp_kelas->init_update();
+	    	redirect(site_url('pembayaran-spp-kelas'));
 	    }
 	}
 
@@ -173,7 +165,7 @@ class Pembayaran_spp extends CI_Controller {
 		header("Content-Type: application/json; charset=UTF-8");
 		$query = $_GET["query"];
 
-		$result	= $this->model_pembayaran_spp->cari_siswa($query);
+		$result	= $this->model_pembayaran_spp_kelas->cari_siswa($query);
 
 		// Format bentuk data untuk autocomplete.
 		foreach($result as $data) {
@@ -195,7 +187,7 @@ class Pembayaran_spp extends CI_Controller {
 	public function get_autocomplete(){
 
 		if (isset($_GET['term'])) {
-		  	$result = $this->model_pembayaran_spp->search_blog($_GET['term']);
+		  	$result = $this->model_pembayaran_spp_kelas->search_blog($_GET['term']);
 		   	if (count($result) > 0) {
 		    foreach ($result as $row)
 		     	$arr_result[] = array(

@@ -32,7 +32,7 @@
                         <tr>
                             <td><?php echo $no; ?></td>
                             <td><?php echo $row->nama_kelas; ?></td>
-                            <td><?php echo $row->id_guru; ?></td>
+                            <td><?php echo $row->nama_guru; ?></td>
                             <td><?php echo $row->bulan; ?></td>
                             <td><?php echo $row->tahun; ?></td>
                             <td>Rp &nbsp; &nbsp; <?php echo number_format($row->jml_bayar, 0, ',', '.')?></td>

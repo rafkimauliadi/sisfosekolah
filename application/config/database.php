@@ -96,6 +96,29 @@ $query_builder = TRUE;
 // );
 
 
+// $db['default'] = array(
+// 	// 'dsn'	=> 'mysql:host=130.211.206.95;dbname=ptsp;charset=utf8;',
+// 	'dsn'	=> '',
+// 	'hostname' => '130.211.206.95',
+// 	'username' => 'application',
+// 	'password' => 'fidinext',
+// 	'database' => 'ptsp',
+// 	'dbdriver' => 'mysqli',
+// 	'dbprefix' => '',
+// 	'pconnect' => FALSE,
+// 	'db_debug' => (ENVIRONMENT !== 'production'),
+// 	'cache_on' => FALSE,
+// 	'cachedir' => '',
+// 	'char_set' => 'utf8',
+// 	'dbcollat' => 'utf8_general_ci',
+// 	'swap_pre' => '',
+// 	'encrypt' => FALSE,
+// 	'compress' => FALSE,
+// 	'stricton' => FALSE,
+// 	'failover' => array(),
+// 	'save_queries' => TRUE
+// );
+
 $db['default'] = array(
 	'dsn'	=> 'mysql:host=localhost;dbname=ptsp;charset=utf8;',
 	//'hostname' => 'localhost',

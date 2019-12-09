@@ -14,7 +14,6 @@ class Model_bk extends CI_Model
         $this->model_message->conv_validasi_to_indonesia();
 
         $nis            = $this->input->post('nis');
-        $nip_guru       = $this->input->post('nip_guru');
         $date           = $this->input->post('date');
         $permasalahan   = $this->input->post('permasalahan');
         $penyelesaian   = $this->input->post('penyelesaian');
@@ -22,7 +21,6 @@ class Model_bk extends CI_Model
         if ($action=='simpan')
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('nip_guru', 'NIP Guru yang bersangkutan', 'required');
             $this->form_validation->set_rules('date', 'Tanggal Kasus', 'required');
             $this->form_validation->set_rules('permasalahan', 'Permasalahan yang terjadi', 'required');
             $this->form_validation->set_rules('penyelesaian', 'Tata Cara Penyelesaian', 'required');
@@ -30,14 +28,12 @@ class Model_bk extends CI_Model
         else
         {
             $this->form_validation->set_rules('nis', 'Nomor Induk Siswa', 'required');
-            $this->form_validation->set_rules('nip_guru', 'NIP Guru yang bersangkutan', 'required');
             $this->form_validation->set_rules('date', 'Tanggal Kasus', 'required');
             $this->form_validation->set_rules('permasalahan', 'Permasalahan yang terjadi', 'required');
             $this->form_validation->set_rules('penyelesaian', 'Tata Cara Penyelesaian', 'required');
         }
 
         $this->session->set_flashdata('nis', $nis);
-        $this->session->set_flashdata('nip_guru', $nip_guru);
         $this->session->set_flashdata('date', $date);
         $this->session->set_flashdata('permasalahan', $permasalahan);
         $this->session->set_flashdata('penyelesaian', $penyelesaian);
@@ -61,7 +57,6 @@ class Model_bk extends CI_Model
         // $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
         $nis                = $this->input->post('nis',TRUE);
-        $nip_guru           = $this->input->post('nip_guru',TRUE);
         $date               = $this->input->post('date',TRUE);
         $permasalahan       = $this->input->post('permasalahan',TRUE);
         $penyelesaian       = $this->input->post('penyelesaian',TRUE);
@@ -70,7 +65,6 @@ class Model_bk extends CI_Model
 
         $this->mydb1->trans_start();
         $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('nip_guru',$nip_guru);
         $this->mydb1->set('date',$date);
         $this->mydb1->set('permasalahan',$permasalahan);
         $this->mydb1->set('penyelesaian',$penyelesaian);
@@ -140,7 +134,6 @@ class Model_bk extends CI_Model
             SELECT 
             a.id,
             a.nis,
-            a.nip_guru,
             a.date,
             a.permasalahan,
             a.penyelesaian,
@@ -170,7 +163,6 @@ class Model_bk extends CI_Model
 
         $id          = $this->input->post('id',TRUE);
         $nis          = $this->input->post('nis',TRUE);
-        $nip_guru     = $this->input->post('nip_guru',TRUE);
         $date         = $this->input->post('date',TRUE);
         $permasalahan = $this->input->post('permasalahan',TRUE);
         $penyelesaian = $this->input->post('penyelesaian',TRUE);
@@ -182,7 +174,6 @@ class Model_bk extends CI_Model
 
         $this->mydb1->trans_start();
         $this->mydb1->set('nis',$nis);
-        $this->mydb1->set('nip_guru',$nip_guru);
         $this->mydb1->set('date',$date);
         $this->mydb1->set('permasalahan',$permasalahan);
         $this->mydb1->set('penyelesaian',$penyelesaian);
@@ -209,6 +200,13 @@ class Model_bk extends CI_Model
         $sql = "SELECTs nis FROM bimbingan_konseling WHERE nis LIKE '%?%' ORDER BY nis DESC";
         $queryRec = $this->db->query($sql, array($query))->result_array();
         return $queryRec;
+    }
+
+    function search_blog($nis){
+        $this->db->like('nis', $nis , 'both');
+        $this->db->order_by('nis', 'ASC');
+        $this->db->limit(10);
+        return $this->db->get('master_siswa')->result();
     }
 
 }

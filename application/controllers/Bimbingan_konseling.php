@@ -137,7 +137,6 @@ class Bimbingan_konseling extends CI_Controller {
     $url='';
 		$id 			= $this->format_data->string($this->input->post('id',TRUE));
 	    $nis 			= $this->format_data->string($this->input->post('nis',TRUE));
-	    $nip_guru		= $this->format_data->string($this->input->post('nip_guru',TRUE));
 	    $date			= $this->format_data->string($this->input->post('date',TRUE));
 	    $permasalahan	= $this->format_data->string($this->input->post('permasalahan',TRUE));
 	    $penyelesaian	= $this->format_data->string($this->input->post('penyelesaian',TRUE));
@@ -188,6 +187,24 @@ class Bimbingan_konseling extends CI_Controller {
 		}else{
 			// Encode ke format JSON.
 			echo json_encode($result);
+		}
+	}
+
+	public function get_autocomplete(){
+
+		if (isset($_GET['term'])) {
+		  	$result = $this->model_bk->search_blog($_GET['term']);
+		   	if (count($result) > 0) {
+		    foreach ($result as $row)
+		     	$arr_result[] = array(
+					'label'			=> $row->nis,
+					'id'			=> $row->id,
+					'nama_lengkap'	=> $row->nama_lengkap,
+					'no_ijazah'		=> $row->no_ijazah,
+					'tahun_ijazah'	=> $row->tahun_ijazah,
+				);
+		     	echo json_encode($arr_result);
+		   	}
 		}
 	}
 

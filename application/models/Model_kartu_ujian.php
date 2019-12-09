@@ -55,106 +55,10 @@ class Model_kartu_ujian extends CI_Model
     {
         $sql = "
         SELECT 
-            a.id,
-            a.id_kelas,
-            a.id_guru,
-            a.bulan,
-            a.tahun,
-            a.jml_bayar,
-            a.jml_keseluruhan,
-            a.id_status_spp_kelas,
-            DATE_FORMAT(a.created_date, '%d-%M-%Y') as tanggal_input,
-            b.nama_kelas as nama_kelas,
-            c.status_spp_kelas as status_spp_kelas
-
-            FROM pembayaran_spp_kelas a 
-            LEFT JOIN master_kelas b on a.id_kelas = b.id_kelas
-            LEFT JOIN _status_spp_kelas c on a.id_status_spp_kelas = c.id_status_spp_kelas";
+            *
+        FROM master_siswa";
         $queryRec = $this->db->query($sql);
         return $queryRec;
-    }
-
-    public function init_save()
-    {
-        date_default_timezone_set('Asia/Jakarta');
-        $created_date       = gmdate('Y-m-d H:i:s', time()+60*60*7);
-
-        $id_kelas               = $this->input->post('id_kelas',TRUE);
-        $id_guru                = $this->input->post('id_guru',TRUE);
-        $bulan                  = $this->input->post('bulan',TRUE);
-        $tahun                  = $this->input->post('tahun',TRUE);
-        $jml_bayar              = $this->input->post('jml_bayar',TRUE);
-        $jml_keseluruhan        = $this->input->post('jml_keseluruhan',TRUE);
-        $id_status_spp_kelas    = $this->input->post('id_status_spp_kelas',TRUE);
-
-        $url            = site_url('pembayaran-spp-kelas/edit/'.$id);
-
-        $this->mydb1->trans_start();
-        $this->mydb1->set('id_kelas',$id_kelas);
-        $this->mydb1->set('id_guru',$id_guru);
-        $this->mydb1->set('bulan',$bulan);
-        $this->mydb1->set('tahun',$tahun);
-        $this->mydb1->set('jml_bayar',$jml_bayar);
-        $this->mydb1->set('jml_keseluruhan',$jml_keseluruhan);
-        $this->mydb1->set('id_status_spp_kelas',$id_status_spp_kelas);
-        $this->mydb1->set('created_date',$created_date);
-        $this->mydb1->set('created_modified',$created_date);
-        $this->mydb1->insert('pembayaran_spp_kelas');
-
-        $this->mydb1->trans_complete();
-        if ($this->mydb1->trans_status()==false)
-        {
-            $this->mydb1->trans_rollback();
-            $this->error();
-            return FALSE;
-        }
-        else
-        {
-            $this->mydb1->trans_commit();
-            $this->model_message->messege_proses('Data Berhasil disimpan.','edit',$url,'fa-check-square-o','success');
-            return TRUE;
-        }
-    }
-
-    public function init_delete()
-    {
-        $id = $this->format_data->string($this->uri->segment(3,0));
-        $url='';
-
-        $this->mydb1->trans_start();
-
-        $this->mydb1->where('id',$id);
-        $this->mydb1->delete('pembayaran_spp_kelas');
-
-        $this->mydb1->trans_complete();
-
-        if ($this->mydb1->trans_status()==false)
-        {
-            $this->mydb1->trans_rollback();
-            $this->error();
-            return FALSE;
-        }
-        else
-        {
-            $this->mydb1->trans_commit();
-            $this->model_message->messege_proses('Data Berhasil dihapus.','delete',$url,'fa-check-square-o','success');
-            return TRUE;
-        }
-    }
-
-    public function exist_id($id)
-    {
-        $query = $this->mydb1->query("SELECT count(id) as exist FROM pembayaran_spp_kelas WHERE id = '$id'");
-        $cek = $query->row();
-        if (is_null($cek)==false) 
-        {
-            if($cek->exist == 1)
-                return true;
-            else
-                return false;
-        }   
-        else
-            return false;
     }
 
     public function get_data()
@@ -180,60 +84,6 @@ class Model_kartu_ujian extends CI_Model
             WHERE a.id='$id'");
 
         return $data;
-    }
-
-    public function cek_exist_nama($tabel,$field1,$field2,$value1,$value2)
-    {
-        $query = $this->mydb1->query("SELECT count(".$field1.") as exist FROM ".$tabel." where ".$field1."='$value1' and ".$field2." <> $value2");
-        $row=$query->row();
-            if (isset($row))
-                return $row->exist;
-        return 0;
-    }
-
-    public function init_update()
-    {
-        $id_user        = $this->model_hook->init_online_exist();
-
-        $id                     = $this->input->post('id',TRUE);
-        $id_kelas               = $this->input->post('id_kelas',TRUE);
-        $id_guru                = $this->input->post('id_guru',TRUE);
-        $bulan                  = $this->input->post('bulan',TRUE);
-        $tahun                  = $this->input->post('tahun',TRUE);
-        $jml_bayar              = $this->input->post('jml_bayar',TRUE);
-        $jml_keseluruhan        = $this->input->post('jml_keseluruhan',TRUE);
-        $id_status_spp_kelas    = $this->input->post('id_status_spp_kelas',TRUE);
-
-        $url            = site_url('pembayaran_spp_kelas/edit/'.$id);
-
-        date_default_timezone_set('Asia/Jakarta');
-        $created_modified       = gmdate('Y-m-d H:i:s', time()+60*60*7);
-
-        $this->mydb1->trans_start();
-        $this->mydb1->set('id_kelas',$id_kelas);
-        $this->mydb1->set('id_guru',$id_guru);
-        $this->mydb1->set('bulan',$bulan);
-        $this->mydb1->set('tahun',$tahun);
-        $this->mydb1->set('jml_bayar',$jml_bayar);
-        $this->mydb1->set('jml_keseluruhan',$jml_keseluruhan);
-        $this->mydb1->set('id_status_spp_kelas',$id_status_spp_kelas);
-        $this->mydb1->set('created_modified',$created_modified);
-        $this->mydb1->where('id',$id);
-        $this->mydb1->update('pembayaran_spp_kelas');
-
-        $this->mydb1->trans_complete();
-        if ($this->mydb1->trans_status()==false)
-        {
-            $this->mydb1->trans_rollback();
-            $this->error();
-            return FALSE;
-        }
-        else
-        {
-            $this->mydb1->trans_commit();
-            $this->model_message->messege_proses('Data Berhasil diperbarui.','delete',$url,'fa-check-square-o','success');
-            return TRUE;
-        }
     }
 
     function cari_siswa($query)

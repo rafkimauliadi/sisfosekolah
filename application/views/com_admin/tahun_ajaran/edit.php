@@ -14,7 +14,30 @@
                       </div>
                 </div>
           </div>
-          
+          <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput"> Bulan Periode Tahun</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="bulan" id="bulan" placeholder="bulan" title="bulan" value="<?php echo $details->row()->bulan; ?>">
+                      </div>
+                </div>
+          </div><div class="form-group">
+              <label class="col-md-2 control-label" for="textinput"> Semester</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="semester" id="semester" placeholder="semester" title="semester" value="<?php echo $details->row()->semester; ?>">
+                      </div>
+                </div>
+          </div> 
+          </div><div class="form-group">
+              <label class="col-md-2 control-label" for="textinput"> Status</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="status" id="status" placeholder="status" title="status" value="<?php echo $details->row()->status; ?>">
+                      </div>
+                </div>
+          </div>   
+         
           <div class="form-group">
               <div class="col-xs-offset-2 col-xs-10">
                   <button type="submit" class="btn btn-primary" name="update" value='update' id="update">Update</button>

@@ -146,7 +146,6 @@ class Model_combo_r extends CI_Model
         return $data;
     }
 
-
     public function init_cb_guru($id)
     {
         $data =$this->mydb1->query("SELECT 
@@ -206,7 +205,7 @@ class Model_combo_r extends CI_Model
         return $data;
     }
     
-public function init_cb_tahun_ajaran($id)
+    public function init_cb_tahun_ajaran($id)
     {
         $data =$this->mydb1->query("SELECT 
                                         id,
@@ -218,7 +217,6 @@ public function init_cb_tahun_ajaran($id)
                                     ");
         return $data;
     }
-
     public function init_cb_mapel($id)
     {
         $data =$this->mydb1->query("SELECT 

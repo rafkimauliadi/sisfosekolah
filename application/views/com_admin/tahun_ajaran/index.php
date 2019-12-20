@@ -11,6 +11,9 @@
                         <tr>
                             <th>No</th>
                             <th>Tahun</th>
+                            <th>Bulan</th>
+                            <th>Semester</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -21,6 +24,9 @@
                         <tr>
                             <td><?php echo $no; ?></td>
                             <td><?php echo $row->tahun; ?></td>
+                            <td><?php echo $row->bulan; ?></td>
+                            <td><?php echo $row->semester; ?></td>
+                            <td><?php echo $row->status; ?></td>
                             <td>
 															<button id-mapel="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> Hapus</button>
 															<a href="<?php echo site_url('tahun_ajaran/edit/'.$row->id); ?>" class="button-edit btn btn-info btn-rounded"><i class="fa fa-edit"></i> Edit</a>

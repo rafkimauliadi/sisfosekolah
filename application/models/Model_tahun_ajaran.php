@@ -14,17 +14,31 @@ class Model_tahun_ajaran extends CI_Model
         $this->model_message->conv_validasi_to_indonesia();
 
         $tahun          = $this->input->post('tahun');
+        $bulan          = $this->input->post('bulan');
+        $smester          = $this->input->post('semester');
+        $status          = $this->input->post('status');
 
         if ($action=='simpan')
         {
             $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            $this->form_validation->set_rules('bulan', 'bulan', 'required');
+            $this->form_validation->set_rules('semester', 'semester', 'required');
+            $this->form_validation->set_rules('status', 'status', 'required');
+
         }
         else
         {
             $this->form_validation->set_rules('tahun', 'tahun', 'required');
+            $this->form_validation->set_rules('bulan', 'bulan', 'required');
+            $this->form_validation->set_rules('semester', 'semester', 'required');
+            $this->form_validation->set_rules('status', 'status', 'required');
+
         }
 
         $this->session->set_flashdata('tahun', $tahun);
+        $this->session->set_flashdata('bulan', $bulan);
+        $this->session->set_flashdata('semester', $smester);
+        $this->session->set_flashdata('status', $status);
 
     }
 
@@ -41,11 +55,17 @@ class Model_tahun_ajaran extends CI_Model
         $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
         $tahun          = $this->input->post('tahun',TRUE);
+        $bulan          = $this->input->post('bulan',TRUE);
+        $semester          = $this->input->post('semester',TRUE);
+        $status          = $this->input->post('status',TRUE);
 
         $url            = site_url('tahun-ajaran/edit/'.$id);
 
         $this->mydb1->trans_start();
         $this->mydb1->set('tahun',$tahun);
+        $this->mydb1->set('bulan',$bulan);
+        $this->mydb1->set('semester',$semester);
+        $this->mydb1->set('status',$status);
         $this->mydb1->insert('tahun_ajaran');
 
         $this->mydb1->trans_complete();
@@ -109,7 +129,8 @@ class Model_tahun_ajaran extends CI_Model
         $id = $this->format_data->string($this->uri->segment(3,0));
         $data =$this->mydb1->query("SELECT 
                                             id,
-                                            tahun
+                                            tahun,bulan,semester,status
+                                            
                                         from 
                                             tahun_ajaran
                                         WHERE 
@@ -132,6 +153,9 @@ class Model_tahun_ajaran extends CI_Model
 
         $id             = $this->format_data->string($this->input->post('id',TRUE));
         $tahun          = $this->input->post('tahun',TRUE);
+        $bulan          = $this->input->post('bulan',TRUE);
+        $semester          = $this->input->post('semester',TRUE);
+        $status          = $this->input->post('status',TRUE);
 
         $url            = site_url('tahun-ajaran/edit/'.$id);
 
@@ -140,6 +164,10 @@ class Model_tahun_ajaran extends CI_Model
 
         $this->mydb1->trans_start();
         $this->mydb1->set('tahun',$tahun);
+        $this->mydb1->set('bulan',$bulan);
+        $this->mydb1->set('semester',$semester);
+        $this->mydb1->set('status',$status);
+
         $this->mydb1->where('id',$id);
         $this->mydb1->update('tahun_ajaran');
 

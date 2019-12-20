@@ -4,7 +4,7 @@
       <h4 class="card-title">Tambahkan Tiket Bimbingan Konseling</h4>
       <p><?php $CI =& get_instance();  echo $this->session->flashdata('pesan'); ?></p>
 
-      <form class="form-horizontal" method="POST" action="<?php echo site_url('bimbingan-konseling/add'); ?>">
+      <form class="form-horizontal" method="POST" action="<?php echo site_url('master-kelas/add'); ?>">
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">NIS</label>
                   <div class="col-md-6">
@@ -15,19 +15,19 @@
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">NIP GURU</label>
+              <label class="col-md-2 control-label" for="textinput">Nama Siswa</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nip_guru" id="nip_guru" placeholder="Nomor Induk Pokok" title="nip_guru" value="<?php echo $this->session->flashdata('nip_guru'); ?>">
+                          <input type="text" class="form-control" name="nama_siswa" id="nama_siswa" placeholder="Nama Siswa" title="nama_siswa" value="<?php echo $this->session->flashdata('nama_siswa'); ?>">
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Tanggal Konsultasi</label>
+              <label class="col-md-2 control-label" for="textinput">Tanggal Konsul</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="date" class="form-control" name="date" id="date" placeholder="Tanggal Konsultasi" title="date" value="<?php echo $this->session->flashdata('date'); ?>">
+                          <input type="text" class="form-control" name="tanggal_konsultasi" id="tanggal_konsultasi" placeholder="Tanggal Konsultasi" title="tanggal_konsultasi" value="<?php echo $this->session->flashdata('tanggal_konsultasi'); ?>">
                       </div>
                 </div>
           </div>
@@ -55,7 +55,7 @@
               <div class="col-xs-offset-2 col-xs-10">
                   <button type="submit" class="btn btn-primary" name="save" value='save' id="save">Save</button>
                   <button type="reset" class="btn btn-primary">Reset</button>
-                  <a href="<?php echo site_url('bimbingan-konseling'); ?>" class="btn btn-primary">Back</a>
+                  <a href="<?php echo site_url('master-kelas'); ?>" class="btn btn-primary">Back</a>
               </div>
           </div>
 
@@ -63,3 +63,16 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Selector input yang akan menampilkan autocomplete.
+        $( "#nama_siswa" ).autocomplete({
+            serviceUrl: "<?php echo site_url('bimbingan_konseling/cari-siswa')?>",   // Kode php untuk prosesing data.
+            dataType: "JSON",           // Tipe data JSON.
+            onSelect: function (suggestion) {
+                $( "#buah" ).val("" + suggestion.buah);
+            }
+        });
+    })
+</script>

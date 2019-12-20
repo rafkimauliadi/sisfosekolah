@@ -8,10 +8,9 @@
                 $temp = str_replace("_", " ", $value);
                 $label = ucfirst($temp);
             ?>      
-            <h4 class="card-title">Jadwal Pelajaran Per Kelas</h4>
+            <h4 class="card-title">Master Jadwal Pelajaran</h4>
             <p><?php echo $this->session->flashdata('pesan'); ?></p>
             <a title="Tambah Data" href="<?php echo site_url('master-jadwal-pelajaran/add')?>" class="btn btn-primary btn-rounded m-t-10 float-right"><i class="fa fa-plus"></i> Add</a>
-
             <div class="page-header">
                 <form class="form-inline" method="POST" action="<?php echo site_url('master-jadwal-pelajaran/search'); ?>" >
                     <!-- <div class="form-group">
@@ -50,50 +49,66 @@
           </div>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
+
                     <button type="submit" class="btn btn-success">Filter/Cari</button>
                         <a class="btn btn-danger" href="<?php echo site_url('master-jadwal-pelajaran')?>" ><i class="fa fa-refresh"></i> Refresh</a>
              
         
                 </form>   
             </div>
-            
+            <hr/>
             <div class="table-responsive">
                 <table id="data-mobil-table" class="table table-bordered m-t-30 table-hover contact-list" data-paging="true" data-paging-size="7">
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Tanggal</th>
                             <th>Hari</th>
                             <th colspan=2> Jam</th>
                             <th>Kelas</th>
                             <th>Mata Pelajaran</th>
                             <th>Nama Guru</th>
-                            <th>Keterangan simbol</th>
-                            <th></th>
+                            <th>Absen 1</th>
+                            <th>Absen 2</th>
+                            <th>Nis</th>
+                            <th>Keterangan Materi</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="data_mobil">
-											<?php $no = 0; foreach ($data->result() as $row){
+						<?php $no = 0; foreach ($data->result() as $row){
 												$no++;
 											?>
                         <tr>
                             <td><?php echo $no; ?></td>
+                            <td><?php echo $row->created_date; ?></td>
                             <td><?php echo $row->hari; ?></td>
                             <td><?php echo $row->jam; ?></td>
                             <td><?php echo $row->waktu_mulai; ?> - <?php echo $row->waktu_akhir; ?></td>
                             <td><?php echo $row->nama_kelas; ?> <?php echo $row->nama_jurusan; ?></td>
                             <td><?php echo $row->nama_mapel; ?></td>
                             <td><?php echo $row->gelar_depan; ?> <?php echo $row->nama_lengkap; ?> <?php echo $row->gelar_belakang; ?></td>
-                            <td><?php echo $row->tanda_guru; ?></td>
+                            <!-- <td><?php echo $row->absen1; ?></td>
+                            <td><?php echo $row->absen2; ?></td> -->
                             <!-- <td><?php echo $row->id; ?></td> -->
 
-                            <td><?php if($row->tanda_guru=="Ada Guru"){
-                            echo '<button type="button" class="button-edit btn btn-info btn-rounded"></button>';
+                            <td><?php if($row->absen1=="Ada Guru"){
+                            echo '<button type="button" class="button-edit btn btn-info btn-rounded">Ada Guru</button>';
                             } else{
-                                echo '<button type="button" class="button-edit btn btn-danger btn-rounded"></button>';
+                                echo '<button type="button" class="button-edit btn btn-danger btn-rounded">Tidak Ada Guru</button>';
 
                             }
                             ?></td>
+                                     <td><?php if($row->absen2=="Ada Guru"){
+                            echo '<button type="button" class="button-edit btn btn-info btn-rounded">Ada Guru</button>';
+                            } else{
+                                echo '<button type="button" class="button-edit btn btn-danger btn-rounded">Tidak Ada Guru</button>';
+
+                            }
+                            ?></td>
+                            
+                            <td><?php echo $row->nis; ?></td>
+                            <td><?php echo $row->keterangan_materi; ?></td>
                             <td>
                             <button id-mapel="<?php echo $row->id; ?>" type="button" class="button-delete btn btn-danger btn-rounded"><i class="fa fa-trash"></i> 
                             <a href="<?php echo site_url('master_jadwal_pelajaran/delete/'.$row->id); ?>">Hapus

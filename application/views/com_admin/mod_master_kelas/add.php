@@ -23,7 +23,7 @@
                           $cb_status = $CI->model_kelas->init_status_kelas($id);
                           foreach ($cb_status->result() as $row) : 
                           $CI->model_kelas->init_status_kelas($id); ?>
-                              <option value="<?php echo $row->id_status ?>"><?php echo $row->nama_status ?></option>
+                              <option value="<?php echo $row->id?>"><?php echo $row->status_guru ?></option>
                           <?php $cb_status->free_result(); endforeach; ?>  
                       </select>
                 </div>

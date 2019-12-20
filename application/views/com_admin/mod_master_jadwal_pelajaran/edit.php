@@ -67,10 +67,34 @@
                 </div>
         </div>
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Tanda Guru</label>
+              <label class="col-md-2 control-label" for="textinput">Absen 1</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="tanda_guru" id="tanda_guru" placeholder="tanda_guru" title="tanda_guru" value="<?php echo $details->row()->tanda_guru; ?>">
+                          <input type="text" class="form-control" name="absen1" id="absen1" placeholder="absen1" title="absen1" value="<?php echo $details->row()->absen1; ?>">
+                      </div>
+                </div>
+          </div>
+          <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput">Absen 2</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="absen2" id="absen2" placeholder="absen2" title="absen2" value="<?php echo $details->row()->absen2; ?>">
+                      </div>
+                </div>
+          </div>
+          <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput">Nis Siswa</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="nis" id="nis" placeholder="nis" title="nis" value="<?php echo $details->row()->nis; ?>">
+                      </div>
+                </div>
+          </div>
+          <div class="form-group">
+              <label class="col-md-2 control-label" for="textinput">Keterangan Materi</label>
+                  <div class="col-md-6">
+                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
+                          <input type="text" class="form-control" name="keterangan_materi" id="keterangan_materi" placeholder="keterangan_materi" title="keterangan_materi" value="<?php echo $details->row()->keterangan_materi; ?>" readonly>
                       </div>
                 </div>
           </div>

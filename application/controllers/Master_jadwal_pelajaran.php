@@ -46,6 +46,7 @@ class Master_jadwal_pelajaran extends CI_Controller {
 
 		$data['data'] 		= $this->model_jadwal_pelajaran->get_view($offset,$this->perpage);
 		$data['search']		= $this->model_jadwal_pelajaran->search();
+		// $data['search2']		= $this->model_jadwal_pelajaran->search();
 		// $data['pagination'] = $this->model_message->pagination(site_url('Master-jadwal-pelajaran/index'),$this->model_jadwal_pelajaran->num_rows(),$this->perpage);
 		$data['offset'] 	= $offset;
 
@@ -71,6 +72,7 @@ class Master_jadwal_pelajaran extends CI_Controller {
 		$data['search']		= $this->model_jadwal_pelajaran->search();
 		$data['pagination'] = '';
 		$data['offset'] 	= $offset;
+		// $data['search2']		= $this->model_jadwal_pelajaran->search2();
 
 		$this->templates('mod_master_jadwal_pelajaran','index',$data);
 	}
@@ -172,7 +174,10 @@ class Master_jadwal_pelajaran extends CI_Controller {
     $id_jam      	= $this->format_data->string($this->input->post('id_jam',TRUE));
     $id_kelas     	= $this->format_data->string($this->input->post('id_kelas',TRUE));
     $id_mapel_kelas     	= $this->format_data->string($this->input->post('id_mapel_kelas',TRUE));
-    $tanda_guru     	= $this->format_data->string($this->input->post('tanda_guru',TRUE));
+    $absen1     	= $this->format_data->string($this->input->post('absen1',TRUE));
+    $absen2     	= $this->format_data->string($this->input->post('absen2',TRUE));
+    $nis     	= $this->format_data->string($this->input->post('nis',TRUE));
+    $keterangan_materi     	= $this->format_data->string($this->input->post('keterangan_materi',TRUE));
 
 		$this->model_jadwal_pelajaran->validation_field('edit'); 
 

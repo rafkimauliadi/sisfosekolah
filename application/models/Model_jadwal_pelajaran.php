@@ -17,7 +17,10 @@ class Model_jadwal_pelajaran extends CI_Model
         $id_jam          = $this->input->post('id_jam');
         $id_kelas          = $this->input->post('id_kelas');
         $id_mapel_kelas          = $this->input->post('id_mapel_kelas');
-        $tanda_guru          = $this->input->post('tanda_guru');
+        $absen1          = $this->input->post('absen1');
+        $absen2         = $this->input->post('absen2');
+        $nis          = $this->input->post('nis');
+        // $keterangan_materi          = $this->input->post('keterangan_materi');
 
         if ($action=='simpan')
         {
@@ -25,7 +28,11 @@ class Model_jadwal_pelajaran extends CI_Model
             $this->form_validation->set_rules('id_jam', 'id_jam', 'required');
             $this->form_validation->set_rules('id_kelas', 'id_kelas', 'required');
             $this->form_validation->set_rules('id_mapel_kelas', 'id_mapel_kelas', 'required');
-            $this->form_validation->set_rules('tanda_guru', 'tanda_guru', 'required');
+            $this->form_validation->set_rules('absen1', 'absen1', 'required');
+            $this->form_validation->set_rules('absen2', 'absen2', 'required');
+            $this->form_validation->set_rules('nis', 'nis', 'required');
+            // $this->form_validation->set_rules('keterangan_materi', 'keterangan_materi', 'required');
+
         }
         else
         {
@@ -33,14 +40,20 @@ class Model_jadwal_pelajaran extends CI_Model
             $this->form_validation->set_rules('id_jam', 'id_jam', 'required');
             $this->form_validation->set_rules('id_kelas', 'id_kelas', 'required');
             $this->form_validation->set_rules('id_mapel_kelas', 'id_mapel_kelas', 'required');
-            $this->form_validation->set_rules('tanda_guru', 'tanda_guru', 'required');
+            $this->form_validation->set_rules('absen1', 'absen1', 'required');
+            $this->form_validation->set_rules('absen2', 'absen2', 'required');
+            $this->form_validation->set_rules('nis', 'nis', 'required');
+            // $this->form_validation->set_rules('keterangan_materi', 'keterangan_materi', 'required');
         }
 
         $this->session->set_flashdata('hari', $hari);
         $this->session->set_flashdata('id_jam', $id_jam);
         $this->session->set_flashdata('id_kelas', $id_kelas);
         $this->session->set_flashdata('id_mapel_kelas', $id_mapel_kelas);
-        $this->session->set_flashdata('tanda_guru', $id_mapel_kelas);
+        $this->session->set_flashdata('absen1', $absen1);
+        $this->session->set_flashdata('absen2', $absen2);
+        $this->session->set_flashdata('nis', $nis);
+        // $this->session->set_flashdata('keterangan_materi', $keterangan_materi);
 
     }
 
@@ -55,51 +68,104 @@ class Model_jadwal_pelajaran extends CI_Model
         return $query->field_data();
     }
 
+    // public function search2()
+    // {
+    //     $query =    $this->mydb1->query("SELECT 
+    //                                         c.nip
+    //                                         from 
+    //                                         master_guru c
+    //                                     ");
+    //     return $query->field_data();
+    // }
     public function get_view($offset,$perpage)
     {
-        // $change_box = $this->input->post('change_box',TRUE);
-        // $search_box = $this->input->post('search_box',TRUE);
-        // $this->session->set_flashdata('search_box', $search_box);
-        
-        // if($search_box != NULL)
-    	//    $data =$this->mydb1->query("SELECT 
-        //                                 jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, tanda_guru,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id and master_mapel_kelas.id_guru=master_guru.id       
-        //                                and (master_kelas.".$change_box." like '%$search_box%')
-        //                                 order by jadwal_pelajaran.id desc
-        //                                 ");
-        // else
-        //     $data =$this->mydb1->query("SELECT 
-        //                                 jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, tanda_guru,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id 
-        //                                 and master_mapel_kelas.id_guru=master_guru.id       
-        //                                 order by jadwal_pelajaran.id desc
-        //                                     limit ".$offset.",".$perpage);
-        // return $data;
       
         $id_kelas = $this->input->post('id_kelas',TRUE);
+        $id_guru = $this->input->post('id_guru',TRUE);
 
-     
+        if($id_kelas != NULL){
+            $tanggal = Date("Y-m-d");
+            $day = date('D', strtotime($tanggal));
+            $dayList = array(
+                'Sun' => 'Minggu',
+                'Mon' => 'Senin',
+                'Tue' => 'Selasa',
+                'Wed' => 'Rabu',
+                'Thu' => 'Kamis',
+                'Fri' => 'Jumat',
+                'Sat' => 'Sabtu'
+            );
+            $hari_sekarang = $dayList[$day];
 
-        if($id_kelas != NULL)
         $data =$this->mydb1->query("SELECT 
-        jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, tanda_guru,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id 
+        jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,
+        waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, 
+        absen1,absen2,jadwal_pelajaran.nis as nis,keterangan_materi,
+        date(jadwal_pelajaran.created_date) as created_date, nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id 
         and master_mapel_kelas.id_guru=master_guru.id and master_kelas.id_kelas='{$id_kelas}'       
+       and hari='{$hari_sekarang}'
         order by jadwal_pelajaran.id desc");
-        else
+        return $data;
+    }
+    
+    else if($id_guru != NULL){
+        $tanggal = Date("Y-m-d");
+        $dayList = array(
+            'Sun' => 'Minggu',
+            'Mon' => 'Senin',
+            'Tue' => 'Selasa',
+            'Wed' => 'Rabu',
+            'Thu' => 'Kamis',
+            'Fri' => 'Jumat',
+            'Sat' => 'Sabtu'
+        );
+        $hari_sekarang = $dayList[$day];
+
+    $data =$this->mydb1->query("SELECT 
+    jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,
+    waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, 
+    date(jadwal_pelajaran.created_date) as created_date, absen1,absen2,jadwal_pelajaran.nis as nis,keterangan_materi,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id 
+    and master_mapel_kelas.id_guru=master_guru.id and master_guru.id='{$id_guru}'       
+   and hari='{$hari_sekarang}'
+    order by jadwal_pelajaran.id desc");
+    return $data;
+}
+        else{
+        $tanggal = Date("Y-m-d");
+        $day = date('D', strtotime($tanggal));
+        $dayList = array(
+            'Sun' => 'Minggu',
+            'Mon' => 'Senin',
+            'Tue' => 'Selasa',
+            'Wed' => 'Rabu',
+            'Thu' => 'Kamis',
+            'Fri' => 'Jumat',
+            'Sat' => 'Sabtu'
+        );
+       $hari_sekarang = $dayList[$day];
             $data =$this->mydb1->query("SELECT 
-                                        jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, tanda_guru,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id 
+                                        jadwal_pelajaran.id as id,hari,id_jam,jam,
+                                        waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,
+                                        id_mapel_kelas,nama_mapel,date(jadwal_pelajaran.created_date) as created_date,
+                                        absen1,absen2,jadwal_pelajaran.nis as nis,keterangan_materi,nama_lengkap,
+                                        gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id 
                                         and master_mapel_kelas.id_guru=master_guru.id       
+                                        and hari='{$hari_sekarang}'
+
                                         order by jadwal_pelajaran.id desc
                                             limit ".$offset.",".$perpage);
         return $data;
+        }
     }    	
-
 
 
 
     public function get_data_jadwal_pelajaran()
     {
         $sql = "
-        SELECT jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, tanda_guru,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id and master_mapel_kelas.id_guru=master_guru.id       
+        SELECT jadwal_pelajaran.id as id,hari,id_jam,jam,waktu_mulai,waktu_akhir,
+        nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel,
+        absen1,absen2,jadwal_pelajaran.nis as nis,keterangan_materi,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id and master_mapel_kelas.id_guru=master_guru.id       
          ";
         $queryRec = $this->db->query($sql);
         return $queryRec;
@@ -108,13 +174,16 @@ class Model_jadwal_pelajaran extends CI_Model
     public function init_save()
     {
         date_default_timezone_set('Asia/Jakarta');
-        $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
+        $created_date       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
         $hari          = $this->input->post('hari',TRUE);
         $id_jam          = $this->input->post('id_jam',TRUE);
         $id_kelas          = $this->input->post('id_kelas',TRUE);
         $id_mapel_kelas          = $this->input->post('id_mapel_kelas',TRUE);
-        $tanda_guru          = $this->input->post('tanda_guru',TRUE);
+        $absen1          = $this->input->post('absen1',TRUE);
+        $absen2         = $this->input->post('absen2',TRUE);
+        $nis          = $this->input->post('nis',TRUE);
+        $keterangan_materi          = $this->input->post('keterangan_materi',TRUE);
 
         $url            = site_url('master-jadwal-pelajaran/edit/'.$id);
 
@@ -123,7 +192,12 @@ class Model_jadwal_pelajaran extends CI_Model
         $this->mydb1->set('id_jam',$id_jam);
         $this->mydb1->set('id_kelas',$id_kelas);
         $this->mydb1->set('id_mapel_kelas',$id_mapel_kelas);
-        $this->mydb1->set('tanda_guru',$tanda_guru);
+        $this->mydb1->set('absen1',$absen1);
+        $this->mydb1->set('absen2',$absen2);
+        $this->mydb1->set('nis',$nis);
+        $this->mydb1->set('keterangan_materi',$keterangan_materi);
+        $this->mydb1->set('created_date',$created_date);
+
         $this->mydb1->insert('jadwal_pelajaran');
 
         $this->mydb1->trans_complete();
@@ -185,7 +259,9 @@ class Model_jadwal_pelajaran extends CI_Model
     public function get_data()
     {
         $id = $this->format_data->string($this->uri->segment(3,0));
-        $data =$this->mydb1->query("        SELECT jadwal_pelajaran.id as id,hari,master_kelas.id_kelas,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,nama_jurusan,id_mapel_kelas,nama_mapel, tanda_guru,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id and master_mapel_kelas.id_guru=master_guru.id       
+        $data =$this->mydb1->query("        SELECT jadwal_pelajaran.id as id,hari,
+        master_kelas.id_kelas,id_jam,jam,waktu_mulai,waktu_akhir,nama_kelas,
+        nama_jurusan,id_mapel_kelas,nama_mapel,absen1,absen2,jadwal_pelajaran.nis as nis, keterangan_materi,nama_lengkap,gelar_depan, gelar_belakang from jadwal_pelajaran,master_jam,master_kelas,master_mata_pelajaran,master_mapel_kelas,master_jurusan,master_guru WHERE jadwal_pelajaran.id_jam=master_jam.id and jadwal_pelajaran.id_kelas=master_kelas.id_kelas and jadwal_pelajaran.id_mapel_kelas=master_mapel_kelas.id and master_mapel_kelas.id_mata_pelajaran=master_mata_pelajaran.id_mata_pelajaran and master_kelas.id_jurusan=master_jurusan.id and master_mapel_kelas.id_guru=master_guru.id       
          and jadwal_pelajaran.id='$id'");
         return $data;
     }
@@ -201,6 +277,9 @@ class Model_jadwal_pelajaran extends CI_Model
 
     public function init_update()
     {
+        
+        date_default_timezone_set('Asia/Jakarta');
+        $created_date       = gmdate('Y-m-d H:i:s', time()+60*60*7);
         $id_user        = $this->model_hook->init_online_exist();
 
         $id             = $this->format_data->string($this->input->post('id',TRUE));
@@ -208,19 +287,27 @@ class Model_jadwal_pelajaran extends CI_Model
         $id_jam          = $this->input->post('id_jam',TRUE);
         $id_kelas          = $this->input->post('id_kelas',TRUE);
         $id_mapel_kelas          = $this->input->post('id_mapel_kelas',TRUE);
-        $tanda_guru          = $this->input->post('tanda_guru',TRUE);
+        $absen1          = $this->input->post('absen1',TRUE);
+        $absen2          = $this->input->post('absen2',TRUE);
+        $nis          = $this->input->post('nis',TRUE);
+        $keterangan_materi          = $this->input->post('keterangan_materi',TRUE);
 
         $url            = site_url('master-jadwal-pelajaran/edit/'.$id);
 
         date_default_timezone_set('Asia/Jakarta');
-        $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
+        $created_date       = gmdate('Y-m-d H:i:s', time()+60*60*7);
 
         $this->mydb1->trans_start();
         $this->mydb1->set('hari',$hari);
         $this->mydb1->set('id_jam',$id_jam);
         $this->mydb1->set('id_kelas',$id_kelas);
         $this->mydb1->set('id_mapel_kelas',$id_mapel_kelas);
-        $this->mydb1->set('tanda_guru',$tanda_guru);
+        $this->mydb1->set('absen1',$absen1);
+        $this->mydb1->set('absen2',$absen2);
+        $this->mydb1->set('nis',$nis);
+        $this->mydb1->set('keterangan_materi',$keterangan_materi);
+        $this->mydb1->set('created_date',$created_date);
+
         $this->mydb1->where('id',$id);
         $this->mydb1->update('jadwal_pelajaran');
 
@@ -249,6 +336,12 @@ class Model_jadwal_pelajaran extends CI_Model
     function init_kelas($id)
     {
         $sql = "select master_kelas.id_kelas, master_kelas.nama_kelas, master_jurusan.nama_jurusan from master_kelas, master_jurusan where master_kelas.id_jurusan=master_jurusan.id and master_kelas.id_kelas !=?";
+        $queryRec = $this->db->query($sql, array($id));
+        return $queryRec;
+    }
+    function init_guru($id)
+    {
+        $sql = "select id,nip, nama_lengkap from master_guru";
         $queryRec = $this->db->query($sql, array($id));
         return $queryRec;
     }

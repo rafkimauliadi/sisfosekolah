@@ -138,6 +138,9 @@ class Tahun_ajaran extends CI_Controller {
 		$id       = $this->format_data->string($this->input->post('id',TRUE));
 
     $tahun      	= $this->format_data->string($this->input->post('tahun',TRUE));
+    $bulan      	= $this->format_data->string($this->input->post('bulan',TRUE));
+    $semester      	= $this->format_data->string($this->input->post('semester',TRUE));
+    $status      	= $this->format_data->string($this->input->post('status',TRUE));
 
 		$this->model_tahun_ajaran->validation_field('edit'); 
 

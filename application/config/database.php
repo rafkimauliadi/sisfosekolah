@@ -97,12 +97,14 @@ $query_builder = TRUE;
 
 
 $db['default'] = array(
-	'dsn'	=> 'mysql:host=localhost;dbname=ptsp;charset=utf8;',
-	//'hostname' => 'localhost',
+	// 'dsn'	=> 'mysql:host=localhost;dbname=ptsp;charset=utf8;',
+	// 'hostname' => '130.211.206.95',
+	// 'username' => 'application',
+	// 'password' => 'fidinext',
 	'username' => 'root',
 	'password' => '',
-	//'database' => 'mesin2018',
-	'dbdriver' => 'pdo',
+	'database' => 'ptsp_merge',
+	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),

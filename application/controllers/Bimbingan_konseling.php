@@ -150,18 +150,8 @@ class Bimbingan_konseling extends CI_Controller {
         }
 	    else
 	    {
-	    	$cek_nama = $this->model_bk->cek_exist_nama('bimbingan_konseling','nis','id',$nis,$id);
-
-	    	if ($cek_nama > 0 )
-	    	{
-	    		$this->model_message->messege_proses('nama sudah digunakan.','delete',$url,'fa-check-square-o','warning');
-	    		redirect(site_url('bimbingan-konseling/edit/'.$id));
-	    	}
-	    	else
-	    	{
-	    		$this->model_bk->init_update();
-	    		redirect(site_url('bimbingan-konseling'));
-	    	}
+	    	$this->model_bk->init_update();
+	    	redirect(site_url('bimbingan-konseling'));
 	    }
 	}
 

@@ -15,30 +15,37 @@
 
       <form class="form-horizontal" method="POST" action="<?php echo site_url('pembayaran-spp-kelas/edit'); ?>">
           <input type="hidden" name="id" value="<?php echo $details->row()->id; ?>">
-          <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Kelas</label>
-                  <div class="col-md-6">
-                    <select class="form-control select-single" name="id_kelas">
-                         <option value="<?php echo $details->row()->id_kelas; ?>"><?php echo $details->row()->nama_kelas; ?></option>
-                          <?php
-                          $id = $details->row()->nama_kelas; 
-                          $cb_status = $CI->model_pembayaran_spp_kelas->init_kelas($id);
-                          foreach ($cb_status->result() as $row) : 
-                          $CI->model_pembayaran_spp_kelas->init_kelas($id); ?>
-                              <option value="<?php echo $row->id_kelas ?>"><?php echo $row->nama_kelas ?></option>
-                          <?php $cb_status->free_result(); endforeach; ?>  
-                      </select>
-                </div>
-          </div>
+          <div class="col-md-6">
+                            <div class="form-group has-success">
+                                <label class="control-label">Kelas</label>
+                                <select class="form-control select2 custom-select" name="id_kelas" data-placeholder="Choose a Gender" tabindex="1">
+                                  <option value="<?php echo $details->row()->id_kelas; ?>"><?php echo $details->row()->nama_kelas; ?></option>
+                                <?php 
+                                    $id = $details->row()->id_kelas; 
+                                    $cb_kelas = $CI->model_combo_r->init_cb_kelas($id);
 
-          <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Nama Guru</label>
-                  <div class="col-md-6">
-                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="id_guru" id="id_guru" placeholder="Nama Guru" title="id_guru" value="<?php echo $details->row()->id_guru; ?>">
-                      </div>
-                </div>
-          </div>
+                                    foreach ($cb_kelas->result() as $row) : ?>
+                                        <option value="<?php echo $row->id_kelas ?>"><?php echo $row->nama_kelas ?></option>
+                                    <?php $cb_kelas->free_result(); endforeach; ?>
+                                </select>
+                            </div>
+           </div>
+
+          <div class="col-md-6">
+                            <div class="form-group has-success">
+                                <label class="control-label">Nama Guru</label>
+                                <select class="form-control select2 custom-select" name="id_guru" data-placeholder="Choose a Gender" tabindex="1">
+                                  <option value="<?php echo $details->row()->id; ?>"><?php echo $details->row()->nama_guru; ?></option>
+                                <?php 
+                                    $id = $details->row()->nama_lengkap; 
+                                    $cb_guru = $CI->model_combo_r->init_cb_guru($id);
+
+                                    foreach ($cb_guru->result() as $row) : ?>
+                                        <option value="<?php echo $row->id ?>"><?php echo $row->nama_lengkap ?></option>
+                                    <?php $cb_guru->free_result(); endforeach; ?>
+                                </select>
+                            </div>
+           </div>
 
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">Bulan</label>

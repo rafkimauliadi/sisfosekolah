@@ -1,10 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="<?php echo base_url().'assets/css/jquery-ui.css'?>">
+</head>
+<body>
+
 <div class="col-12">
   <div class="card">
     <div class="card-body">
       <h4 class="card-title">Tambahkan Tiket Bimbingan Konseling</h4>
       <p><?php $CI =& get_instance();  echo $this->session->flashdata('pesan'); ?></p>
 
-      <form class="form-horizontal" method="POST" action="<?php echo site_url('master-kelas/add'); ?>">
+      <form class="form-horizontal" method="POST" action="<?php echo site_url('bimbingan-konseling/add'); ?>">
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">NIS</label>
                   <div class="col-md-6">
@@ -15,19 +24,19 @@
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Nama Siswa</label>
+              <label class="col-md-2 control-label" for="textinput">Nama Lengkap</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nama_siswa" id="nama_siswa" placeholder="Nama Siswa" title="nama_siswa" value="<?php echo $this->session->flashdata('nama_siswa'); ?>">
+                          <input type="text" class="form-control" name="nama_lengkap" id="nama_lengkap" placeholder="Nama Lengkap" title="nama_lengkap" value="<?php echo $this->session->flashdata('nama_lengkap'); ?>" readonly>
                       </div>
                 </div>
           </div>
 
           <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Tanggal Konsul</label>
+              <label class="col-md-2 control-label" for="textinput">Tanggal Konsultasi</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="tanggal_konsultasi" id="tanggal_konsultasi" placeholder="Tanggal Konsultasi" title="tanggal_konsultasi" value="<?php echo $this->session->flashdata('tanggal_konsultasi'); ?>">
+                          <input type="date" class="form-control" name="date" id="date" placeholder="Tanggal Konsultasi" title="date" value="<?php echo $this->session->flashdata('date'); ?>">
                       </div>
                 </div>
           </div>
@@ -55,7 +64,7 @@
               <div class="col-xs-offset-2 col-xs-10">
                   <button type="submit" class="btn btn-primary" name="save" value='save' id="save">Save</button>
                   <button type="reset" class="btn btn-primary">Reset</button>
-                  <a href="<?php echo site_url('master-kelas'); ?>" class="btn btn-primary">Back</a>
+                  <a href="<?php echo site_url('bimbingan-konseling'); ?>" class="btn btn-primary">Back</a>
               </div>
           </div>
 
@@ -64,15 +73,22 @@
   </div>
 </div>
 
+  <script src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>" type="text/javascript"></script>
+  <script src="<?php echo base_url().'assets/js/bootstrap.js'?>" type="text/javascript"></script>
+  <script src="<?php echo base_url().'assets/js/jquery-ui.js'?>" type="text/javascript"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        // Selector input yang akan menampilkan autocomplete.
-        $( "#nama_siswa" ).autocomplete({
-            serviceUrl: "<?php echo site_url('bimbingan_konseling/cari-siswa')?>",   // Kode php untuk prosesing data.
-            dataType: "JSON",           // Tipe data JSON.
-            onSelect: function (suggestion) {
-                $( "#buah" ).val("" + suggestion.buah);
-            }
-        });
-    })
-</script>
+    $(document).ready(function(){
+        $('#nis').autocomplete({
+                source: "<?php echo site_url('bimbingan-konseling/get_autocomplete');?>",
+     
+                select: function (event, ui) {
+                    $('[name="nis"]').val(ui.item.label); 
+                    $('[name="id"]').val(ui.item.id); 
+                    $('[name="nama_lengkap"]').val(ui.item.nama_lengkap); 
+                    $('[name="no_ijazah"]').val(ui.item.no_ijazah); 
+                    $('[name="tahun_ijazah"]').val(ui.item.tahun_ijazah); 
+                }
+            });
+
+    });
+</script>  

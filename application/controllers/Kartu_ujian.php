@@ -82,16 +82,16 @@ class Kartu_ujian extends CI_Controller {
 		}
 	}
 
-  public function detail()
+  public function cetak_kartu()
 	{
 		if(($this->input->post('save'))==NULL)
 			$this->index();
 		else
-			$this->detailtahun();
+			$this->proses_kartu();
 	}
 
 
-public function detailtahun()
+public function proses_kartu()
 	{
 
 		// $id = $this->format_data->string($this->uri->segment(3,0));
@@ -99,23 +99,21 @@ public function detailtahun()
 
 		$nis		= $this->input->post('nis');
 		$tahun		= $this->input->post('tahun');
-		$data['detail2']	= $this->model_kartu_ujian->get_data_detail2($tahun);
-		$data['detail']	= $this->model_kartu_ujian->get_data_detail($nis);
-
-		if ($nis==NULL)
-			redirect(site_url('kartu-ujian/detail'));
-
-		$this->session->set_flashdata('title', 'Edit');
-		$this->breadcrumb->add('<i class="ace-icon fa fa-home home-icon"></i> Dashboard ', site_url('administrator'));
-
+		$data['siswa']	= $this->model_kartu_ujian->get_data_detail($nis);
+		$data['siswa2']	= $this->model_kartu_ujian->get_data_detail2($tahun);
 		
+		if ($nis==NULL){
+			redirect(site_url('kartu-ujian'));
+		}
+
 		$data['cb_parent']		= $this->model_instansi->cb_parent();
 
 		$data['versi'] 		= $this->model_hook->versi();
 		$data['identitas'] 	= $this->model_hook->identitas();
 
+		$this->load->view('com_admin/mod_kartu_ujian/dompdf', $data);
 
-		$this->templates2('mod_kartu_ujian','detail',$data);
+		// $this->templates2('mod_kartu_ujian','detail',$data);
 		// $this->templates('mod_kartu_ujian','view_print',$data);
 		// $this->load->view('mod_kartu_ujian/detail', $data);
   }
@@ -153,6 +151,39 @@ public function detailtahun()
 		// $this->templates('mod_kartu_ujian','view_print',$data);
 		// $this->load->view('mod_kartu_ujian/detail', $data);
   }
+
+  public function laporan(){
+  	$this->load->library('mypdf');
+    $data['data'] = array(
+      ['nim'=>'123456789','name'=>'example name 1','jurusan'=>'Teknik Informatika'],
+      ['nim'=>'123456789', 'name'=>'example name 2', 'jurusan'=>'Jaringan']
+    );
+    $this->mypdf->generate('com_admin/mod_kartu_ujian/dompdf', $data, 'cetak-kartu-ujian', 'A4', 'potrait');
+  }
+
+  // EKSEKUSI CETAK PRINT
+
+	public function print_kartu(){
+		$data['siswa'] = $this->model_kartu_ujian->get_list_data('master_siswa')->result();
+		$this->load->view('com_admin/mod_kartu_ujian/dompdf', $data);
+	}
+
+	//EKSEKUSI LAPORAN PDF
+
+	public function pdf(){
+		$this->load->library('dompdf_gen');
+		$data['siswa'] = $this->model_kartu_ujian->get_list_data('master_siswa')->result();
+		$this->load->view('com_admin/mod_kartu_ujian/dompdf', $data);
+
+		$paper_size = 'A4';
+		$orientation = 'landscape';
+		$html = $this->output->get_output();
+		$this->dompdf->set_paper($paper_size, $orientation);
+
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("cetak-kartu-ujian.pdf", array('Attachment' =>0));
+	}
 
 
 }

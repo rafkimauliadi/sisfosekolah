@@ -14,6 +14,7 @@
       <p><?php $CI =& get_instance();  echo $this->session->flashdata('pesan'); ?></p>
 
       <form class="form-horizontal" method="POST" action="<?php echo site_url('pembayaran-spp-kelas/add'); ?>">
+
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">Kelas</label>
                   <div class="col-md-6">
@@ -29,14 +30,20 @@
                 </div>
           </div>
 
-          <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Nama Guru</label>
-                  <div class="col-md-6">
-                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="id_guru" id="id_guru" placeholder="Nama Guru" title="id_guru" value="<?php echo $this->session->flashdata('id_guru'); ?>">
-                      </div>
-                </div>
-          </div>
+          <div class="col-md-6">
+                            <div class="form-group has-success">
+                                <label class="control-label">Nama Guru</label>
+                                <select class="form-control select2 custom-select" name="id_guru" data-placeholder="Choose a Gender" tabindex="1">
+                                <?php 
+                                    $id=0;
+                                    $cb_guru = $CI->model_combo_r->init_cb_guru($id);
+
+                                    foreach ($cb_guru->result() as $row) : ?>
+                                        <option value="<?php echo $row->id ?>"><?php echo $row->nama_lengkap ?></option>
+                                    <?php $cb_guru->free_result(); endforeach; ?>
+                                </select>
+                            </div>
+           </div>
 
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">Bulan</label>

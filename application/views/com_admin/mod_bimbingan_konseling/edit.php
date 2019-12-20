@@ -1,3 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="<?php echo base_url().'assets/css/jquery-ui.css'?>">
+</head>
+<body>
+
 <div class="col-12">
   <div class="card">
     <div class="card-body">
@@ -10,16 +19,7 @@
               <label class="col-md-2 control-label" for="textinput">NIS</label>
                   <div class="col-md-6">
                       <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nis" id="nis" placeholder="Nomor Induk Siswa" title="nis" value="<?php echo $details->row()->nis; ?>">
-                      </div>
-                </div>
-          </div>
-
-          <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">NIP GURU</label>
-                  <div class="col-md-6">
-                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="nip_guru" id="nip_guru" placeholder="Nomor Induk Pokok" title="nip_guru" value="<?php echo $details->row()->nip_guru; ?>">
+                          <input type="text" class="form-control" name="nis" id="nis" placeholder="Nomor Induk Siswa" title="nis" value="<?php echo $details->row()->nis; ?>" readonly>
                       </div>
                 </div>
           </div>
@@ -64,3 +64,22 @@
     </div>
   </div>
 </div>
+
+  <script src="<?php echo base_url().'assets/js/jquery-3.3.1.js'?>" type="text/javascript"></script>
+  <script src="<?php echo base_url().'assets/js/bootstrap.js'?>" type="text/javascript"></script>
+  <script src="<?php echo base_url().'assets/js/jquery-ui.js'?>" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#nis').autocomplete({
+                source: "<?php echo site_url('bimbingan-konseling/get_autocomplete');?>",
+     
+                select: function (event, ui) {
+                    $('[name="nis"]').val(ui.item.label); 
+                    $('[name="nama_lengkap"]').val(ui.item.nama_lengkap); 
+                    $('[name="no_ijazah"]').val(ui.item.no_ijazah); 
+                    $('[name="tahun_ijazah"]').val(ui.item.tahun_ijazah); 
+                }
+            });
+
+    });
+</script>  

@@ -8,7 +8,7 @@ class Pembayaran_spp_kelas extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir','model_pembayaran_spp_kelas'));
+        $this->load->model(array('model_user','model_message','model_combo','model_supir','model_mapel','model_instansi','model_kelas','model_bk','model_legalisir','model_pembayaran_spp_kelas','model_combo_r'));
         $this->load->library(array('form_validation','encryption'));
     }
 

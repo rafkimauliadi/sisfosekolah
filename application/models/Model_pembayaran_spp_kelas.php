@@ -65,11 +65,13 @@ class Model_pembayaran_spp_kelas extends CI_Model
             a.id_status_spp_kelas,
             DATE_FORMAT(a.created_date, '%d-%M-%Y') as tanggal_input,
             b.nama_kelas as nama_kelas,
-            c.status_spp_kelas as status_spp_kelas
+            c.status_spp_kelas as status_spp_kelas,
+            d.nama_lengkap as nama_guru
 
             FROM pembayaran_spp_kelas a 
             LEFT JOIN master_kelas b on a.id_kelas = b.id_kelas
-            LEFT JOIN _status_spp_kelas c on a.id_status_spp_kelas = c.id_status_spp_kelas";
+            LEFT JOIN _status_spp_kelas c on a.id_status_spp_kelas = c.id_status_spp_kelas
+            LEFT JOIN master_guru d on a.id_guru = d.id";
         $queryRec = $this->db->query($sql);
         return $queryRec;
     }
@@ -172,11 +174,13 @@ class Model_pembayaran_spp_kelas extends CI_Model
             a.id_status_spp_kelas,
 
             b.nama_kelas as nama_kelas,
-            c.status_spp_kelas as status_spp_kelas
+            c.status_spp_kelas as status_spp_kelas,
+            d.nama_lengkap as nama_guru
 
             FROM pembayaran_spp_kelas a 
             LEFT JOIN master_kelas b on a.id_kelas = b.id_kelas
             LEFT JOIN _status_spp_kelas c on a.id_status_spp_kelas = c.id_status_spp_kelas
+            LEFT JOIN master_guru d on a.id_guru = d.id
             WHERE a.id='$id'");
 
         return $data;

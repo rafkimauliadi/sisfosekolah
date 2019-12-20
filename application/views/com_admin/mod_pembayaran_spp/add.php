@@ -32,14 +32,20 @@
                 </div>
           </div>
 
-          <div class="form-group">
-              <label class="col-md-2 control-label" for="textinput">Kelas</label>
-                  <div class="col-md-6">
-                      <div class="input-group"> <span class="input-group-addon"><span class="glyphicon glyphicon-briefcase"></span></span>
-                          <input type="text" class="form-control" name="id_kelas" id="id_kelas" placeholder="Kelas" title="id_kelas" value="<?php echo $this->session->flashdata('id_kelas'); ?>">
-                      </div>
-                </div>
-          </div>
+          <div class="col-md-6">
+                            <div class="form-group has-success">
+                                <label class="control-label">Kelas</label>
+                                <select class="form-control select2 custom-select" name="id_kelas" data-placeholder="Choose a Gender" tabindex="1">
+                                <?php 
+                                    $id=0;
+                                    $cb_kelas = $CI->model_combo_r->init_cb_kelas($id);
+
+                                    foreach ($cb_kelas->result() as $row) : ?>
+                                        <option value="<?php echo $row->id_kelas ?>"><?php echo $row->nama_kelas ?></option>
+                                    <?php $cb_kelas->free_result(); endforeach; ?>
+                                </select>
+                            </div>
+           </div>
 
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">Bulan</label>
@@ -109,7 +115,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         $('#nis').autocomplete({
-                source: "<?php echo site_url('legalisir-ijazah/get_autocomplete');?>",
+                source: "<?php echo site_url('pembayaran-spp/get_autocomplete');?>",
      
                 select: function (event, ui) {
                     $('[name="nis"]').val(ui.item.label); 

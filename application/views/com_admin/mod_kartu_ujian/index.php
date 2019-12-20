@@ -13,7 +13,7 @@
       <h4 class="card-title">Cetak Kartu Ujian</h4>
       <p><?php $CI =& get_instance();  echo $this->session->flashdata('pesan'); ?></p>
       <br>
-      <form class="form-horizontal" method="POST" action="<?php echo site_url('kartu-ujian/detail'); ?>">
+      <form class="form-horizontal" method="POST" action="<?php echo site_url('kartu-ujian/cetak_kartu'); ?>">
           <div class="form-group">
               <label class="col-md-2 control-label" for="textinput">NIS</label>
                   <div class="col-md-6">
@@ -31,12 +31,11 @@
                       </div>
                 </div>
           </div>
-          <div class="row">
+          <div class="form-group">
               <div class="col-md-6">
                   <div class="form-group has-success">
                       <label class="control-label">Tahun Ajaran</label>
                         <select class="form-control select2 custom-select" name="tahun" data-placeholder="Choose a tahun" tabindex="1">
-                                <option value=""></option>
                                 <?php 
                                     $id=0;
                                     $cb_tahun = $CI->model_combo_r->init_cb_tahun_ajaran($id);
@@ -47,7 +46,8 @@
                          </select>
               </div>
             </div>
-</div>
+          </div>
+
           <div class="form-group">
               <div class="col-xs-offset-2 col-xs-10">
                   <button type="submit" class="btn btn-primary" name="save" value='save' id="save">Cetak</button>

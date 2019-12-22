@@ -85,7 +85,7 @@ class Model_kelas extends CI_Model
         $this->mydb1->trans_start();
 
         $this->mydb1->where('id_kelas',$id);
-        $this->mydb1->delete('mapel_kelas');
+        $this->mydb1->delete('master_kelas');
 
         $this->mydb1->trans_complete();
 
@@ -188,7 +188,7 @@ class Model_kelas extends CI_Model
 
     function init_status_kelas($id)
     {
-        $sql = "select id, status_guru from status_guru where id !=?";
+        $sql = "select id_status, nama_status from master_status_kelas where id_status !=?";
         $queryRec = $this->db->query($sql, array($id));
         return $queryRec;
     }

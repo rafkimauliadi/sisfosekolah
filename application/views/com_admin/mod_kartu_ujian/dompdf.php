@@ -52,7 +52,7 @@
         <td><?php echo $siswa2->tahun ?></td>
       </tr>
   </table>
-  <script type="text/javascript">
+  <script>
     window.print();
   </script>
 

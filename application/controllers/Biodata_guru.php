@@ -8,7 +8,7 @@ class Biodata_guru extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('model_biodata_guru','model_message','model_combo_r'));
+        $this->load->model(array('model_biodata_guru','model_message','model_combo_r','model_combo'));
         $this->load->library(array('form_validation'));
     }
 
@@ -164,6 +164,7 @@ class Biodata_guru extends CI_Controller {
 	    	if ($ct == 0)
 	    	{
 	    		$this->model_biodata_guru->init_save();
+	    		$this->model_biodata_guru->user();
 	    		redirect(site_url('biodata-guru'));	
 	    	}
 	    	else

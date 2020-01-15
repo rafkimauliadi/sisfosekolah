@@ -433,6 +433,62 @@ class Model_biodata_guru extends CI_Model
     }
 
 //1. Proses penambahan data ke database
+    public function user()
+    {
+        date_default_timezone_set('Asia/Jakarta');
+        $created_time       = gmdate('Y-m-d H:i:s', time()+60*60*7);
+
+        $max=$this->model_combo->id_max('id_user','_users');
+            if($max == 0) 
+                $id = 1;
+            else
+                $id = $max+1;
+
+        $id_user        = $this->model_hook->init_online_exist();
+        $nomor_identitas       = $this->input->post('nip',TRUE);
+
+        $username       = $this->input->post('nip',TRUE);
+        $v_password     = $this->input->post('tanggal_lahir',TRUE);
+        // $v_password     = $this->input->post('tanggal_lahir',TRUE);$this->input->post('nama_lengkap');
+        $password       = md5(sha1(strip_tags(addslashes(trim($v_password)))).'beye');
+        
+        $email = $username.'@mail.com';
+        $id_instansi = '2';
+        $id_group = '3';
+        $id_status = '1';
+        $created_by = '1';
+
+        $url            = site_url('biodata-guru/edit/'.$id);
+
+        $this->mydb1->trans_start();
+        $this->mydb1->set('id_user',$id);
+        $this->mydb1->set('username',$username);
+        $this->mydb1->set('nomor_identitas',$nomor_identitas);
+        $this->mydb1->set('password',$password);
+        $this->mydb1->set('registerDate',$created_time);
+        $this->mydb1->set('email',$email);
+        $this->mydb1->set('id_instansi',$id_instansi);
+        $this->mydb1->set('id_group',$id_group);
+        $this->mydb1->set('id_status',$id_status);
+        $this->mydb1->set('created_by',$created_by);
+
+        $this->mydb1->insert('_users');
+
+        $this->mydb1->trans_complete();
+        if ($this->mydb1->trans_status()==false)
+        {
+            $this->mydb1->trans_rollback();
+            $this->error();
+            return FALSE;
+        }
+        else
+        {
+            // $this->model_login->update_password($id);
+            $this->mydb1->trans_commit();
+            // $this->model_message->messege_proses('Data Berhasil disimpan.','edit',$url,'fa-check-square-o','success');
+            return TRUE;
+        }
+    }
 
     public function init_save()
     {

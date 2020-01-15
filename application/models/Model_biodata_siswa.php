@@ -495,8 +495,14 @@ class Model_biodata_siswa extends CI_Model
 
         $username       = $this->input->post('nisn',TRUE);
         $v_password     = $this->input->post('tanggal_lahir',TRUE);
+        // $v_password     = $this->input->post('tanggal_lahir',TRUE);$this->input->post('nama_lengkap');
         $password       = md5(sha1(strip_tags(addslashes(trim($v_password)))).'beye');
-      
+        
+        $email = $username.'@mail.com';
+        $id_instansi = '2';
+        $id_group = '3';
+        $id_status = '1';
+        $created_by = '1';
 
         $url            = site_url('biodata-siswa/edit/'.$id);
 
@@ -504,9 +510,13 @@ class Model_biodata_siswa extends CI_Model
         $this->mydb1->set('id_user',$id);
         $this->mydb1->set('username',$username);
         $this->mydb1->set('nomor_identitas',$nomor_identitas);
-
         $this->mydb1->set('password',$password);
         $this->mydb1->set('registerDate',$created_time);
+        $this->mydb1->set('email',$email);
+        $this->mydb1->set('id_instansi',$id_instansi);
+        $this->mydb1->set('id_group',$id_group);
+        $this->mydb1->set('id_status',$id_status);
+        $this->mydb1->set('created_by',$created_by);
 
         $this->mydb1->insert('_users');
 
